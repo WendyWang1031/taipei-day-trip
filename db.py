@@ -22,7 +22,7 @@ def get_db_connection_pool():
         raise
     return connetion
 
-def get_attractions(page , keyword = None):
+def get_attractions_for_pages(page , keyword = None):
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:
@@ -66,3 +66,54 @@ def get_attractions(page , keyword = None):
         cursor.close()
         connection.close()
 
+def get_attractions_for_id(id):
+    connection = get_db_connection_pool()
+    cursor = connection.cursor(pymysql.cursors.DictCursor)
+    try:
+        if id is not None:
+            sql = "select id , name , category , description , address , transport ,  mrt , lat , lng  from location where id = %s"
+            cursor.execute(sql ,(id, ))
+            result = cursor.fetchone()
+
+            if result:
+                image_sql = "select images from URL_file where location_id = %s"
+                cursor.execute(image_sql , (result["id"], ))
+                images = cursor.fetchall()
+                result["images"] = [img["images"] for img in images]
+            
+            
+            return result
+        
+        else:
+            raise ValueError("No valid ID provided")
+    
+    except Exception as err:
+        print(f'Error retrieving attractions : {err}')
+        raise
+    finally:
+        cursor.close()
+        connection.close()
+
+def get_mrts():
+    connection = get_db_connection_pool()
+    cursor = connection.cursor(pymysql.cursors.DictCursor)
+    try:
+
+        sql = """select mrt
+                    from location
+                    where mrt is not null 
+                    group by mrt  
+                    order by count(*) DESC;
+            """
+        cursor.execute(sql ,)
+        results = cursor.fetchall()
+    
+        mrt_list = [result["mrt"] for result in results]
+        return mrt_list
+        
+    except Exception as err:
+        print(f'Error retrieving mrts : {err}')
+        raise
+    finally:
+        cursor.close()
+        connection.close()
