@@ -9,7 +9,7 @@ db =  pymysql.connect(
     host = "localhost",
     port = 3306,
     user = "root",
-    password = "newPassword!2024",
+    password = "test",
     db = "taipei_day_trip"
 )
 
