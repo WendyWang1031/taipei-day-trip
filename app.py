@@ -1,17 +1,101 @@
 from fastapi import *
-from fastapi.responses import FileResponse
-app = Fastapi()
+from fastapi.responses import FileResponse , JSONResponse
+from pydantic import BaseModel , Field
+from typing import List , Optional
+from db import get_attractions
+app = FastAPI()
+
+class Image(BaseModel):
+	url:str
+
+class Attraction(BaseModel):
+	id: int
+	name: str
+	category: str
+	description: str
+	address: str
+	transport: str
+	mrt: str
+	lat: float
+	lng: float
+	images: List[Image]
+
+
+class SuccessfulResponse(BaseModel):
+	next_page : Optional[int]= Field(None, description = "下一頁的頁碼，若無更多頁面則為 None")
+	data : List[Attraction] = Field(..., description = "景點數據列表")
+
+class ErrorlResponse(BaseModel):
+	error : bool = Field(True, description = "指示是否為錯誤響應")
+	message : str = Field(..., description = "錯誤訊息描述")
+
+	
+
+@app.get("/attractions" , 
+		 response_model = Attraction , 
+		 summary = "取得景點資料列表",
+         description="取得不同分頁的旅遊景點列表資料，也可以根據標題關鍵字、或捷運站名稱篩選",
+		 responses = {
+			200:{
+				"model" : SuccessfulResponse,
+				"description" : "正常響應"
+			},
+			500:{
+				"model" : ErrorlResponse,
+				"description" : "伺服器內部錯誤"
+			}
+		 })
+async def attraction(
+	request: Request, 
+	page: int = Query(..., description = "要取得的分頁，每頁 12 筆資料" , example = 0) , 
+	keyword: str = Query(None, description = "用來完全比對捷運站名稱、或模糊比對景點名稱的關鍵字，沒有給定則不做篩選")):
+	
+	"""
+    Retrieve paginated list of attractions filtered by an optional keyword.
+    """
+	
+	try:
+		# print(f"Fetching data for page: {page} with keyword: {keyword}")
+		data = get_attractions(page , keyword)
+		# print(f"Data retrieved: {data}")
+
+		if not data:
+			print("No data found , returing empty list.")
+			data = []
+
+		next_page = None if len(data) < 12 else page + 1
+		response = JSONResponse(
+		status_code = status.HTTP_200_OK,
+		content={
+			"nextPage":next_page,
+			"data":data
+			
+		})
+		return response
+	
+	except Exception as e :
+		response = JSONResponse(
+		status_code = status.HTTP_500_INTERNAL_SERVER_ERROR,
+		content={
+			"error":True,
+			"message":str(e)
+		})
+
+
 
 # Static Pages (Never Modify Code in this Block)
 @app.get("/", include_in_schema=False)
 async def index(request: Request):
 	return FileResponse("./static/index.html", media_type="text/html")
+
 @app.get("/attraction/{id}", include_in_schema=False)
 async def attraction(request: Request, id: int):
 	return FileResponse("./static/attraction.html", media_type="text/html")
+
 @app.get("/booking", include_in_schema=False)
 async def booking(request: Request):
 	return FileResponse("./static/booking.html", media_type="text/html")
+
 @app.get("/thankyou", include_in_schema=False)
 async def thankyou(request: Request):
 	return FileResponse("./static/thankyou.html", media_type="text/html")
