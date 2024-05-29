@@ -7,6 +7,8 @@ import json
 from db import get_attractions_for_pages , get_attractions_for_id , get_mrts
 app = FastAPI()
 
+#定義資料型別
+
 class Image(BaseModel):
 	url:str
 
@@ -18,14 +20,13 @@ class Attraction(BaseModel):
 	address: str
 	transport: str
 	mrt: str
-	lat: float 
+	lat: float
 	lng: float
 	images: List[Image]
 
 
 class MRTList(BaseModel):
 	data: str = Field(..., description="捷運站名稱列表")
-
 
 class SuccessfulResponse(BaseModel):
 	next_page : Optional[int]= Field(None, description = "下一頁的頁碼，若無更多頁面則為 None")
@@ -58,10 +59,6 @@ async def attraction(
 	page: int = Query(..., description = "要取得的分頁，每頁 12 筆資料" , example = 0) , 
 	keyword: str = Query(None, description = "用來完全比對捷運站名稱、或模糊比對景點名稱的關鍵字，沒有給定則不做篩選")):
 	
-	"""
-    Retrieve paginated list of attractions filtered by an optional keyword.
-    """
-	
 	try:
 		# print(f"Fetching data for page: {page} with keyword: {keyword}")
 		data = get_attractions_for_pages(page , keyword)
@@ -78,7 +75,6 @@ async def attraction(
 		content={
 			"nextPage":next_page,
 			"data":data
-			
 		})
 		return response
 	

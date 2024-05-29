@@ -2,9 +2,6 @@ import json
 import pymysql
 import re
 
-
-
-
 db =  pymysql.connect(
     host = "localhost",
     port = 3306,
