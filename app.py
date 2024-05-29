@@ -57,7 +57,7 @@ class SuccessfulResponseForID(BaseModel):
 			}
 		 })
 async def attraction( 
-	page: int = Query(description = "要取得的分頁，每頁 12 筆資料" ) , 
+	page: int = Query(ge=0 , description = "要取得的分頁，每頁 12 筆資料" ) , 
 	keyword: str = Query(None, description = "用來完全比對捷運站名稱、或模糊比對景點名稱的關鍵字，沒有給定則不做篩選")):
 	
 	try:
