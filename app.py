@@ -39,6 +39,7 @@ class SuccessfulResponseForID(BaseModel):
 	
 
 @app.get("/api/attractions" , 
+		 tags= ["Attraction"],
 		 response_model = Attraction , 
 		 summary = "取得景點資料列表",
          description="取得不同分頁的旅遊景點列表資料，也可以根據標題關鍵字、或捷運站名稱篩選",
@@ -84,7 +85,8 @@ async def attraction(
 		})
 		return response
 
-@app.get("/api/attraction/{attractionId}" , 
+@app.get("/api/attraction/{attractionId}" ,
+		 tags= ["Attraction"],
 		 response_model = SuccessfulResponseForID , 
 		 summary = "根據景點編號取得景點資料",
 		 responses = {
@@ -142,6 +144,7 @@ async def attraction_for_id( attractionId: int = Path(..., description = "景點
 		return response
 
 @app.get("/api/mrts" , 
+		 tags= ["MRT Station"],
 		 response_model = MRTList , 
 		 summary = "取得捷運站名稱列表",
 		 description="取得所有捷運站名稱列表，按照週邊景點的數量由大到小排序",
