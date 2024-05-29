@@ -87,7 +87,7 @@ async def attraction(
 		})
 		return response
 
-@app.get("/api/attractions/{attractionId}" , 
+@app.get("/api/attraction/{attractionId}" , 
 		 response_model = SuccessfulResponseForID , 
 		 summary = "根據景點編號取得景點資料",
 		 responses = {
