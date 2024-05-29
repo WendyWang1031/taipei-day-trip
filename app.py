@@ -1,9 +1,7 @@
 from fastapi import *
 from fastapi.responses import FileResponse , JSONResponse
-from pydantic import BaseModel , Field , validator
-from typing import List , Optional , Union
-from decimal import Decimal
-import json
+from pydantic import BaseModel , Field 
+from typing import List , Optional 
 from db import get_attractions_for_pages , get_attractions_for_id , get_mrts
 app = FastAPI()
 
@@ -54,9 +52,8 @@ class SuccessfulResponseForID(BaseModel):
 				"description" : "伺服器內部錯誤"
 			}
 		 })
-async def attraction(
-	request: Request, 
-	page: int = Query(..., description = "要取得的分頁，每頁 12 筆資料" , example = 0) , 
+async def attraction( 
+	page: int = Query(description = "要取得的分頁，每頁 12 筆資料" ) , 
 	keyword: str = Query(None, description = "用來完全比對捷運站名稱、或模糊比對景點名稱的關鍵字，沒有給定則不做篩選")):
 	
 	try:
