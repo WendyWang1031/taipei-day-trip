@@ -1,7 +1,9 @@
 from fastapi import *
 from fastapi.responses import FileResponse , JSONResponse
-from pydantic import BaseModel , Field
-from typing import List , Optional
+from pydantic import BaseModel , Field , validator
+from typing import List , Optional , Union
+from decimal import Decimal
+import json
 from db import get_attractions_for_pages , get_attractions_for_id , get_mrts
 app = FastAPI()
 
@@ -16,9 +18,10 @@ class Attraction(BaseModel):
 	address: str
 	transport: str
 	mrt: str
-	lat: float
+	lat: float 
 	lng: float
 	images: List[Image]
+
 
 class MRTList(BaseModel):
 	data: str = Field(..., description="捷運站名稱列表")
@@ -69,6 +72,7 @@ async def attraction(
 			data = []
 
 		next_page = None if len(data) < 12 else page + 1
+		
 		response = JSONResponse(
 		status_code = status.HTTP_200_OK,
 		content={
@@ -161,7 +165,6 @@ async def fetch_mrts():
 	try:
 		data = get_mrts()
 		# print(f"Data retrieved: {data}")
-
 		response = JSONResponse(
 			status_code = status.HTTP_200_OK,
 			content={

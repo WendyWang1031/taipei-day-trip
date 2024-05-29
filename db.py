@@ -29,7 +29,8 @@ def get_attractions_for_pages(page , keyword = None):
         offset = page * 12
         if keyword:
             sql = """select 
-                    id , name , category , description , address , transport ,  mrt , lat , lng  
+                    id , name , category , description , address , transport ,  mrt , 
+                    CAST(lat AS DOUBLE) AS lat, CAST(lng AS DOUBLE) AS lng
                     from location 
                     where name LIKE %s OR MRT = %s 
                     LIMIT 12 OFFSET %s
@@ -37,7 +38,8 @@ def get_attractions_for_pages(page , keyword = None):
             cursor.execute(sql , ('%' + keyword + '%' , keyword , offset))
         else:
             sql = """select 
-                    id , name , category , description , address , transport ,  mrt , lat , lng 
+                    id , name , category , description , address , transport ,  mrt , 
+                    CAST(lat AS DOUBLE) AS lat, CAST(lng AS DOUBLE) AS lng 
                     from location 
                     LIMIT 12 OFFSET %s
             """
@@ -71,7 +73,7 @@ def get_attractions_for_id(id):
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:
         if id is not None:
-            sql = "select id , name , category , description , address , transport ,  mrt , lat , lng  from location where id = %s"
+            sql = "select id , name , category , description , address , transport ,  mrt , CAST(lat AS DOUBLE) AS lat, CAST(lng AS DOUBLE) AS lng  from location where id = %s"
             cursor.execute(sql ,(id, ))
             result = cursor.fetchone()
 
