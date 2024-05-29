@@ -9,30 +9,33 @@ app = FastAPI()
 
 class Image(BaseModel):
 	url:str
+	
 
 class Attraction(BaseModel):
-	id: int
-	name: str
-	category: str
-	description: str
-	address: str
-	transport: str
-	mrt: str
-	lat: float
-	lng: float
-	images: List[Image]
+	id: int = Field(... , example=10)
+	name: str = Field(... , example="平安鐘")
+	category: str = Field(... , example="公共藝術")
+	description: str = Field(... , example="平安鐘祈求大家的平安，這是為了紀念 921 地震週年的設計")
+	address: str = Field(... , example="臺北市大安區忠孝東路 4 段 1 號")
+	transport: str = Field(... , example="公車：204、212、212直")
+	mrt: str = Field(... , example="忠孝復興")
+	lat: float = Field(... , example=25.04181)
+	lng: float = Field(... , example=121.544814)
+	images: List[Image] = Field(..., example=["http://140.112.3.4/images/92-0.jpg"])
 
+	
+			
 
 class MRTList(BaseModel):
 	data: str = Field(..., description="捷運站名稱列表")
 
 class SuccessfulResponse(BaseModel):
-	next_page : Optional[int]= Field(None, description = "下一頁的頁碼，若無更多頁面則為 None")
+	nextPage : Optional[int]= Field(None, example=2, description = "下一頁的頁碼，若無更多頁面則為 None")
 	data : List[Attraction] = Field(..., description = "景點數據列表")
 
 class ErrorResponse(BaseModel):
 	error : bool = Field(True, description = "指示是否為錯誤響應")
-	message : str = Field(..., description = "錯誤訊息描述")
+	message : str = Field(..., description = "錯誤訊息描述" , example="請按照情境提供對應的錯誤訊息")
 
 class SuccessfulResponseForID(BaseModel):
 	data : Attraction = Field(..., description = "景點數據列表")
@@ -66,12 +69,12 @@ async def attraction(
 			print("No data found , returing empty list.")
 			data = []
 
-		next_page = None if len(data) < 12 else page + 1
+		nextPage = None if len(data) < 12 else page + 1
 		
 		response = JSONResponse(
 		status_code = status.HTTP_200_OK,
 		content={
-			"nextPage":next_page,
+			"nextPage":nextPage,
 			"data":data
 		})
 		return response

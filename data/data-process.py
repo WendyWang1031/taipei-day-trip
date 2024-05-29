@@ -49,6 +49,7 @@ CREATE TABLE IF NOT EXISTS URL_file(
 """
 
 try:
+    cursor.execute("BEGIN;")
     cursor.execute(create_location_sql)
     cursor.execute(create_url_file_sql)
     db.commit()
@@ -71,6 +72,7 @@ values(%s,%s)
 """
 
 try:
+    cursor.execute("BEGIN;")
     for item in data_results:
         cursor.execute(insert_location_sql , (
             item["_id"] , item["name"], item["MRT"], item["SERIAL_NO"] , item["address"],
