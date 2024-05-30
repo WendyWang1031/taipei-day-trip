@@ -22,6 +22,7 @@ def get_db_connection_pool():
         raise
     return connetion
 
+
 def get_attractions_for_pages(page , keyword = None):
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
@@ -39,7 +40,7 @@ def get_attractions_for_pages(page , keyword = None):
         else:
             sql = """select 
                     id , name , category , description , address , transport ,  mrt , 
-                    CAST(lat AS DOUBLE) AS lat, CAST(lng AS DOUBLE) AS lng 
+                    CAST(lat AS DOUBLE) AS lat, CAST(lng AS DOUBLE) AS lng
                     from location 
                     LIMIT 12 OFFSET %s
             """
@@ -73,7 +74,7 @@ def get_attractions_for_id(id):
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:
         if id is not None:
-            sql = "select id , name , category , description , address , transport ,  mrt , CAST(lat AS DOUBLE) AS lat, CAST(lng AS DOUBLE) AS lng  from location where id = %s"
+            sql = "select id , name , category , description , address , transport ,  mrt ,  CAST(lat AS DOUBLE) AS lat, CAST(lng AS DOUBLE) AS lng  from location where id = %s"
             cursor.execute(sql ,(id, ))
             result = cursor.fetchone()
 
