@@ -30,18 +30,20 @@ def get_attractions_for_pages(page , keyword = None):
         offset = page * 12
         if keyword:
             sql = """select 
-                    id , name , category , description , address , transport ,  mrt , 
-                    CAST(lat AS DOUBLE) AS lat, CAST(lng AS DOUBLE) AS lng
-                    from location 
+                    l.id , l.name , l.category , l.description , l.address , l.transport ,  l.mrt , 
+                    CAST(l.lat AS DOUBLE) AS lat, CAST(l.lng AS DOUBLE) AS lng , u.images
+                    from location l
+                    left join URL_file u on l.id = u.location_id
                     where name LIKE %s OR MRT = %s 
                     LIMIT 12 OFFSET %s
             """
             cursor.execute(sql , ('%' + keyword + '%' , keyword , offset))
         else:
             sql = """select 
-                    id , name , category , description , address , transport ,  mrt , 
-                    CAST(lat AS DOUBLE) AS lat, CAST(lng AS DOUBLE) AS lng
-                    from location 
+                    l.id , l.name , l.category , l.description , l.address , l.transport ,  l.mrt , 
+                    CAST(l.lat AS DOUBLE) AS lat, CAST(l.lng AS DOUBLE) AS lng , u.images
+                    from location l
+                    left join URL_file u on l.id = u.location_id
                     LIMIT 12 OFFSET %s
             """
             cursor.execute(sql , (offset,))
@@ -49,18 +51,11 @@ def get_attractions_for_pages(page , keyword = None):
         results = cursor.fetchall()
 
         for result in results:
-            image_sql = "select images from URL_file where location_id = %s"
-            cursor.execute(image_sql , (result["id"], ))
-            images = cursor.fetchall()
-            result["images"] = [img["images"] for img in images]
+            if result["images"]:
+                result["images"] = result["images"].split(",")
+        print(results)
         return results
     
-        # if results:
-        #     print(f"Retrieved {len(results)} records successfully.")
-        #     for result in results:
-        #         print(result)
-        # else:
-        #     print("No records found.")
     
     except Exception as err:
         print(f'Error retrieving attractions : {err}')
@@ -68,6 +63,7 @@ def get_attractions_for_pages(page , keyword = None):
     finally:
         cursor.close()
         connection.close()
+
 
 def get_attractions_for_id(id):
     connection = get_db_connection_pool()
