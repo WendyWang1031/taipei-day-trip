@@ -31,8 +31,11 @@ def get_attractions_for_pages(page , keyword = None):
         if keyword:
             sql = """select 
                     id , name , category , description , address , transport ,  mrt , 
-                    CAST(lat AS DOUBLE) AS lat, CAST(lng AS DOUBLE) AS lng
-                    from location 
+                    CAST(lat AS DOUBLE) AS lat, CAST(lng AS DOUBLE) AS lng ,
+                    GROUP_CONCAT(url_file.images SEPARATOR ',') AS images
+                    from location
+                    inner join URL_file ON location.id = URL_file.location_id 
+                    Group by location.id
                     where name LIKE %s OR MRT = %s 
                     LIMIT 12 OFFSET %s
             """
@@ -40,8 +43,11 @@ def get_attractions_for_pages(page , keyword = None):
         else:
             sql = """select 
                     id , name , category , description , address , transport ,  mrt , 
-                    CAST(lat AS DOUBLE) AS lat, CAST(lng AS DOUBLE) AS lng
-                    from location 
+                    CAST(lat AS DOUBLE) AS lat, CAST(lng AS DOUBLE) AS lng ,
+                    GROUP_CONCAT(url_file.images SEPARATOR ',') AS images
+                    from location
+                    inner join URL_file ON location.id = URL_file.location_id
+                    Group by location.id 
                     LIMIT 12 OFFSET %s
             """
             cursor.execute(sql , (offset,))
@@ -49,10 +55,8 @@ def get_attractions_for_pages(page , keyword = None):
         results = cursor.fetchall()
 
         for result in results:
-            image_sql = "select images from URL_file where location_id = %s"
-            cursor.execute(image_sql , (result["id"], ))
-            images = cursor.fetchall()
-            result["images"] = [img["images"] for img in images]
+            
+            result["images"] = result["images"].split(",") if result["images"] else []
         return results
     
         # if results:
