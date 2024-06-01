@@ -1,6 +1,7 @@
 import pymysql.cursors
 from dbutils.pooled_db import PooledDB
 import pymysql
+import math
 
 pool = PooledDB(
     creator = pymysql,
@@ -27,44 +28,90 @@ def get_attractions_for_pages(page , keyword = None):
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:
+        if keyword:
+            count_sql = """SELECT COUNT(*) as total from location 
+                        where name LIKE %s OR MRT = %s 
+                        """
+            cursor.execute(count_sql , ('%' + keyword + '%' , keyword ))
+        else:
+            count_sql = """SELECT COUNT(*) as total from location 
+                        """
+            cursor.execute(count_sql)
+        total_records = cursor.fetchone()["total"]
+        print(total_records)
+        total_pages = math.ceil(total_records / 12)
+
+        if page >= total_pages:
+            page = max(0 , total_pages-1)
         offset = page * 12
+        limit = 12
+        
+        if(page + 1) == total_pages:
+            remaining_records = total_records - (page * 12)
+            limit = remaining_records
+
         if keyword:
             sql = """select 
                     id , name , category , description , address , transport ,  mrt , 
                     CAST(lat AS DOUBLE) AS lat, CAST(lng AS DOUBLE) AS lng ,
-                    GROUP_CONCAT(url_file.images SEPARATOR ',') AS images
                     from location
-                    inner join URL_file ON location.id = URL_file.location_id 
-                    Group by location.id
                     where name LIKE %s OR MRT = %s 
-                    LIMIT 12 OFFSET %s
+                    LIMIT %s OFFSET %s
             """
-            cursor.execute(sql , ('%' + keyword + '%' , keyword , offset))
+            cursor.execute(sql , ('%' + keyword + '%' , keyword , limit , offset))
         else:
             sql = """select 
                     id , name , category , description , address , transport ,  mrt , 
-                    CAST(lat AS DOUBLE) AS lat, CAST(lng AS DOUBLE) AS lng ,
-                    GROUP_CONCAT(url_file.images SEPARATOR ',') AS images
+                    CAST(lat AS DOUBLE) AS lat, CAST(lng AS DOUBLE) AS lng
                     from location
-                    inner join URL_file ON location.id = URL_file.location_id
-                    Group by location.id 
-                    LIMIT 12 OFFSET %s
+                    LIMIT %s OFFSET %s
             """
-            cursor.execute(sql , (offset,))
+            cursor.execute(sql , (limit , offset))
         
-        results = cursor.fetchall()
+        # 從db取出景點的資訊
+        locations = cursor.fetchall()
+        
+        # 取出該分頁的所有id
+        location_ids =[]
+        for location in locations:
+            location_ids.append(location['id'])
 
-        for result in results:
-            
-            result["images"] = result["images"].split(",") if result["images"] else []
-        return results
+        if not location_ids:
+            return []
+        print(f"location_ids:{location_ids}")
+
+        # 將取出的景點id列表以,分開變成“字串”，代表12個數量的通位符的元素
+        format_string = ','.join(["%s"] * len(location_ids))
+        
+
+        images_sql = f"""select location_id , GROUP_CONCAT(images SEPARATOR ',') AS image
+                        FROM URL_file
+                        where location_id IN ({format_string})
+                        GROUP BY location_id
+                    """
     
-        # if results:
-        #     print(f"Retrieved {len(results)} records successfully.")
-        #     for result in results:
-        #         print(result)
-        # else:
-        #     print("No records found.")
+        # 將對應的景點id對應進去，取出對應的URL
+        cursor.execute(images_sql , tuple(location_ids))
+        images_results = cursor.fetchall()
+        
+
+        # 創建字典來映射locaion_id到images
+        images_dict ={}
+        for image_result in images_results:
+            if 'image' in image_result:
+                images_dict[image_result["location_id"]] = image_result["image"].split(",")
+            else:
+                images_dict[image_result["location_id"]] = []
+        # print(f"images_dict:{images_dict}")
+        # 把images分配給對應的locations
+        for location in locations:
+            if location["id"] in images_dict:
+                location["image"] = images_dict[location["id"]]
+            else:
+                location["image"] = []
+        
+        return locations
+
     
     except Exception as err:
         print(f'Error retrieving attractions : {err}')
@@ -72,7 +119,7 @@ def get_attractions_for_pages(page , keyword = None):
     finally:
         cursor.close()
         connection.close()
-
+get_attractions_for_pages(0 , None)
 
 def get_attractions_for_id(id):
     connection = get_db_connection_pool()
