@@ -1,0 +1,290 @@
+* {
+  padding: 0;
+  border: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+header.navigation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  height: 54px;
+  width: 1200px;
+  div.navi-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    h2.navi-header {
+      font-family: Noto Sans TC;
+      font-size: 30px;
+      font-weight: 700;
+      line-height: 34px;
+      text-align: left;
+      color: #448899;
+    }
+    div.header-button-area {
+      margin-left: auto;
+      .header-2-buttons-area {
+        display: flex;
+        gap: 10px; // 設定按鈕之間的間隔
+
+        button {
+          padding: 10px;
+          border: none;
+          background-color: transparent;
+          font-family: Noto Sans TC;
+          font-size: 16px;
+          font-weight: 500;
+          line-height: 13.3px;
+          text-align: left;
+          color: #666666;
+          cursor: pointer;
+
+          &:hover {
+            background-color: #ccc;
+          }
+        }
+      }
+    }
+  }
+}
+
+section.welcome-area {
+  width: 100%;
+  height: 320px;
+  overflow: hidden;
+
+  div.hero {
+    width: 100%;
+    height: 320px;
+    background-image: url(/static/images/image/welcome_image.svg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    background-position: top center;
+
+    div.hero-content {
+      width: 1200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+
+      color: #f8f8f8;
+      text-align: left;
+      h1 {
+        padding: 15px 15px 15px 0;
+        font-family: Noto Sans TC;
+        font-size: 28px;
+        font-weight: 700;
+        line-height: 24px;
+        text-align: left;
+        text-shadow: 0px 0px 30px 0px #aabbcc;
+      }
+      p {
+        padding: 15px 15px 30px 0;
+        font-family: Noto Sans TC;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 13.3px;
+        text-align: left;
+      }
+
+      .input-area {
+        font-size: 16px;
+        width: 460px;
+        border-radius: 5px;
+        border: none;
+        display: flex;
+
+        input {
+          padding-left: 15px;
+          color: #757575;
+          font-size: 16px;
+          width: 400px;
+          height: 46px;
+          box-shadow: 0px 0px 20px 0px #aabbcc;
+          border-radius: 5px 0 0 5px;
+
+          font-family: Noto Sans TC;
+          font-size: 16px;
+          font-weight: 700;
+          line-height: 13.3px;
+          text-align: left;
+        }
+        button {
+          width: 60px;
+          height: 46px;
+
+          background-color: #448899;
+          cursor: pointer;
+          align-items: center;
+          justify-content: center;
+          display: flex;
+          border-radius: 0 5px 5px 0;
+          img {
+            width: 30px;
+            height: 30px;
+            top: 8px;
+            left: 15px;
+            gap: 0px;
+          }
+          &:hover {
+            background-color: #367688;
+          }
+        }
+      }
+    }
+  }
+}
+
+section.list-bar {
+  width: 1200px;
+  display: flex;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  .list-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    div.list-container {
+      button {
+        border: none;
+        background: none;
+        cursor: pointer;
+      }
+    }
+    .left-container,
+    .right-container {
+      cursor: pointer;
+      border: none;
+      background: none;
+
+      img {
+        width: 32px;
+        height: 32px;
+      }
+    }
+    .right-container {
+      &:hover img {
+        content: url(/static/images/icon/ArrowRight_Hovered.png);
+      }
+    }
+    .left-container {
+      &:hover img {
+        content: url(/static/images/icon/ArrowLeft_hovered.png);
+      }
+    }
+
+    .list-container {
+      width: 1106px;
+      height: 50px;
+      padding: 13px 10px 13px 10px;
+      display: flex;
+      gap: 10px;
+      margin: 25px;
+      div.listItem-Container {
+        justify-content: center;
+        align-items: center;
+
+        overflow-x: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        &::-webkit-scrollbar {
+          display: none;
+        }
+
+        button {
+          font-family: Noto Sans TC;
+          font-size: 16px;
+          font-weight: 500;
+          line-height: 13.3px;
+          text-align: center;
+          color: #666666;
+          padding: 5px 15px 5px 15px;
+          white-space: nowrap;
+          gap: 4px;
+          &:hover {
+            color: #000000;
+          }
+        }
+      }
+    }
+  }
+}
+
+.attractions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  .attractions-group {
+    width: 1200px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 16px;
+
+    .grid-item {
+      border: 1px solid #e8e8e8;
+      width: 270px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+
+      .img {
+        position: relative;
+        height: calc(100% - 45px);
+        img {
+          width: 100%;
+          height: 192px;
+          object-fit: cover;
+          border-radius: 5px 5px 0 0;
+        }
+        .location-name {
+          position: absolute;
+          bottom: 0;
+          width: 100%;
+          height: 40px;
+          background: rgba(0, 0, 0, 0.6);
+          color: white;
+          padding: 0 10px;
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          text-align: right;
+          p {
+            text-align: right;
+          }
+        }
+      }
+
+      .mrt-category {
+        display: flex;
+        justify-content: space-between;
+        height: 45px;
+        align-items: center;
+        padding: 0 10px;
+        p {
+          color: #757575;
+        }
+      }
+    }
+  }
+}
