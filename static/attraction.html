@@ -1,11 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Attraction</title>
-</head>
-<body>
-  
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Attraction</title>
+    <link rel="stylesheet" href="./styles/style.css" />
+  </head>
+  <body>
+    <header class="navigation sticky">
+      <div class="navi-content">
+        <h2 class="navi-header">台北一日遊</h2>
+        <div class="header-button-area">
+          <div class="header-2-buttons-area">
+            <button class="reservation">預定行程</button>
+            <button class="login-signin">登入/註冊</button>
+          </div>
+        </div>
+      </div>
+    </header>
+    <section class="location">
+      <div class="location-image">
+        <img
+          src="/static/images/image/892379fe-a6f7-494a-b205-c84ea5e6d07d.webp"
+          alt="景點圖片"
+        />
+      </div>
+    </section>
+
+    <div class="signin-mask">
+      <section class="signin">
+        <div class="sign-content">
+          <div class="decorator-bar"></div>
+          <div class="close">
+            <button class="close-sigin">
+              <img src="./images/icon/icon_close.png" alt="close" />
+            </button>
+
+            <h1>登入會員帳號</h1>
+          </div>
+          <div class="main">
+            <input
+              type="text"
+              placeholder="輸入電子信箱"
+              name="signin-email"
+              id="signin-email"
+            />
+            <input
+              type="password"
+              placeholder="輸入密碼"
+              name="signin-password"
+              id="signin-password"
+            />
+            <button class="signin-button">登入帳戶</button>
+            <button class="go-to-signup">還沒有帳戶？點此註冊</button>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="signup-mask">
+      <section class="signup">
+        <div class="signup-content">
+          <div class="decorator-bar"></div>
+          <div class="close">
+            <button class="close-sigup">
+              <img src="./images/icon/icon_close.png" alt="close" />
+            </button>
+            <h1>註冊會員帳號</h1>
+          </div>
+          <div class="main">
+            <input
+              type="text"
+              placeholder="輸入姓名"
+              name="signup-name"
+              id="signup-name"
+            />
+            <input
+              type="text"
+              placeholder="輸入電子信箱"
+              name="signup-email"
+              id="signup-email"
+            />
+            <input
+              type="password"
+              placeholder="輸入密碼"
+              name="signup-password"
+              id="signsignupin-password"
+            />
+            <button class="signup-button">註冊新帳戶</button>
+            <button class="go-to-signin">已經有新帳戶了？點此登入</button>
+          </div>
+        </div>
+      </section>
+    </div>
+    <footer class="footer">
+      <p>COPYRIGHT © 2024 台北一日遊</p>
+    </footer>
+  </body>
+  <script src="/app.js"></script>
 </html>

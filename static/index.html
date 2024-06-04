@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>台北一日遊</title>
-    <link rel="stylesheet" href="./styles/style.css" />
+    <link rel="stylesheet" href="/static/styles/style.css" />
   </head>
   <body>
     <header class="navigation sticky">
@@ -32,7 +32,7 @@
               class="searchKeyword"
             />
             <button>
-              <img src="./images/icon/search.svg" alt="SearchKeyword" />
+              <img src="/static/images/icon/search.svg" alt="SearchKeyword" />
             </button>
           </div>
         </div>
@@ -42,120 +42,25 @@
     <section class="list-bar">
       <div class="list-content">
         <button class="left-container">
-          <img src="./images/icon/ArrowLeft_Default.png" alt="LeftButton" />
+          <img
+            src="/static/images/icon/ArrowLeft_Default.png"
+            alt="LeftButton"
+          />
         </button>
         <div class="list-container">
-          <div class="listItem-Container" id="scrollable-container">
-            <button class="list-item">第一個</button>
-            <button class="list-item">1456456456</button>
-            <button class="list-item">1456456</button>
-            <button class="list-item">1456456</button>
-            <button class="list-item">1456456</button>
-            <button class="list-item">45645</button>
-            <button class="list-item">145645</button>
-            <button class="list-item">1456456456</button>
-            <button class="list-item">第2個</button>
-            <button class="list-item">1456456456</button>
-            <button class="list-item">1456456</button>
-            <button class="list-item">1456456</button>
-            <button class="list-item">1456456</button>
-            <button class="list-item">45645</button>
-            <button class="list-item">145645</button>
-            <button class="list-item">1456456456</button>
-            <button class="list-item">第3個</button>
-            <button class="list-item">1456456456</button>
-            <button class="list-item">1456456</button>
-            <button class="list-item">1456456</button>
-            <button class="list-item">1456456</button>
-            <button class="list-item">45645</button>
-            <button class="list-item">145645</button>
-            <button class="list-item">1456456456</button>
-          </div>
+          <div class="listItem-Container" id="scrollable-container"></div>
         </div>
         <button class="right-container">
-          <img src="./images/icon/ArrowRight_Default.png" alt="RightButton" />
+          <img
+            src="/static/images/icon/ArrowRight_Default.png"
+            alt="RightButton"
+          />
         </button>
       </div>
     </section>
 
     <section class="attractions">
-      <div class="attractions-group">
-        <div class="grid-item">
-          <div class="img">
-            <img
-              src="./images/image/892379fe-a6f7-494a-b205-c84ea5e6d07d.webp"
-              alt="Description"
-            />
-            <div class="location-name">
-              <p>描述文字1</p>
-            </div>
-          </div>
-          <div class="mrt-category">
-            <p>描述文字2</p>
-            <p>描述文字2</p>
-          </div>
-        </div>
-        <div class="grid-item">
-          <div class="img">
-            <img
-              src="./images/image/892379fe-a6f7-494a-b205-c84ea5e6d07d.webp"
-              alt="Description"
-            />
-            <div class="location-name">
-              <p>描述文字1</p>
-            </div>
-          </div>
-          <div class="mrt-category">
-            <p>描述文字2</p>
-            <p>描述文字2</p>
-          </div>
-        </div>
-        <div class="grid-item">
-          <div class="img">
-            <img
-              src="./images/image/892379fe-a6f7-494a-b205-c84ea5e6d07d.webp"
-              alt="Description"
-            />
-            <div class="location-name">
-              <p>描述文字1</p>
-            </div>
-          </div>
-          <div class="mrt-category">
-            <p>描述文字2</p>
-            <p>描述文字2</p>
-          </div>
-        </div>
-        <div class="grid-item">
-          <div class="img">
-            <img
-              src="./images/image/892379fe-a6f7-494a-b205-c84ea5e6d07d.webp"
-              alt="Description"
-            />
-            <div class="location-name">
-              <p>描述文字1</p>
-            </div>
-          </div>
-          <div class="mrt-category">
-            <p>描述文字2</p>
-            <p>描述文字2</p>
-          </div>
-        </div>
-        <div class="grid-item">
-          <div class="img">
-            <img
-              src="./images/image/892379fe-a6f7-494a-b205-c84ea5e6d07d.webp"
-              alt="Description"
-            />
-            <div class="location-name">
-              <p>描述文字1</p>
-            </div>
-          </div>
-          <div class="mrt-category">
-            <p>描述文字2</p>
-            <p>描述文字2</p>
-          </div>
-        </div>
-      </div>
+      <div class="attractions-group"></div>
     </section>
     <div class="signin-mask">
       <section class="signin">
@@ -163,7 +68,7 @@
           <div class="decorator-bar"></div>
           <div class="close">
             <button class="close-sigin">
-              <img src="./images/icon/icon_close.png" alt="close" />
+              <img src="/static/images/icon/icon_close.png" alt="close" />
             </button>
 
             <h1>登入會員帳號</h1>
@@ -193,7 +98,7 @@
           <div class="decorator-bar"></div>
           <div class="close">
             <button class="close-sigup">
-              <img src="./images/icon/icon_close.png" alt="close" />
+              <img src="/static/images/icon/icon_close.png" alt="close" />
             </button>
             <h1>註冊會員帳號</h1>
           </div>
@@ -226,5 +131,5 @@
       <p>COPYRIGHT © 2024 台北一日遊</p>
     </footer>
   </body>
-  <script src="/app.js"></script>
+  <script src="/static/main.js"></script>
 </html>

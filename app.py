@@ -3,8 +3,9 @@ from fastapi.responses import FileResponse , JSONResponse
 from pydantic import BaseModel , Field 
 from typing import List , Optional 
 from db import get_attractions_for_pages , get_attractions_for_id , get_mrts
+from fastapi.staticfiles import StaticFiles
 app = FastAPI()
-
+app.mount("/static", StaticFiles(directory="static"), name="static")
 #定義資料型別
 
 class Image(BaseModel):
