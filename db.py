@@ -53,7 +53,7 @@ def get_attractions_for_pages(page , keyword = None):
         if keyword:
             sql = """select 
                     id , name , category , description , address , transport ,  mrt , 
-                    CAST(lat AS DOUBLE) AS lat, CAST(lng AS DOUBLE) AS lng ,
+                    CAST(lat AS DOUBLE) AS lat, CAST(lng AS DOUBLE) AS lng 
                     from location
                     where name LIKE %s OR MRT = %s 
                     LIMIT %s OFFSET %s
@@ -119,7 +119,7 @@ def get_attractions_for_pages(page , keyword = None):
     finally:
         cursor.close()
         connection.close()
-get_attractions_for_pages(0 , None)
+
 
 def get_attractions_for_id(id):
     connection = get_db_connection_pool()
