@@ -200,7 +200,7 @@ section.list-bar {
 
       button {
         min-width: fit-content;
-
+        overflow-x: auto;
         border: none;
         background: none;
         overflow: hidden;
@@ -271,7 +271,11 @@ section.list-bar {
     }
   }
 }
-
+.list-container,
+.listItem-Container,
+button {
+  border: 1px solid red;
+}
 .attractions {
   display: flex;
   justify-content: center;
@@ -315,6 +319,9 @@ section.list-bar {
           text-align: right;
           p {
             text-align: right;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
           }
         }
       }

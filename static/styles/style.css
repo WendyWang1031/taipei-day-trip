@@ -192,6 +192,7 @@ section.list-bar .list-content div.list-container .listItem-Container::-webkit-s
 section.list-bar .list-content div.list-container button {
   min-width: -moz-fit-content;
   min-width: fit-content;
+  overflow-x: auto;
   border: none;
   background: none;
   overflow: hidden;
@@ -254,6 +255,12 @@ section.list-bar .list-content .list-container div.listItem-Container button:hov
   color: #000000;
 }
 
+.list-container,
+.listItem-Container,
+button {
+  border: 1px solid red;
+}
+
 .attractions {
   display: flex;
   justify-content: center;
@@ -299,6 +306,9 @@ section.list-bar .list-content .list-container div.listItem-Container button:hov
 }
 .attractions .attractions-group .grid-item .img .location-name p {
   text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .attractions .attractions-group .grid-item .mrt-category {
   display: flex;
