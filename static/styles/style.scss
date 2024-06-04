@@ -170,7 +170,7 @@ section.list-bar {
   width: 1200px;
   display: flex;
   margin: 0 auto;
-  justify-content: center;
+  // justify-content: center;
   align-items: center;
   text-align: center;
   .list-content {
@@ -183,13 +183,14 @@ section.list-bar {
       overflow-x: auto;
       display: flex;
       white-space: nowrap;
+
       .listItem-Container {
         display: flex;
         flex-wrap: nowrap;
         flex-direction: row;
         justify-content: flex-start;
-
-        overflow-x: auto;
+        overflow-x: scroll;
+        // overflow-x: auto;
         scroll-behavior: smooth;
         scrollbar-width: none;
         -ms-overflow-style: none;
@@ -243,7 +244,7 @@ section.list-bar {
       gap: 10px;
       margin: 25px;
       div.listItem-Container {
-        justify-content: center;
+        // justify-content: center;
         align-items: center;
 
         overflow-x: auto;
