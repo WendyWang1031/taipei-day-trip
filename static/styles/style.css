@@ -5,6 +5,12 @@
   box-sizing: border-box;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 h1,
 h2,
 h3,
@@ -21,13 +27,18 @@ header.navigation {
   align-items: center;
   margin: 0 auto;
   height: 54px;
-  width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  position: sticky;
+  top: 0;
+  background-color: #ffffff;
+  z-index: 1000;
 }
 header.navigation div.navi-content {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 100%;
+  justify-content: space-between;
+  width: 1200px;
 }
 header.navigation div.navi-content h2.navi-header {
   font-family: Noto Sans TC;
@@ -109,7 +120,7 @@ section.welcome-area div.hero div.hero-content .input-area {
 }
 section.welcome-area div.hero div.hero-content .input-area input {
   padding-left: 15px;
-  color: #757575;
+  color: #000000;
   font-size: 16px;
   width: 400px;
   height: 46px;
@@ -137,6 +148,10 @@ section.welcome-area div.hero div.hero-content .input-area button img {
   top: 8px;
   left: 15px;
   gap: 0px;
+  transition: transform 0.1s ease-in-out;
+}
+section.welcome-area div.hero div.hero-content .input-area button img:active {
+  transform: scale(1.2);
 }
 section.welcome-area div.hero div.hero-content .input-area button:hover {
   background-color: #367688;
@@ -153,12 +168,35 @@ section.list-bar {
 section.list-bar .list-content {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   width: 100%;
 }
+section.list-bar .list-content div.list-container {
+  height: 50px;
+  overflow-x: auto;
+  display: flex;
+  white-space: nowrap;
+}
+section.list-bar .list-content div.list-container .listItem-Container {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: flex-start;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+section.list-bar .list-content div.list-container .listItem-Container::-webkit-scrollbar {
+  display: none;
+}
 section.list-bar .list-content div.list-container button {
+  min-width: 100px;
+  margin-right: 5px;
   border: none;
   background: none;
+  overflow: hidden;
+  padding: 5px 20px;
+  white-space: nowrap;
   cursor: pointer;
 }
 section.list-bar .list-content .left-container,
@@ -171,6 +209,11 @@ section.list-bar .list-content .left-container img,
 section.list-bar .list-content .right-container img {
   width: 32px;
   height: 32px;
+  transition: transform 0.1s ease-in-out;
+}
+section.list-bar .list-content .left-container img:active,
+section.list-bar .list-content .right-container img:active {
+  transform: scale(1.2);
 }
 section.list-bar .list-content .right-container:hover img {
   content: url(/static/images/icon/ArrowRight_Hovered.png);
@@ -221,7 +264,7 @@ section.list-bar .list-content .list-container div.listItem-Container button:hov
   width: 1200px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-gap: 16px;
+  grid-gap: 40px;
 }
 .attractions .attractions-group .grid-item {
   border: 1px solid #e8e8e8;
@@ -267,4 +310,236 @@ section.list-bar .list-content .list-container div.listItem-Container button:hov
 }
 .attractions .attractions-group .grid-item .mrt-category p {
   color: #757575;
+}
+
+.signin-mask {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 100px;
+  z-index: 1000;
+}
+.signin-mask .signin {
+  width: 340px;
+  height: 275px;
+  box-shadow: 0px 4px 60px 0px #aaaaaa;
+  border-radius: 6px;
+  margin: 0 auto;
+}
+.signin-mask .signin .sign-content {
+  background: #f0f4f8;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.signin-mask .signin .sign-content .decorator-bar {
+  height: 10px;
+  background: linear-gradient(270deg, #337788 0%, #66aabb 100%);
+  border-radius: 6px 6px 0px 0px;
+  margin-bottom: 20px;
+}
+.signin-mask .signin .sign-content .close {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+.signin-mask .signin .sign-content .close .close-sigin img {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  right: 15px;
+  top: -5px;
+}
+.signin-mask .signin .sign-content .close h1 {
+  color: #666666;
+  font-size: 24px;
+  margin: 0;
+  text-align: center;
+  flex-grow: 1;
+  font-family: Noto Sans TC;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 24px;
+  text-align: center;
+}
+.signin-mask .signin .sign-content .main {
+  padding: 15px;
+}
+.signin-mask .signin .sign-content .main input[type=text],
+.signin-mask .signin .sign-content .main input[type=password] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  color: #757575;
+}
+.signin-mask .signin .sign-content .main input[type=text]:focus,
+.signin-mask .signin .sign-content .main input[type=password]:focus {
+  border-color: #448899;
+  outline: none;
+}
+.signin-mask .signin .sign-content .main .signin-button,
+.signin-mask .signin .sign-content .main .go-to-signup {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 5px;
+  background-color: #448899;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.signin-mask .signin .sign-content .main .signin-button:hover,
+.signin-mask .signin .sign-content .main .go-to-signup:hover {
+  background-color: #346976;
+}
+.signin-mask .signin .sign-content .main .go-to-signup {
+  background-color: #f0f4f8;
+  color: #666666;
+  text-decoration: none;
+}
+.signin-mask .signin .sign-content .main .go-to-signup:hover {
+  background-color: #dae0e5;
+}
+
+.signup-mask {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 100px;
+  z-index: 1000;
+}
+.signup-mask .signup {
+  width: 340px;
+  height: auto;
+  box-shadow: 0px 4px 60px 0px #aaaaaa;
+  border-radius: 6px;
+  margin: 0 auto;
+  background: #f0f4f8;
+}
+.signup-mask .signup .signup-content {
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+.signup-mask .signup .signup-content .decorator-bar {
+  height: 10px;
+  background: linear-gradient(270deg, #337788 0%, #66aabb 100%);
+  border-radius: 6px 6px 0 0;
+  margin-bottom: 20px;
+}
+.signup-mask .signup .signup-content .close {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+.signup-mask .signup .signup-content .close button.close-sigup img {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  right: 15px;
+  top: -5px;
+}
+.signup-mask .signup .signup-content .close h1 {
+  color: #666666;
+  font-size: 24px;
+  margin: 0;
+  text-align: center;
+  flex-grow: 1;
+  font-family: Noto Sans TC;
+  font-weight: 700;
+  line-height: 24px;
+}
+.signup-mask .signup .signup-content .main {
+  padding: 15px;
+}
+.signup-mask .signup .signup-content .main input[type=text],
+.signup-mask .signup .signup-content .main input[type=password] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  color: #757575;
+}
+.signup-mask .signup .signup-content .main input[type=text]:focus,
+.signup-mask .signup .signup-content .main input[type=password]:focus {
+  border-color: #448899;
+  outline: none;
+}
+.signup-mask .signup .signup-content .main .signup-button,
+.signup-mask .signup .signup-content .main .go-to-signin {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 5px;
+  background-color: #448899;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.signup-mask .signup .signup-content .main .signup-button:hover,
+.signup-mask .signup .signup-content .main .go-to-signin:hover {
+  background-color: #346976;
+}
+.signup-mask .signup .signup-content .main .go-to-signin {
+  background-color: #f0f4f8;
+  color: #666666;
+  text-decoration: none;
+}
+.signup-mask .signup .signup-content .main .go-to-signin:hover {
+  background-color: #dae0e5;
+}
+
+.footer {
+  width: 100%;
+  height: 104px;
+  text-align: center;
+  background-color: #757575;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.footer p {
+  text-align: center;
+  font-family: Noto Sans TC;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 13.3px;
+  text-align: left;
+  color: #ffffff;
+}
+
+@media (min-width: 360px) and (max-width: 1200px) {
+  header.navigation {
+    width: 100%;
+  }
+  header.navigation .navi-content {
+    width: 90%;
+  }
+  .welcome-area {
+    width: 100%;
+  }
+  .welcome-area .hero .hero-content {
+    width: 90%;
+  }
 }/*# sourceMappingURL=style.css.map */

@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="./styles/style.css" />
   </head>
   <body>
-    <header class="navigation">
+    <header class="navigation sticky">
       <div class="navi-content">
         <h2 class="navi-header">台北一日遊</h2>
         <div class="header-button-area">
@@ -25,7 +25,12 @@
           <h1>輕鬆享受台北一日悠閒</h1>
           <p>探索每個角落，體驗城市的深度旅遊行程</p>
           <div class="input-area">
-            <input type="text" placeholder="輸入景點名稱查詢" />
+            <input
+              type="text"
+              placeholder="輸入景點名稱查詢"
+              name="searchKeyword"
+              class="searchKeyword"
+            />
             <button>
               <img src="./images/icon/search.svg" alt="SearchKeyword" />
             </button>
@@ -40,8 +45,8 @@
           <img src="./images/icon/ArrowLeft_Default.png" alt="LeftButton" />
         </button>
         <div class="list-container">
-          <div class="listItem-Container">
-            <button class="list-item">145645</button>
+          <div class="listItem-Container" id="scrollable-container">
+            <button class="list-item">第一個</button>
             <button class="list-item">1456456456</button>
             <button class="list-item">1456456</button>
             <button class="list-item">1456456</button>
@@ -49,10 +54,22 @@
             <button class="list-item">45645</button>
             <button class="list-item">145645</button>
             <button class="list-item">1456456456</button>
+            <button class="list-item">第2個</button>
+            <button class="list-item">1456456456</button>
             <button class="list-item">1456456</button>
             <button class="list-item">1456456</button>
             <button class="list-item">1456456</button>
             <button class="list-item">45645</button>
+            <button class="list-item">145645</button>
+            <button class="list-item">1456456456</button>
+            <button class="list-item">第3個</button>
+            <button class="list-item">1456456456</button>
+            <button class="list-item">1456456</button>
+            <button class="list-item">1456456</button>
+            <button class="list-item">1456456</button>
+            <button class="list-item">45645</button>
+            <button class="list-item">145645</button>
+            <button class="list-item">1456456456</button>
           </div>
         </div>
         <button class="right-container">
@@ -123,63 +140,91 @@
             <p>描述文字2</p>
           </div>
         </div>
-      </div>
-    </section>
-    <section class="signin">
-      <div class="sign-content">
-        <div class="decorator-bar"></div>
-        <div class="close">
-          <img src="./images/icon/icon_close.png" alt="close" />
-        </div>
-        <div class="main">
-          <h1>登入會員帳號</h1>
-          <input
-            type="text"
-            placeholder="輸入電子信箱"
-            name="signin-email"
-            id="signin-email"
-          />
-          <input
-            type="password"
-            placeholder="輸入密碼"
-            name="signin-password"
-            id="signin-password"
-          />
-          <button class="signin-button">登入帳戶</button>
-          <button class="go-to-signup">還沒有帳戶?點此註冊</button>
+        <div class="grid-item">
+          <div class="img">
+            <img
+              src="./images/image/892379fe-a6f7-494a-b205-c84ea5e6d07d.webp"
+              alt="Description"
+            />
+            <div class="location-name">
+              <p>描述文字1</p>
+            </div>
+          </div>
+          <div class="mrt-category">
+            <p>描述文字2</p>
+            <p>描述文字2</p>
+          </div>
         </div>
       </div>
     </section>
-    <section class="signup">
-      <div class="signup-content">
-        <div class="decorator-bar"></div>
-        <div class="close">
-          <img src="./images/icon/icon_close.png" alt="close" />
+    <div class="signin-mask">
+      <section class="signin">
+        <div class="sign-content">
+          <div class="decorator-bar"></div>
+          <div class="close">
+            <button class="close-sigin">
+              <img src="./images/icon/icon_close.png" alt="close" />
+            </button>
+
+            <h1>登入會員帳號</h1>
+          </div>
+          <div class="main">
+            <input
+              type="text"
+              placeholder="輸入電子信箱"
+              name="signin-email"
+              id="signin-email"
+            />
+            <input
+              type="password"
+              placeholder="輸入密碼"
+              name="signin-password"
+              id="signin-password"
+            />
+            <button class="signin-button">登入帳戶</button>
+            <button class="go-to-signup">還沒有帳戶？點此註冊</button>
+          </div>
         </div>
-        <div class="main">
-          <h1>登入會員帳號</h1>
-          <input
-            type="text"
-            placeholder="輸入姓名"
-            name="signup-name"
-            id="signup-name"
-          />
-          <input
-            type="text"
-            placeholder="輸入電子信箱"
-            name="signup-email"
-            id="signup-email"
-          />
-          <input
-            type="password"
-            placeholder="輸入密碼"
-            name="signup-password"
-            id="signsignupin-password"
-          />
-          <button class="signup-button">註冊新帳戶</button>
-          <button class="go-to-signin">已經有新帳戶了?點此登入</button>
+      </section>
+    </div>
+    <div class="signup-mask">
+      <section class="signup">
+        <div class="signup-content">
+          <div class="decorator-bar"></div>
+          <div class="close">
+            <button class="close-sigup">
+              <img src="./images/icon/icon_close.png" alt="close" />
+            </button>
+            <h1>註冊會員帳號</h1>
+          </div>
+          <div class="main">
+            <input
+              type="text"
+              placeholder="輸入姓名"
+              name="signup-name"
+              id="signup-name"
+            />
+            <input
+              type="text"
+              placeholder="輸入電子信箱"
+              name="signup-email"
+              id="signup-email"
+            />
+            <input
+              type="password"
+              placeholder="輸入密碼"
+              name="signup-password"
+              id="signsignupin-password"
+            />
+            <button class="signup-button">註冊新帳戶</button>
+            <button class="go-to-signin">已經有新帳戶了？點此登入</button>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
+    <footer class="footer">
+      <p>COPYRIGHT © 2024 台北一日遊</p>
+    </footer>
   </body>
+  <script src="/app.js"></script>
 </html>
