@@ -11,11 +11,13 @@ const rightContainerBtn = document.querySelector(".right-container");
 
 const searchInput = document.querySelector(".searchKeyword");
 const searchButton = document.querySelector(".input-area button");
+
 let currentPage = 0;
 let hasNextPage = true;
 
 signinMask.style.display = "none";
 signupMask.style.display = "none";
+
 document.addEventListener("DOMContentLoaded", () => {
   loginSigninBtn.addEventListener("click", loginSignin);
   closeSigninBtn.addEventListener("click", closeSignin);
@@ -31,6 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
   leftContainerBtn.addEventListener("click", leftScroll);
   rightContainerBtn.addEventListener("click", rightScroll);
   searchButton.addEventListener("click", search);
+  searchInput.addEventListener("keypress", enterPress);
 
   fetch("/api/mrts")
     .then((response) => response.json())
@@ -52,6 +55,20 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .catch((error) => console.error("Error fetching MRT stations:", error));
 });
+
+function enterPress(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    search(event);
+  }
+}
+
+function search(event) {
+  event.preventDefault();
+  const keyword = searchInput.value;
+  fetchAttractions(keyword, currentPage, true);
+  console.log(keyword);
+}
 
 function fetchAttractions(keyword = "", page = 0, isKeywordSearch = false) {
   const url = `/api/attractions?page=${page}&keyword=${encodeURIComponent(
@@ -174,11 +191,4 @@ function rightScroll(event) {
   const scrollableContainer = document.getElementById("scrollable-container");
   scrollableContainer.scrollLeft += 300;
   console.log("Scrolled right to:", scrollableContainer.scrollLeft);
-}
-
-function search(event) {
-  event.preventDefault();
-  const keyword = searchInput.value;
-  fetchAttractions(keyword, currentPage, true);
-  console.log(keyword);
 }
