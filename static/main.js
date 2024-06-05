@@ -18,7 +18,7 @@ let hasNextPage = true;
 signinMask.style.display = "none";
 signupMask.style.display = "none";
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   loginSigninBtn.addEventListener("click", loginSignin);
   closeSigninBtn.addEventListener("click", closeSignin);
   gotoSignupBtn.addEventListener("click", gotoSignup);
@@ -35,25 +35,25 @@ document.addEventListener("DOMContentLoaded", () => {
   searchButton.addEventListener("click", search);
   searchInput.addEventListener("keypress", enterPress);
 
-  fetch("/api/mrts")
-    .then((response) => response.json())
-    .then((data) => {
-      if (data && data.data) {
-        data.data.forEach((mrt) => {
-          const mrtBtn = document.createElement("button");
-          mrtBtn.className = "list-item";
-          mrtBtn.textContent = mrt;
-          scrollableContainer.appendChild(mrtBtn);
-          mrtBtn.addEventListener("click", mrtToSearch);
-          function mrtToSearch(event) {
-            event.preventDefault();
-            searchInput.value = mrt;
-            searchButton.click();
-          }
+  try {
+    const response = await fetch("/api/mrts");
+    const data = await response.json();
+    if (data && data.data) {
+      data.data.forEach((mrt) => {
+        const mrtBtn = document.createElement("button");
+        mrtBtn.className = "list-item";
+        mrtBtn.textContent = mrt;
+        scrollableContainer.appendChild(mrtBtn);
+        mrtBtn.addEventListener("click", (event) => {
+          event.preventDefault();
+          searchInput.value = mrt;
+          searchButton.click();
         });
-      }
-    })
-    .catch((error) => console.error("Error fetching MRT stations:", error));
+      });
+    }
+  } catch (error) {
+    console.error("Error fetching MRT stations:", error);
+  }
 });
 
 function enterPress(event) {
@@ -70,27 +70,31 @@ function search(event) {
   console.log(keyword);
 }
 
-function fetchAttractions(keyword = "", page = 0, isKeywordSearch = false) {
+async function fetchAttractions(
+  keyword = "",
+  page = 0,
+  isKeywordSearch = false
+) {
   const url = `/api/attractions?page=${page}&keyword=${encodeURIComponent(
     keyword
   )}`;
-  fetch(url)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`Server responded with status ${response.status}`);
-      }
-      return response.json();
-    })
-    .then((data) => {
-      if (!data || !Array.isArray(data.data)) {
-        throw new Error("Invalid data structure");
-      }
-      displayAttractions(data.data, keyword, isKeywordSearch);
+  fetch(url);
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Server responded with status ${response.status}`);
+    }
 
-      currentPage = page;
-      hasNextPage = data.nextPage != null;
-    })
-    .catch((error) => console.error("Error fetching attractions:", error));
+    const data = await response.json();
+    if (!data || !Array.isArray(data.data)) {
+      throw new Error("Invalid data structure");
+    }
+    displayAttractions(data.data, keyword, isKeywordSearch);
+    currentPage = page;
+    hasNextPage = data.nextPage != null;
+  } catch (error) {
+    console.error("Error fetching attractions:", error);
+  }
 }
 fetchAttractions();
 
