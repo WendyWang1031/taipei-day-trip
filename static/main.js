@@ -17,36 +17,20 @@ let hasNextPage = true;
 signinMask.style.display = "none";
 signupMask.style.display = "none";
 document.addEventListener("DOMContentLoaded", () => {
+  loginSigninBtn.addEventListener("click", loginSignin);
+  closeSigninBtn.addEventListener("click", closeSignin);
+  gotoSignupBtn.addEventListener("click", gotoSignup);
+  closeSignupBtn.addEventListener("click", closeSignup);
+  gotoSigninBtn.addEventListener("click", gotoSignin);
+
   const scrollableContainer = document.getElementById("scrollable-container");
   if (scrollableContainer) {
     scrollableContainer.scrollLeft = 0;
   }
 
   leftContainerBtn.addEventListener("click", leftScroll);
-  function leftScroll(event) {
-    event.preventDefault();
-
-    const scrollableContainer = document.getElementById("scrollable-container");
-    scrollableContainer.scrollLeft -= 300;
-    console.log("Scrolled left to:", scrollableContainer.scrollLeft);
-  }
-
   rightContainerBtn.addEventListener("click", rightScroll);
-  function rightScroll(event) {
-    event.preventDefault();
-
-    const scrollableContainer = document.getElementById("scrollable-container");
-    scrollableContainer.scrollLeft += 300;
-    console.log("Scrolled right to:", scrollableContainer.scrollLeft);
-  }
-
   searchButton.addEventListener("click", search);
-  function search(event) {
-    event.preventDefault();
-    const keyword = searchInput.value;
-    fetchAttractions(keyword, currentPage, true);
-    console.log(keyword);
-  }
 
   fetch("/api/mrts")
     .then((response) => response.json())
@@ -149,34 +133,52 @@ function displayAttractions(attractions, keyword, isKeywordSearch = false) {
   }
 }
 
-loginSigninBtn.addEventListener("click", loginSignin);
 function loginSignin(event) {
   event.preventDefault();
   signinMask.style.display = "flex";
 }
 
-closeSigninBtn.addEventListener("click", closeSignin);
 function closeSignin(event) {
   event.preventDefault();
   signinMask.style.display = "none";
 }
 
-gotoSignupBtn.addEventListener("click", gotoSignup);
 function gotoSignup(event) {
   event.preventDefault();
   signinMask.style.display = "none";
   signupMask.style.display = "flex";
 }
 
-closeSignupBtn.addEventListener("click", closeSignup);
 function closeSignup(event) {
   event.preventDefault();
   signupMask.style.display = "none";
 }
 
-gotoSigninBtn.addEventListener("click", gotoSignin);
 function gotoSignin(event) {
   event.preventDefault();
   signupMask.style.display = "none";
   signinMask.style.display = "flex";
+}
+
+function leftScroll(event) {
+  event.preventDefault();
+
+  const scrollableContainer = document.getElementById("scrollable-container");
+  scrollableContainer.scrollLeft -= 300;
+  console.log("Scrolled left to:", scrollableContainer.scrollLeft);
+}
+
+function rightScroll(event) {
+  event.preventDefault();
+
+  const scrollableContainer = document.getElementById("scrollable-container");
+  scrollableContainer.scrollLeft += 300;
+  console.log("Scrolled right to:", scrollableContainer.scrollLeft);
+}
+
+function search(event) {
+  event.preventDefault();
+  const keyword = searchInput.value;
+  fetchAttractions(keyword, currentPage, true);
+  console.log(keyword);
 }

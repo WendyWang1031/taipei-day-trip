@@ -180,6 +180,9 @@ section.list-bar {
     width: 100%;
     div.list-container {
       height: 50px;
+      padding: 13px 10px 13px 10px;
+      gap: 10px;
+      margin: 25px;
       overflow-x: auto;
       display: flex;
       white-space: nowrap;
@@ -189,10 +192,12 @@ section.list-bar {
         flex-wrap: nowrap;
         flex-direction: row;
         justify-content: flex-start;
-        overflow-x: scroll;
-        // overflow-x: auto;
+        align-items: center;
+        overflow-x: auto;
+
         scroll-behavior: smooth;
         scrollbar-width: none;
+
         -ms-overflow-style: none;
         &::-webkit-scrollbar {
           display: none;
@@ -205,9 +210,21 @@ section.list-bar {
         border: none;
         background: none;
         overflow: hidden;
-        padding: 1px;
+        padding: 5px 15px 5px 15px;
+        gap: 4px;
         white-space: nowrap;
         cursor: pointer;
+
+        font-family: Noto Sans TC;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 13.3px;
+        text-align: center;
+        color: #666666;
+
+        &:hover {
+          color: #000000;
+        }
       }
     }
     .left-container,
@@ -235,48 +252,13 @@ section.list-bar {
         content: url(/static/images/icon/ArrowLeft_hovered.png);
       }
     }
-
-    .list-container {
-      width: 1106px;
-      height: 50px;
-      padding: 13px 10px 13px 10px;
-      display: flex;
-      gap: 10px;
-      margin: 25px;
-      div.listItem-Container {
-        // justify-content: center;
-        align-items: center;
-
-        overflow-x: auto;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-        &::-webkit-scrollbar {
-          display: none;
-        }
-
-        button {
-          font-family: Noto Sans TC;
-          font-size: 16px;
-          font-weight: 500;
-          line-height: 13.3px;
-          text-align: center;
-          color: #666666;
-          padding: 5px 15px 5px 15px;
-          white-space: nowrap;
-          gap: 4px;
-          &:hover {
-            color: #000000;
-          }
-        }
-      }
-    }
   }
 }
-.list-container,
-.listItem-Container,
-button {
-  border: 1px solid red;
-}
+// .list-container,
+// .listItem-Container,
+// button {
+//   border: 1px solid red;
+// }
 .attractions {
   display: flex;
   justify-content: center;
@@ -356,10 +338,10 @@ button {
   align-items: flex-start;
   padding-top: 100px;
   z-index: 1000;
-  .signin {
-    width: 340px;
-    height: 275px;
 
+  .signin {
+    height: 275px;
+    width: 340px;
     box-shadow: 0px 4px 60px 0px #aaaaaa;
     border-radius: 6px;
     margin: 0 auto;
@@ -391,6 +373,10 @@ button {
             position: absolute;
             right: 15px;
             top: -5px;
+            transition: transform 0.1s ease-in-out;
+            &:active {
+              transform: scale(1.2);
+            }
           }
         }
 
@@ -505,6 +491,10 @@ button {
             position: absolute;
             right: 15px;
             top: -5px;
+            transition: transform 0.1s ease-in-out;
+            &:active {
+              transform: scale(1.2);
+            }
           }
         }
 
@@ -595,9 +585,9 @@ button {
     width: 100%;
     .navi-content {
       width: 90% !important;
-      h2 {
-        font-size: 3vh !important;
-      }
+      // h2 {
+      //   font-size: 3vh !important;
+      // }
     }
   }
   section.welcome-area {
@@ -612,10 +602,7 @@ button {
     }
   }
   section.list-bar {
-    width: 100% !important;
-    div.list-content {
-      width: 90% !important;
-    }
+    width: 90% !important;
   }
   section.attractions {
     width: 100%;
@@ -631,11 +618,15 @@ button {
     width: 100%;
     .navi-content {
       width: 90% !important;
-      h2 {
-        font-size: 2vh !important;
-      }
+      // h2 {
+      //   font-size: 2vh !important;
+      // }
       .header-button-area {
-        font-size: 2vh !important;
+        .header-2-buttons-area {
+          button {
+            font-size: 1.5vh !important;
+          }
+        }
       }
     }
   }
@@ -651,16 +642,23 @@ button {
     }
   }
   section.list-bar {
-    width: 100% !important;
-    div.list-content {
-      width: 90% !important;
-    }
+    width: 90% !important;
   }
+
   section.attractions {
     width: 100%;
     div.attractions-group {
       width: 90% !important;
       grid-template-columns: repeat(1, 1fr);
+    }
+  }
+}
+
+@media (min-width: 360px) and (max-width: 390px) {
+  .navi-content {
+    width: 90% !important;
+    h2 {
+      font-size: 2.5vh !important;
     }
   }
 }

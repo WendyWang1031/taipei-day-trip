@@ -171,6 +171,9 @@ section.list-bar .list-content {
 }
 section.list-bar .list-content div.list-container {
   height: 50px;
+  padding: 13px 10px 13px 10px;
+  gap: 10px;
+  margin: 25px;
   overflow-x: auto;
   display: flex;
   white-space: nowrap;
@@ -180,7 +183,8 @@ section.list-bar .list-content div.list-container .listItem-Container {
   flex-wrap: nowrap;
   flex-direction: row;
   justify-content: flex-start;
-  overflow-x: scroll;
+  align-items: center;
+  overflow-x: auto;
   scroll-behavior: smooth;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -195,9 +199,19 @@ section.list-bar .list-content div.list-container button {
   border: none;
   background: none;
   overflow: hidden;
-  padding: 1px;
+  padding: 5px 15px 5px 15px;
+  gap: 4px;
   white-space: nowrap;
   cursor: pointer;
+  font-family: Noto Sans TC;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 13.3px;
+  text-align: center;
+  color: #666666;
+}
+section.list-bar .list-content div.list-container button:hover {
+  color: #000000;
 }
 section.list-bar .list-content .left-container,
 section.list-bar .list-content .right-container {
@@ -220,43 +234,6 @@ section.list-bar .list-content .right-container:hover img {
 }
 section.list-bar .list-content .left-container:hover img {
   content: url(/static/images/icon/ArrowLeft_hovered.png);
-}
-section.list-bar .list-content .list-container {
-  width: 1106px;
-  height: 50px;
-  padding: 13px 10px 13px 10px;
-  display: flex;
-  gap: 10px;
-  margin: 25px;
-}
-section.list-bar .list-content .list-container div.listItem-Container {
-  align-items: center;
-  overflow-x: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-section.list-bar .list-content .list-container div.listItem-Container::-webkit-scrollbar {
-  display: none;
-}
-section.list-bar .list-content .list-container div.listItem-Container button {
-  font-family: Noto Sans TC;
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 13.3px;
-  text-align: center;
-  color: #666666;
-  padding: 5px 15px 5px 15px;
-  white-space: nowrap;
-  gap: 4px;
-}
-section.list-bar .list-content .list-container div.listItem-Container button:hover {
-  color: #000000;
-}
-
-.list-container,
-.listItem-Container,
-button {
-  border: 1px solid red;
 }
 
 .attractions {
@@ -336,8 +313,8 @@ button {
   z-index: 1000;
 }
 .signin-mask .signin {
-  width: 340px;
   height: 275px;
+  width: 340px;
   box-shadow: 0px 4px 60px 0px #aaaaaa;
   border-radius: 6px;
   margin: 0 auto;
@@ -366,6 +343,10 @@ button {
   position: absolute;
   right: 15px;
   top: -5px;
+  transition: transform 0.1s ease-in-out;
+}
+.signin-mask .signin .sign-content .close .close-sigin img:active {
+  transform: scale(1.2);
 }
 .signin-mask .signin .sign-content .close h1 {
   color: #666666;
@@ -466,6 +447,10 @@ button {
   position: absolute;
   right: 15px;
   top: -5px;
+  transition: transform 0.1s ease-in-out;
+}
+.signup-mask .signup .signup-content .close button.close-sigup img:active {
+  transform: scale(1.2);
 }
 .signup-mask .signup .signup-content .close h1 {
   color: #666666;
@@ -546,9 +531,6 @@ button {
   header.navigation .navi-content {
     width: 90% !important;
   }
-  header.navigation .navi-content h2 {
-    font-size: 3vh !important;
-  }
   section.welcome-area {
     width: 100%;
   }
@@ -559,9 +541,6 @@ button {
     width: 90% !important;
   }
   section.list-bar {
-    width: 100% !important;
-  }
-  section.list-bar div.list-content {
     width: 90% !important;
   }
   section.attractions {
@@ -579,11 +558,8 @@ button {
   header.navigation .navi-content {
     width: 90% !important;
   }
-  header.navigation .navi-content h2 {
-    font-size: 2vh !important;
-  }
-  header.navigation .navi-content .header-button-area {
-    font-size: 2vh !important;
+  header.navigation .navi-content .header-button-area .header-2-buttons-area button {
+    font-size: 1.5vh !important;
   }
   section.welcome-area {
     width: 100%;
@@ -595,9 +571,6 @@ button {
     width: 90% !important;
   }
   section.list-bar {
-    width: 100% !important;
-  }
-  section.list-bar div.list-content {
     width: 90% !important;
   }
   section.attractions {
@@ -606,5 +579,13 @@ button {
   section.attractions div.attractions-group {
     width: 90% !important;
     grid-template-columns: repeat(1, 1fr);
+  }
+}
+@media (min-width: 360px) and (max-width: 390px) {
+  .navi-content {
+    width: 90% !important;
+  }
+  .navi-content h2 {
+    font-size: 2.5vh !important;
   }
 }/*# sourceMappingURL=style.css.map */
