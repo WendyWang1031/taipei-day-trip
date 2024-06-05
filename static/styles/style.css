@@ -583,9 +583,9 @@ section.list-bar .list-content .left-container:hover img {
 }
 @media (min-width: 360px) and (max-width: 390px) {
   .navi-content {
-    width: 90% !important;
+    width: 100% !important;
   }
   .navi-content h2 {
-    font-size: 2.5vh !important;
+    font-size: 2.7vh !important;
   }
 }/*# sourceMappingURL=style.css.map */
