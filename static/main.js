@@ -101,6 +101,7 @@ fetchAttractions();
 const observer = new IntersectionObserver(
   (entries) => {
     const firstEntry = entries[0];
+    console.log("firstEntry:", firstEntry);
     if (firstEntry.isIntersecting && hasNextPage) {
       fetchAttractions("", currentPage + 1);
     }

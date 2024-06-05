@@ -50,7 +50,7 @@ header.navigation {
       margin-left: auto;
       .header-2-buttons-area {
         display: flex;
-        gap: 10px; // 設定按鈕之間的間隔
+        gap: 10px;
 
         button {
           padding: 10px;
@@ -170,7 +170,7 @@ section.list-bar {
   width: 1200px;
   display: flex;
   margin: 0 auto;
-  // justify-content: center;
+
   align-items: center;
   text-align: center;
   .list-content {
@@ -273,7 +273,7 @@ section.list-bar {
 
     .grid-item {
       border: 1px solid #e8e8e8;
-      // width: 270px;
+
       display: flex;
       flex-direction: column;
       position: relative;
@@ -585,9 +585,6 @@ section.list-bar {
     width: 100%;
     .navi-content {
       width: 90% !important;
-      // h2 {
-      //   font-size: 3vh !important;
-      // }
     }
   }
   section.welcome-area {
@@ -618,13 +615,12 @@ section.list-bar {
     width: 100%;
     .navi-content {
       width: 90% !important;
-      // h2 {
-      //   font-size: 2vh !important;
-      // }
+
       .header-button-area {
         .header-2-buttons-area {
           button {
-            font-size: 1.5vh !important;
+            padding: 0 !important;
+            font-size: 1.4vh !important;
           }
         }
       }
@@ -656,9 +652,16 @@ section.list-bar {
 
 @media (min-width: 360px) and (max-width: 390px) {
   .navi-content {
-    width: 100% !important;
+    font-size: 100% !important;
     h2 {
-      font-size: 2.7vh !important;
+      font-size: 2.3vh !important;
+    }
+    .header-button-area {
+      .header-2-buttons-area {
+        button {
+          font-size: 1.2vh !important;
+        }
+      }
     }
   }
 }

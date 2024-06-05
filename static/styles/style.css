@@ -559,7 +559,8 @@ section.list-bar .list-content .left-container:hover img {
     width: 90% !important;
   }
   header.navigation .navi-content .header-button-area .header-2-buttons-area button {
-    font-size: 1.5vh !important;
+    padding: 0 !important;
+    font-size: 1.4vh !important;
   }
   section.welcome-area {
     width: 100%;
@@ -583,9 +584,12 @@ section.list-bar .list-content .left-container:hover img {
 }
 @media (min-width: 360px) and (max-width: 390px) {
   .navi-content {
-    width: 100% !important;
+    font-size: 100% !important;
   }
   .navi-content h2 {
-    font-size: 2.7vh !important;
+    font-size: 2.3vh !important;
+  }
+  .navi-content .header-button-area .header-2-buttons-area button {
+    font-size: 1.2vh !important;
   }
 }/*# sourceMappingURL=style.css.map */
