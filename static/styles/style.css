@@ -565,6 +565,9 @@ section.list-bar .list-content .left-container:hover img {
   section.welcome-area {
     width: 100%;
   }
+  section.welcome-area .hero {
+    background-position: left !important;
+  }
   section.welcome-area .hero .hero-content {
     width: 90% !important;
   }
