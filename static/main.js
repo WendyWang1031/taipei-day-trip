@@ -15,6 +15,7 @@ const searchButton = document.querySelector(".input-area button");
 let currentPage = 0;
 let hasNextPage = true;
 let isLoading = false;
+let isWaitingForData = false;
 
 signinMask.style.display = "none";
 signupMask.style.display = "none";
@@ -108,8 +109,16 @@ const observer = new IntersectionObserver(
   (entries) => {
     const firstEntry = entries[0];
 
-    if (firstEntry.isIntersecting && hasNextPage && !isLoading) {
-      fetchAttractions("", currentPage + 1);
+    if (
+      firstEntry.isIntersecting &&
+      hasNextPage &&
+      !isLoading &&
+      !isWaitingForData
+    ) {
+      isWaitingForData = true;
+      fetchAttractions("", currentPage + 1).then(() => {
+        isWaitingForData = false;
+      });
     }
   },
   { threshold: 0.5 }
