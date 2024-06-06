@@ -69,9 +69,16 @@ function search(event) {
   event.preventDefault();
   if (isLoading) return;
   isLoading = true;
+  isWaitingForData = true;
   const keyword = searchInput.value;
   currentPage = 0;
-  fetchAttractions(keyword, currentPage, true);
+
+  fetchAttractions(keyword, currentPage, true).then(() => {
+    isLoading = false;
+    //資料夾加載完成後重置
+    isWaitingForData = false;
+    updateObserver();
+  });
   console.log(keyword);
 }
 
@@ -118,8 +125,9 @@ const observer = new IntersectionObserver(
       //開始新的資料加載前設定
       isWaitingForData = true;
 
+      const keyword = searchInput.value;
       //調用fetch函式的時候使用非同步加載
-      fetchAttractions("", currentPage + 1).then(() => {
+      fetchAttractions(keyword, currentPage + 1).then(() => {
         //資料夾加載完成後重置
         isWaitingForData = false;
       });
@@ -169,7 +177,7 @@ function displayAttractions(attractions, keyword, isKeywordSearch = false) {
       attractionsContainer.appendChild(gridItem);
     });
   }
-  if (!isKeywordSearch) {
+  if (hasNextPage) {
     updateObserver();
   }
 }
