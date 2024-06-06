@@ -14,6 +14,7 @@ const searchButton = document.querySelector(".input-area button");
 
 let currentPage = 0;
 let hasNextPage = true;
+let isLoading = false;
 
 signinMask.style.display = "none";
 signupMask.style.display = "none";
@@ -65,7 +66,10 @@ function enterPress(event) {
 
 function search(event) {
   event.preventDefault();
+  if (isLoading) return;
+  isLoading = true;
   const keyword = searchInput.value;
+  currentPage = 0;
   fetchAttractions(keyword, currentPage, true);
   console.log(keyword);
 }
@@ -92,8 +96,10 @@ async function fetchAttractions(
     displayAttractions(data.data, keyword, isKeywordSearch);
     currentPage = page;
     hasNextPage = data.nextPage != null;
+    isLoading = false;
   } catch (error) {
     console.error("Error fetching attractions:", error);
+    isLoading = false;
   }
 }
 fetchAttractions();
@@ -102,7 +108,7 @@ const observer = new IntersectionObserver(
   (entries) => {
     const firstEntry = entries[0];
     console.log("firstEntry:", firstEntry);
-    if (firstEntry.isIntersecting && hasNextPage) {
+    if (firstEntry.isIntersecting && hasNextPage && !isLoading) {
       fetchAttractions("", currentPage + 1);
     }
   },
