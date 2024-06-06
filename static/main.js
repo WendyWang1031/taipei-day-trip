@@ -115,8 +115,12 @@ const observer = new IntersectionObserver(
       !isLoading &&
       !isWaitingForData
     ) {
+      //開始新的資料加載前設定
       isWaitingForData = true;
+
+      //調用fetch函式的時候使用非同步加載
       fetchAttractions("", currentPage + 1).then(() => {
+        //資料夾加載完成後重置
         isWaitingForData = false;
       });
     }
