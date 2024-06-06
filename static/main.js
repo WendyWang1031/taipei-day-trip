@@ -82,7 +82,7 @@ async function fetchAttractions(
   const url = `/api/attractions?page=${page}&keyword=${encodeURIComponent(
     keyword
   )}`;
-  fetch(url);
+
   try {
     const response = await fetch(url);
     if (!response.ok) {
