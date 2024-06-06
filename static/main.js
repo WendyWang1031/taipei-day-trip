@@ -12,6 +12,9 @@ const rightContainerBtn = document.querySelector(".right-container");
 const searchInput = document.querySelector(".searchKeyword");
 const searchButton = document.querySelector(".input-area button");
 
+const mrtURL = "/api/mrts";
+const attractionURL = "/api/attractions";
+
 let currentPage = 0;
 let hasNextPage = true;
 let isLoading = false;
@@ -20,27 +23,40 @@ let isWaitingForData = false;
 signinMask.style.display = "none";
 signupMask.style.display = "none";
 
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener("DOMContentLoaded", initializePage);
+
+// 頁面載入初始化
+async function initializePage() {
+  setupEventListeners();
+  fetchGetMRTStations();
+}
+
+// 各種功能性的函數呼叫
+async function setupEventListeners() {
   loginSigninBtn.addEventListener("click", loginSignin);
   closeSigninBtn.addEventListener("click", closeSignin);
   gotoSignupBtn.addEventListener("click", gotoSignup);
   closeSignupBtn.addEventListener("click", closeSignup);
   gotoSigninBtn.addEventListener("click", gotoSignin);
 
-  const scrollableContainer = document.getElementById("scrollable-container");
-  if (scrollableContainer) {
-    scrollableContainer.scrollLeft = 0;
-  }
-
   leftContainerBtn.addEventListener("click", leftScroll);
   rightContainerBtn.addEventListener("click", rightScroll);
   searchButton.addEventListener("click", search);
   searchInput.addEventListener("keypress", enterPress);
+}
 
+// 頁面初始化的載入API的MRT
+async function fetchGetMRTStations() {
   try {
-    const response = await fetch("/api/mrts");
+    const response = await fetch(mrtURL);
     const data = await response.json();
     if (data && data.data) {
+      const scrollableContainer = document.getElementById(
+        "scrollable-container"
+      );
+      if (scrollableContainer) {
+        scrollableContainer.scrollLeft = 0;
+      }
       data.data.forEach((mrt) => {
         const mrtBtn = document.createElement("button");
         mrtBtn.className = "list-item";
@@ -56,43 +72,18 @@ document.addEventListener("DOMContentLoaded", async () => {
   } catch (error) {
     console.error("Error fetching MRT stations:", error);
   }
-});
-
-function enterPress(event) {
-  if (event.key === "Enter") {
-    event.preventDefault();
-    search(event);
-  }
 }
 
-function search(event) {
-  event.preventDefault();
-  if (isLoading) return;
-  isLoading = true;
-  isWaitingForData = true;
-  const keyword = searchInput.value;
-  currentPage = 0;
-
-  fetchAttractions(keyword, currentPage, true).then(() => {
-    isLoading = false;
-    //資料夾加載完成後重置
-    isWaitingForData = false;
-    updateObserver();
-  });
-  console.log(keyword);
-}
-
-async function fetchAttractions(
+//fetch GET API頁面的景點
+async function fetchGetAttractions(
   keyword = "",
   page = 0,
   isKeywordSearch = false
 ) {
-  const url = `/api/attractions?page=${page}&keyword=${encodeURIComponent(
-    keyword
-  )}`;
-
   try {
-    const response = await fetch(url);
+    const response = await fetch(
+      `${attractionURL}?keyword=${keyword}&page=${page}`
+    );
     if (!response.ok) {
       throw new Error(`Server responded with status ${response.status}`);
     }
@@ -110,42 +101,7 @@ async function fetchAttractions(
     isLoading = false;
   }
 }
-fetchAttractions();
-
-const observer = new IntersectionObserver(
-  (entries) => {
-    const firstEntry = entries[0];
-
-    if (
-      firstEntry.isIntersecting &&
-      hasNextPage &&
-      !isLoading &&
-      !isWaitingForData
-    ) {
-      //開始新的資料加載前設定
-      isWaitingForData = true;
-
-      const keyword = searchInput.value;
-      //調用fetch函式的時候使用非同步加載
-      fetchAttractions(keyword, currentPage + 1).then(() => {
-        //資料夾加載完成後重置
-        isWaitingForData = false;
-      });
-    }
-  },
-  { threshold: 0.5 }
-);
-
-const lastItem = document.querySelector(".grid-item:last-child");
-observer.observe(lastItem);
-
-function updateObserver() {
-  const lastItem = document.querySelector(".grid-item:last-child");
-  observer.unobserve(lastItem);
-  if (hasNextPage) {
-    observer.observe(lastItem);
-  }
-}
+fetchGetAttractions();
 
 function displayAttractions(attractions, keyword, isKeywordSearch = false) {
   const attractionsContainer = document.querySelector(".attractions-group");
@@ -179,6 +135,63 @@ function displayAttractions(attractions, keyword, isKeywordSearch = false) {
   }
   if (hasNextPage) {
     updateObserver();
+  }
+}
+
+const observer = new IntersectionObserver(
+  (entries) => {
+    const firstEntry = entries[0];
+
+    if (
+      firstEntry.isIntersecting &&
+      hasNextPage &&
+      !isLoading &&
+      !isWaitingForData
+    ) {
+      //開始新的資料加載前設定
+      isWaitingForData = true;
+
+      const keywordInputValue = searchInput.value;
+      //調用fetch函式的時候使用非同步加載
+      fetchGetAttractions(keywordInputValue, currentPage + 1).then(() => {
+        //資料夾加載完成後重置
+        isWaitingForData = false;
+      });
+    }
+  },
+  { threshold: 0.5 }
+);
+
+function updateObserver() {
+  const lastItem = document.querySelector(".grid-item:last-child");
+  observer.unobserve(lastItem);
+  if (hasNextPage) {
+    observer.observe(lastItem);
+  }
+}
+
+function search(event) {
+  event.preventDefault();
+  if (isLoading) return;
+
+  isLoading = true;
+  isWaitingForData = true;
+  currentPage = 0;
+
+  const keywordInputValue = searchInput.value;
+
+  fetchGetAttractions(keywordInputValue, currentPage, true).then(() => {
+    isLoading = false;
+    isWaitingForData = false;
+    updateObserver();
+  });
+  console.log(keywordInputValue);
+}
+
+function enterPress(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    search(event);
   }
 }
 
