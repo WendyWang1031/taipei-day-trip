@@ -1,11 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Index</title>
-</head>
-<body>
-  
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>台北一日遊</title>
+    <link rel="stylesheet" href="/static/styles/style.css" />
+  </head>
+  <body>
+    <header class="navigation sticky">
+      <div class="navi-content">
+        <h2 class="navi-header">台北一日遊</h2>
+        <div class="header-button-area">
+          <div class="header-2-buttons-area">
+            <button class="reservation">預定行程</button>
+            <button class="login-signin">登入/註冊</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="welcome-area">
+      <div class="hero">
+        <div class="hero-content">
+          <h1>輕鬆享受台北一日悠閒</h1>
+          <p>探索每個角落，體驗城市的深度旅遊行程</p>
+          <div class="input-area">
+            <input
+              type="text"
+              placeholder="輸入景點名稱查詢"
+              name="searchKeyword"
+              class="searchKeyword"
+            />
+            <button>
+              <img src="/static/images/icon/search.svg" alt="SearchKeyword" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="list-bar">
+      <div class="list-content">
+        <button class="left-container">
+          <img
+            src="/static/images/icon/ArrowLeft_Default.png"
+            alt="LeftButton"
+          />
+        </button>
+        <div class="list-container">
+          <div class="listItem-Container" id="scrollable-container"></div>
+        </div>
+        <button class="right-container">
+          <img
+            src="/static/images/icon/ArrowRight_Default.png"
+            alt="RightButton"
+          />
+        </button>
+      </div>
+    </section>
+
+    <section class="attractions">
+      <div class="attractions-group"></div>
+    </section>
+    <div class="signin-mask">
+      <section class="signin">
+        <div class="sign-content">
+          <div class="decorator-bar"></div>
+          <div class="close">
+            <button class="close-sigin">
+              <img src="/static/images/icon/icon_close.png" alt="close" />
+            </button>
+
+            <h1>登入會員帳號</h1>
+          </div>
+          <div class="main">
+            <input
+              type="text"
+              placeholder="輸入電子信箱"
+              name="signin-email"
+              id="signin-email"
+            />
+            <input
+              type="password"
+              placeholder="輸入密碼"
+              name="signin-password"
+              id="signin-password"
+            />
+            <button class="signin-button">登入帳戶</button>
+            <button class="go-to-signup">還沒有帳戶？點此註冊</button>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="signup-mask">
+      <section class="signup">
+        <div class="signup-content">
+          <div class="decorator-bar"></div>
+          <div class="close">
+            <button class="close-sigup">
+              <img src="/static/images/icon/icon_close.png" alt="close" />
+            </button>
+            <h1>註冊會員帳號</h1>
+          </div>
+          <div class="main">
+            <input
+              type="text"
+              placeholder="輸入姓名"
+              name="signup-name"
+              id="signup-name"
+            />
+            <input
+              type="text"
+              placeholder="輸入電子信箱"
+              name="signup-email"
+              id="signup-email"
+            />
+            <input
+              type="password"
+              placeholder="輸入密碼"
+              name="signup-password"
+              id="signsignupin-password"
+            />
+            <button class="signup-button">註冊新帳戶</button>
+            <button class="go-to-signin">已經有新帳戶了？點此登入</button>
+          </div>
+        </div>
+      </section>
+    </div>
+    <footer class="footer">
+      <p>COPYRIGHT © 2024 台北一日遊</p>
+    </footer>
+  </body>
+  <script src="/static/main.js"></script>
 </html>

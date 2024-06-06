@@ -3,8 +3,9 @@ from fastapi.responses import FileResponse , JSONResponse
 from pydantic import BaseModel , Field 
 from typing import List , Optional 
 from db import get_attractions_for_pages , get_attractions_for_id , get_mrts
+from fastapi.staticfiles import StaticFiles
 app = FastAPI()
-
+app.mount("/static", StaticFiles(directory="static"), name="static")
 #定義資料型別
 
 class Image(BaseModel):
@@ -23,23 +24,147 @@ class Attraction(BaseModel):
 	lng: float = Field(... , example=121.544814)
 	images: List[Image] = Field(..., example=["http://140.112.3.4/images/92-0.jpg"])
 
-	
-			
+class UserBase(BaseModel):
+	email: str = Field(... , example="ply@ply.com")
+	password: str = Field(... , example="12345678")	
+
+# user_instance = UserBase(email="123@gmail" , password="123")
+# print(user_instance)
+
+class UserCreate(BaseModel):
+	name: str = Field(... , example="彭彭彭")
+	email: str = Field(... , example="ply@ply.com")
+	password: str = Field(... , example="12345678")	
+
+class UserRead(BaseModel):
+	id: int = Field(...,example=1)
+	name: str = Field(... , example="彭彭彭")
+	email: str = Field(... , example="ply@ply.com")				
 
 class MRTList(BaseModel):
 	data: str = Field(..., description="捷運站名稱列表")
 
-class SuccessfulResponse(BaseModel):
+class SuccessfulResponseForAttraction(BaseModel):
 	nextPage : Optional[int]= Field(None, example=2, description = "下一頁的頁碼，若無更多頁面則為 None")
 	data : List[Attraction] = Field(..., description = "景點數據列表")
+
+class SuccessfulResponseForID(BaseModel):
+	data : Attraction = Field(..., description = "景點數據列表")
+
+class SuccessfulResponseForMemberRegister(BaseModel):
+	ok : bool = Field(..., description = "註冊成功")
+
+class SuccessfulResponseForMember(BaseModel):
+	data : UserRead = Field(..., description = "取得當前登入資訊")
+
+class SuccessfulResponseForMemberBase(BaseModel):
+	token : str = Field(..., description = "FHSTHSGHFtrhsthfghs")
 
 class ErrorResponse(BaseModel):
 	error : bool = Field(True, description = "指示是否為錯誤響應")
 	message : str = Field(..., description = "錯誤訊息描述" , example="請按照情境提供對應的錯誤訊息")
 
-class SuccessfulResponseForID(BaseModel):
-	data : Attraction = Field(..., description = "景點數據列表")
-	
+@app.post("/api/user" , 
+		 tags= ["User"],
+		 response_model = UserCreate ,
+		 summary = "註冊一個新會員",
+        
+		 responses = {
+			200:{
+				"model" : SuccessfulResponseForMemberRegister,
+				"description" : "註冊成功"
+			},
+			400:{
+				"model" : ErrorResponse,
+				"description" : "註冊失敗，重複的 Email 或其他原因"
+			},
+			500:{
+				"model" : ErrorResponse,
+				"description" : "伺服器內部錯誤"
+			}
+		 })
+async def member_register():
+	try:
+		response = JSONResponse(
+		status_code = status.HTTP_200_OK,
+		content={
+			"ok":True
+		})
+		return response
+	except Exception as e :
+		response = JSONResponse(
+		status_code = status.HTTP_500_INTERNAL_SERVER_ERROR,
+		content={
+			"error":True,
+			"message":str(e)
+		})
+		return response
+
+
+@app.get("/api/user/auth" , 
+		 tags= ["User"],
+		 response_model = UserRead ,
+		 summary = "取得當前的登入資訊",
+        
+		 responses = {
+			200:{
+				"model" : SuccessfulResponseForMember,
+				"description" : "已登入的會員資料，null 表示未登入"
+			}
+		 })
+async def get_member():
+	try:
+		response = JSONResponse(
+		status_code = status.HTTP_200_OK,
+		content={
+			"ok":True
+		})
+		return response
+	except Exception as e :
+		response = JSONResponse(
+		status_code = status.HTTP_500_INTERNAL_SERVER_ERROR,
+		content={
+			"error":True,
+			"message":str(e)
+		})
+		return response
+
+@app.put("/api/user/auth" , 
+		 tags= ["User"],
+		 response_model = UserBase ,
+		 summary = "登入會員帳戶",
+        
+		 responses = {
+			200:{
+				"model" : SuccessfulResponseForMemberBase,
+				"description" : "登入成功，取得有效期為七天的 JWT 加密字串"
+			},
+			400:{
+				"model" : ErrorResponse,
+				"description" : "登入失敗，帳號或密碼錯誤或其他原因"
+			},
+			500:{
+				"model" : ErrorResponse,
+				"description" : "伺服器內部錯誤"
+			}
+		 })
+async def member_signin():
+	try:
+		response = JSONResponse(
+		status_code = status.HTTP_200_OK,
+		content={
+			"ok":True
+		})
+		return response
+	except Exception as e :
+		response = JSONResponse(
+		status_code = status.HTTP_500_INTERNAL_SERVER_ERROR,
+		content={
+			"error":True,
+			"message":str(e)
+		})
+		return response
+
 
 @app.get("/api/attractions" , 
 		 tags= ["Attraction"],
@@ -48,7 +173,7 @@ class SuccessfulResponseForID(BaseModel):
          description="取得不同分頁的旅遊景點列表資料，也可以根據標題關鍵字、或捷運站名稱篩選",
 		 responses = {
 			200:{
-				"model" : SuccessfulResponse,
+				"model" : SuccessfulResponseForAttraction,
 				"description" : "正常運作"
 			},
 			500:{

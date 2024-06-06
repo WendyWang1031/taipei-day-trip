@@ -20,19 +20,13 @@ CREATE TABLE IF NOT EXISTS location(
     SERIAL_NO VARCHAR(255) NOT NULL,
     address VARCHAR(255) NOT NULL,
     RowNumber VARCHAR(255) NOT NULL,
-    langinfo VARCHAR(255) NOT NULL,
     category VARCHAR(255) NOT NULL,
     rate BIGINT NOT NULL,
     transport TEXT NOT NULL,
     date DATETIME NOT NULL,
-    avBegin DATETIME NOT NULL,
-    avEnd DATETIME NOT NULL,
     lng DECIMAL(10,6) NOT NULL,
     lat DECIMAL(10,6) NOT NULL,
-    REF_WP VARCHAR(255) NOT NULL,
     MEMO_TIME VARCHAR(255),
-    POI VARCHAR(255) NOT NULL,
-    idpt VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
     PRIMARY KEY (id)
 );
@@ -47,6 +41,7 @@ CREATE TABLE IF NOT EXISTS URL_file(
     FOREIGN KEY (location_id) REFERENCES location(id)
 );
 """
+
 
 try:
     cursor.execute("BEGIN;")
@@ -64,8 +59,8 @@ with open('data/taipei-attractions.json') as data_details:
 data_results = data["result"]["results"]
 
 insert_location_sql = """insert ignore into location(id,name,mrt,SERIAL_NO,address,RowNumber,rate,transport,
-date,avBegin,avEnd,lng,lat,REF_WP,langinfo,category,MEMO_TIME,POI,idpt,description)
-values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
+date,lng,lat,category,MEMO_TIME,description)
+values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
 
 insert_URL_file_sql = """insert ignore into URL_file( location_id , images)
 values(%s,%s)
@@ -77,9 +72,8 @@ try:
         cursor.execute(insert_location_sql , (
             item["_id"] , item["name"], item["MRT"], item["SERIAL_NO"] , item["address"],
             item["RowNumber"] , item["rate"] , item["direction"] , item["date"],
-            item["avBegin"] , item["avEnd"] , item["longitude"] , item["latitude"],
-            item["REF_WP"] , item["langinfo"] , item["CAT"] , item["MEMO_TIME"] , item["POI"],
-            item["idpt"] , item["description"]
+            item["longitude"] , item["latitude"] , item["CAT"] , item["MEMO_TIME"] ,
+            item["description"]
         ))
         if "file" in item:
             data_files = item["file"]
