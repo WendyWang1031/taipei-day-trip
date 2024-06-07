@@ -100,6 +100,7 @@ async function fetchGetAttractions(keyword = "", page = 0, refresh = false) {
 function displayAttractions(attractions, keyword, refresh = false) {
   const attractionsContainer = document.querySelector(".attractions-group");
   if (refresh) {
+    currentPage == 0;
     attractionsContainer.innerHTML = "";
   }
   if (attractions.length === 0) {
