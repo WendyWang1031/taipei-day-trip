@@ -8,6 +8,7 @@ const signupMask = document.querySelector(".signup-mask");
 
 const leftContainerBtn = document.querySelector(".left-container");
 const rightContainerBtn = document.querySelector(".right-container");
+const scrollableContainer = document.getElementById("scrollable-container");
 
 const searchInput = document.querySelector(".searchKeyword");
 const searchButton = document.querySelector(".input-area button");
@@ -29,6 +30,7 @@ document.addEventListener("DOMContentLoaded", initializePage);
 async function initializePage() {
   setupEventListeners();
   fetchGetMRTStations();
+  fetchGetAttractions();
 }
 
 // 各種功能性的函數呼叫
@@ -51,9 +53,6 @@ async function fetchGetMRTStations() {
     const response = await fetch(mrtURL);
     const data = await response.json();
     if (data && data.data) {
-      const scrollableContainer = document.getElementById(
-        "scrollable-container"
-      );
       if (scrollableContainer) {
         scrollableContainer.scrollLeft = 0;
       }
@@ -101,7 +100,6 @@ async function fetchGetAttractions(
     isLoading = false;
   }
 }
-fetchGetAttractions();
 
 function displayAttractions(attractions, keyword, isKeywordSearch = false) {
   const attractionsContainer = document.querySelector(".attractions-group");
@@ -224,16 +222,12 @@ function gotoSignin(event) {
 
 function leftScroll(event) {
   event.preventDefault();
-
-  const scrollableContainer = document.getElementById("scrollable-container");
   scrollableContainer.scrollLeft -= 300;
   console.log("Scrolled left to:", scrollableContainer.scrollLeft);
 }
 
 function rightScroll(event) {
   event.preventDefault();
-
-  const scrollableContainer = document.getElementById("scrollable-container");
   scrollableContainer.scrollLeft += 300;
   console.log("Scrolled right to:", scrollableContainer.scrollLeft);
 }
