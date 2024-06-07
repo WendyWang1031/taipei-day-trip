@@ -142,10 +142,7 @@ const observer = new IntersectionObserver(
 
       const keywordInputValue = searchInput.value;
       //調用fetch函式的時候使用非同步加載
-      fetchGetAttractions(keywordInputValue, currentPage + 1).then(() => {
-        //資料夾加載完成後重置
-        isWaitingForData = false;
-      });
+      fetchGetAttractions(keywordInputValue, currentPage + 1).then(() => {});
     }
   },
   { threshold: 0.5 }
@@ -169,7 +166,6 @@ function search(event) {
   const keywordInputValue = searchInput.value;
 
   fetchGetAttractions(keywordInputValue, currentPage, true).then(() => {
-    isWaitingForData = false;
     updateObserver();
   });
   console.log(keywordInputValue);
