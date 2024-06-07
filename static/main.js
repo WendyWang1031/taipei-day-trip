@@ -18,7 +18,6 @@ const attractionURL = "/api/attractions";
 
 let currentPage = 0;
 let hasNextPage = true;
-let isLoading = false;
 let isWaitingForData = false;
 
 signinMask.style.display = "none";
@@ -60,12 +59,13 @@ async function fetchGetMRTStations() {
         const mrtBtn = document.createElement("button");
         mrtBtn.className = "list-item";
         mrtBtn.textContent = mrt;
-        scrollableContainer.appendChild(mrtBtn);
+
         mrtBtn.addEventListener("click", (event) => {
           event.preventDefault();
           searchInput.value = mrt;
           searchButton.click();
         });
+        scrollableContainer.appendChild(mrtBtn);
       });
     }
   } catch (error) {
@@ -74,11 +74,7 @@ async function fetchGetMRTStations() {
 }
 
 //fetch GET API頁面的景點
-async function fetchGetAttractions(
-  keyword = "",
-  page = 0,
-  isKeywordSearch = false
-) {
+async function fetchGetAttractions(keyword = "", page = 0, refresh = false) {
   try {
     const response = await fetch(
       `${attractionURL}?keyword=${keyword}&page=${page}`
@@ -91,19 +87,19 @@ async function fetchGetAttractions(
     if (!data || !Array.isArray(data.data)) {
       throw new Error("Invalid data structure");
     }
-    displayAttractions(data.data, keyword, isKeywordSearch);
+    displayAttractions(data.data, keyword, refresh);
     currentPage = page;
     hasNextPage = data.nextPage != null;
-    isLoading = false;
+    isWaitingForData = false;
   } catch (error) {
     console.error("Error fetching attractions:", error);
-    isLoading = false;
+    isWaitingForData = false;
   }
 }
 
-function displayAttractions(attractions, keyword, isKeywordSearch = false) {
+function displayAttractions(attractions, keyword, refresh = false) {
   const attractionsContainer = document.querySelector(".attractions-group");
-  if (isKeywordSearch) {
+  if (refresh) {
     attractionsContainer.innerHTML = "";
   }
   if (attractions.length === 0) {
@@ -140,12 +136,7 @@ const observer = new IntersectionObserver(
   (entries) => {
     const firstEntry = entries[0];
 
-    if (
-      firstEntry.isIntersecting &&
-      hasNextPage &&
-      !isLoading &&
-      !isWaitingForData
-    ) {
+    if (firstEntry.isIntersecting && hasNextPage && !isWaitingForData) {
       //開始新的資料加載前設定
       isWaitingForData = true;
 
@@ -170,16 +161,14 @@ function updateObserver() {
 
 function search(event) {
   event.preventDefault();
-  if (isLoading) return;
+  if (isWaitingForData) return;
 
-  isLoading = true;
   isWaitingForData = true;
   currentPage = 0;
 
   const keywordInputValue = searchInput.value;
 
   fetchGetAttractions(keywordInputValue, currentPage, true).then(() => {
-    isLoading = false;
     isWaitingForData = false;
     updateObserver();
   });
