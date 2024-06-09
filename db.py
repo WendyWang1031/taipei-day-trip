@@ -44,11 +44,9 @@ def get_attractions_for_pages(page , keyword = None):
         if page >= total_pages:
             page = max(0 , total_pages-1)
         offset = page * 12
-        limit = 12
         
-        if(page + 1) == total_pages:
-            remaining_records = total_records - (page * 12)
-            limit = remaining_records
+        
+        
 
         if keyword:
             sql = """select 
@@ -56,17 +54,17 @@ def get_attractions_for_pages(page , keyword = None):
                     CAST(lat AS DOUBLE) AS lat, CAST(lng AS DOUBLE) AS lng 
                     from location
                     where name LIKE %s OR MRT = %s 
-                    LIMIT %s OFFSET %s
+                    LIMIT 12 OFFSET %s
             """
-            cursor.execute(sql , ('%' + keyword + '%' , keyword , limit , offset))
+            cursor.execute(sql , ('%' + keyword + '%' , keyword  , offset))
         else:
             sql = """select 
                     id , name , category , description , address , transport ,  mrt , 
                     CAST(lat AS DOUBLE) AS lat, CAST(lng AS DOUBLE) AS lng
                     from location
-                    LIMIT %s OFFSET %s
+                    LIMIT 12 OFFSET %s
             """
-            cursor.execute(sql , (limit , offset))
+            cursor.execute(sql , (offset))
         
         # 從db取出景點的資訊
         locations = cursor.fetchall()
@@ -75,10 +73,11 @@ def get_attractions_for_pages(page , keyword = None):
         location_ids =[]
         for location in locations:
             location_ids.append(location['id'])
-
+        
+        print(f"location_ids:{location_ids}")
         if not location_ids:
             return []
-        print(f"location_ids:{location_ids}")
+        
 
         # 將取出的景點id列表以,分開變成“字串”，代表12個數量的通位符的元素
         format_string = ','.join(["%s"] * len(location_ids))
