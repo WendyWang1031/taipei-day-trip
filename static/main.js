@@ -76,6 +76,8 @@ async function fetchGetMRTStations() {
 //fetch GET API頁面的景點
 async function fetchGetAttractions(keyword = "", page = 0, refresh = false) {
   try {
+    //開始新的資料加載前設定
+    isWaitingForData = true;
     const response = await fetch(
       `${attractionURL}?keyword=${keyword}&page=${page}`
     );
@@ -138,9 +140,6 @@ const observer = new IntersectionObserver(
     const firstEntry = entries[0];
 
     if (firstEntry.isIntersecting && hasNextPage && !isWaitingForData) {
-      //開始新的資料加載前設定
-      isWaitingForData = true;
-
       const keywordInputValue = searchInput.value;
       //調用fetch函式的時候使用非同步加載
       fetchGetAttractions(keywordInputValue, currentPage + 1).then(() => {});
