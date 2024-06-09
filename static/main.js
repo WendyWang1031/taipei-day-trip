@@ -100,7 +100,7 @@ async function fetchGetAttractions(keyword = "", page = 0, refresh = false) {
 }
 
 function displayAttractions(attractions, keyword, refresh = false) {
-  lastItem1 = document.querySelector(".grid-item:last-child");
+  lastItem = document.querySelector(".grid-item:last-child");
 
   const attractionsContainer = document.querySelector(".attractions-group");
   if (refresh) {
@@ -133,11 +133,11 @@ function displayAttractions(attractions, keyword, refresh = false) {
     });
   }
 
-  lastItem2 = document.querySelector(".grid-item:last-child");
+  newItem = document.querySelector(".grid-item:last-child");
 
-  if (lastItem1) observer.unobserve(lastItem1);
+  if (lastItem) observer.unobserve(lastItem);
   if (hasNextPage) {
-    if (lastItem2) observer.observe(lastItem2);
+    if (newItem) observer.observe(newItem);
   }
 }
 
