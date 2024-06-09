@@ -26,14 +26,14 @@ signupMask.style.display = "none";
 document.addEventListener("DOMContentLoaded", initializePage);
 
 // 頁面載入初始化
-async function initializePage() {
+function initializePage() {
   setupEventListeners();
   fetchGetMRTStations();
   fetchGetAttractions();
 }
 
 // 各種功能性的函數呼叫
-async function setupEventListeners() {
+function setupEventListeners() {
   loginSigninBtn.addEventListener("click", loginSignin);
   closeSigninBtn.addEventListener("click", closeSignin);
   gotoSignupBtn.addEventListener("click", gotoSignup);
@@ -100,6 +100,8 @@ async function fetchGetAttractions(keyword = "", page = 0, refresh = false) {
 }
 
 function displayAttractions(attractions, keyword, refresh = false) {
+  lastItem1 = document.querySelector(".grid-item:last-child");
+
   const attractionsContainer = document.querySelector(".attractions-group");
   if (refresh) {
     currentPage == 0;
@@ -130,8 +132,12 @@ function displayAttractions(attractions, keyword, refresh = false) {
       attractionsContainer.appendChild(gridItem);
     });
   }
+
+  lastItem2 = document.querySelector(".grid-item:last-child");
+
+  if (lastItem1) observer.unobserve(lastItem1);
   if (hasNextPage) {
-    updateObserver();
+    if (lastItem2) observer.observe(lastItem2);
   }
 }
 
@@ -148,14 +154,6 @@ const observer = new IntersectionObserver(
   { threshold: 0.5 }
 );
 
-function updateObserver() {
-  const lastItem = document.querySelector(".grid-item:last-child");
-  observer.unobserve(lastItem);
-  if (hasNextPage) {
-    observer.observe(lastItem);
-  }
-}
-
 function search(event) {
   event.preventDefault();
   if (isWaitingForData) return;
@@ -165,9 +163,7 @@ function search(event) {
 
   const keywordInputValue = searchInput.value;
 
-  fetchGetAttractions(keywordInputValue, currentPage, true).then(() => {
-    updateObserver();
-  });
+  fetchGetAttractions(keywordInputValue, currentPage, true).then(() => {});
   console.log(keywordInputValue);
 }
 
