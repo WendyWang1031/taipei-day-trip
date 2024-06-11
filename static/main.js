@@ -206,12 +206,25 @@ function gotoSignin(event) {
 
 function leftScroll(event) {
   event.preventDefault();
-  scrollableContainer.scrollLeft -= 300;
+  const scrollDistance = getSrollDistance();
+  scrollableContainer.scrollLeft -= scrollDistance;
   console.log("Scrolled left to:", scrollableContainer.scrollLeft);
 }
 
 function rightScroll(event) {
   event.preventDefault();
-  scrollableContainer.scrollLeft += 300;
+  const scrollDistance = getSrollDistance();
+  scrollableContainer.scrollLeft += scrollDistance;
   console.log("Scrolled right to:", scrollableContainer.scrollLeft);
+}
+
+function getSrollDistance() {
+  const width = window.innerWidth;
+  if (width >= 601 && width <= 1200) {
+    return 300;
+  } else if (width >= 360 && width <= 600) {
+    return 100;
+  } else {
+    return 30;
+  }
 }
