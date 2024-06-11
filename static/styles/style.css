@@ -363,15 +363,22 @@ section.indivisual-location div.location .pic-area .location-image-area {
   justify-content: center;
   align-items: center;
 }
-section.indivisual-location div.location .pic-area .location-image-area .fade {
+section.indivisual-location div.location .pic-area .location-image-area img.fade {
   animation: fadeEffect 1s;
+}
+@keyframes fadeEffect {
+  from {
+    opacity: 0.6;
+  }
+  to {
+    opacity: 1;
+  }
 }
 section.indivisual-location div.location .pic-area .location-image-area img {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
-  border-radius: 10px;
   overflow: hidden;
 }
 section.indivisual-location div.location .pic-area .circle-btn-area {
@@ -424,9 +431,11 @@ section.indivisual-location div.location .profile .profile-p {
   text-align: left;
   color: #666666;
 }
-section.indivisual-location div.location .profile .profile-p .category,
+section.indivisual-location div.location .profile .profile-p .category {
+  margin-right: 5px;
+}
 section.indivisual-location div.location .profile .profile-p .attraction-mrt {
-  margin-right: 0;
+  margin-left: 5px;
 }
 section.indivisual-location div.location .profile .profile-p .category {
   color: #666666;

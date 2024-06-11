@@ -391,23 +391,23 @@ section.indivisual-location {
         display: flex;
         justify-content: center;
         align-items: center;
-        .fade {
+        img.fade {
           animation: fadeEffect 1s;
-          // @keyframes fadeEffect {
-          //   from {
-          //     opacity: 0.6;
-          //   }
-          //   to {
-          //     opacity: 1;
-          //   }
-          // }
+          @keyframes fadeEffect {
+            from {
+              opacity: 0.6;
+            }
+            to {
+              opacity: 1;
+            }
+          }
         }
 
         img {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          border-radius: 10px;
+          // border-radius: 10px;
           overflow: hidden;
         }
       }
@@ -470,9 +470,11 @@ section.indivisual-location {
         text-align: left;
         color: #666666;
 
-        .category,
+        .category {
+          margin-right: 5px;
+        }
         .attraction-mrt {
-          margin-right: 0;
+          margin-left: 5px;
         }
 
         .category {
