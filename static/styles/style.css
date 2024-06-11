@@ -852,15 +852,31 @@ section.description-area div.dis-content div.transportation div {
     width: 100% !important;
   }
   section.indivisual-location div.location {
-    display: block;
-    width: 100% !important;
+    display: flex;
+    justify-content: space-around;
+    width: 90% !important;
   }
   section.indivisual-location div.location .pic-area {
-    width: 100%;
+    margin-right: 20px;
   }
   section.indivisual-location div.location .profile {
-    width: 90%;
     margin-top: 30px;
+  }
+  section.indivisual-location div.location .profile .booking {
+    margin-bottom: 0;
+  }
+  section.indivisual-location div.location .profile .booking .tour-title,
+  section.indivisual-location div.location .profile .booking .tour-content,
+  section.indivisual-location div.location .profile .booking .choose-day,
+  section.indivisual-location div.location .profile .booking .time,
+  section.indivisual-location div.location .profile .booking .price {
+    font-size: 14px;
+  }
+  section.indivisual-location div.location .profile .booking .time {
+    margin-bottom: 5px;
+  }
+  section.indivisual-location div.location .profile .booking .time input {
+    width: 60% !important;
   }
 }
 @media (min-width: 360px) and (max-width: 600px) {
@@ -898,17 +914,29 @@ section.description-area div.dis-content div.transportation div {
   }
   section.indivisual-location {
     width: 100% !important;
+    margin-top: 0;
   }
   section.indivisual-location div.location {
-    display: block;
     width: 100% !important;
+    flex-direction: column;
+    align-items: center;
   }
   section.indivisual-location div.location .pic-area {
     width: 100%;
+    margin-right: 0;
   }
   section.indivisual-location div.location .profile {
-    width: 90%;
+    width: 95%;
     margin-top: 30px;
+  }
+  section.indivisual-location div.location .profile .booking .price {
+    margin-bottom: 30px;
+  }
+  section.indivisual-location div.location .profile .booking .reservation-btn {
+    margin: 0;
+  }
+  div.seperate hr {
+    margin: 20px 0;
   }
 }
 @media (min-width: 360px) and (max-width: 390px) {
