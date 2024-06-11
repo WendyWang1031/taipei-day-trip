@@ -41,7 +41,11 @@ header.navigation div.navi-content {
   justify-content: space-between;
   width: 1200px;
 }
-header.navigation div.navi-content h2.navi-header {
+header.navigation div.navi-content a.navi-link {
+  text-decoration: none;
+  color: inherit;
+}
+header.navigation div.navi-content a.navi-link h2.navi-header {
   font-family: Noto Sans TC;
   font-size: 30px;
   font-weight: 700;
@@ -948,7 +952,7 @@ section.description-area div.dis-content div.transportation div {
   .navi-content {
     font-size: 100% !important;
   }
-  .navi-content h2 {
+  .navi-content a.navi-link h2 {
     font-size: 2.3vh !important;
   }
   .navi-content .header-button-area .header-2-buttons-area button {

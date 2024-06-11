@@ -4,12 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Attraction</title>
-    <link rel="stylesheet" href="./styles/style.css" />
+    <link rel="stylesheet" href="/static/styles/style.css" />
   </head>
   <body>
     <header class="navigation sticky">
       <div class="navi-content">
-        <h2 class="navi-header">台北一日遊</h2>
+        <a href="/" class="navi-link">
+          <h2 class="navi-header">台北一日遊</h2>
+        </a>
+
         <div class="header-button-area">
           <div class="header-2-buttons-area">
             <button class="reservation">預定行程</button>
@@ -22,11 +25,14 @@
       <div class="location">
         <div class="pic-area">
           <button class="left-btn">
-            <img src="./images/icon/ArrowLeft_Default.png" alt="pic-left-btn" />
+            <img
+              src="/static/images/icon/ArrowLeft_Default.png"
+              alt="pic-left-btn"
+            />
           </button>
 
           <div class="location-image-area">
-            <img
+            <!-- <img
               src="/static/images/image/892379fe-a6f7-494a-b205-c84ea5e6d07d.webp"
               alt="景點圖片"
               class="fade"
@@ -42,7 +48,7 @@
               alt="景點圖片"
               class="fade"
               style="display: none"
-            />
+            /> -->
           </div>
           <div class="circle-btn-area">
             <div class="circle-container">
@@ -53,7 +59,7 @@
           </div>
           <button class="right-btn">
             <img
-              src="./images/icon/ArrowRight_Default.png"
+              src="/static/images/icon/ArrowRight_Default.png"
               alt="pic-right-btn"
             />
           </button>
@@ -78,7 +84,7 @@
                 type="date"
                 id="start"
                 name="trip-start"
-                value="yyyy-mm-dd"
+                placeholder="yyyy/mm/dd"
               />
             </div>
             <div class="choose-day">
@@ -159,7 +165,7 @@
           <div class="decorator-bar"></div>
           <div class="close">
             <button class="close-sigin">
-              <img src="./images/icon/icon_close.png" alt="close" />
+              <img src="/static/images/icon/icon_close.png" alt="close" />
             </button>
 
             <h1>登入會員帳號</h1>
@@ -189,7 +195,7 @@
           <div class="decorator-bar"></div>
           <div class="close">
             <button class="close-sigup">
-              <img src="./images/icon/icon_close.png" alt="close" />
+              <img src="/static/images/icon/icon_close.png" alt="close" />
             </button>
             <h1>註冊會員帳號</h1>
           </div>

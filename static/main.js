@@ -44,9 +44,6 @@ function setupEventListeners() {
   rightContainerBtn.addEventListener("click", rightScroll);
   searchButton.addEventListener("click", search);
   searchInput.addEventListener("keypress", enterPress);
-
-  imagesLeftBtn.addEventListener("click", imagesTurnLeft);
-  imagesRightBtn.addEventListener("click", imagesTurnRight);
 }
 
 // 頁面初始化的載入API的MRT

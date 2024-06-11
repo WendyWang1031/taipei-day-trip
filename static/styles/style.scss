@@ -39,14 +39,19 @@ header.navigation {
     align-items: center;
     justify-content: space-between;
     width: 1200px;
-    h2.navi-header {
-      font-family: Noto Sans TC;
-      font-size: 30px;
-      font-weight: 700;
-      line-height: 34px;
-      text-align: left;
-      color: #448899;
+    a.navi-link {
+      text-decoration: none;
+      color: inherit;
+      h2.navi-header {
+        font-family: Noto Sans TC;
+        font-size: 30px;
+        font-weight: 700;
+        line-height: 34px;
+        text-align: left;
+        color: #448899;
+      }
     }
+
     div.header-button-area {
       margin-left: auto;
       .header-2-buttons-area {
@@ -1073,9 +1078,12 @@ section.description-area {
 @media (min-width: 360px) and (max-width: 390px) {
   .navi-content {
     font-size: 100% !important;
-    h2 {
-      font-size: 2.3vh !important;
+    a.navi-link {
+      h2 {
+        font-size: 2.3vh !important;
+      }
     }
+
     .header-button-area {
       .header-2-buttons-area {
         button {
