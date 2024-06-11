@@ -129,6 +129,9 @@ function displayAttractions(attractions, keyword, refresh = false) {
         <p>${attraction.category}</p>
     </div>
 `;
+      gridItem.addEventListener("click", () => {
+        window.location.href = `/attraction/${attraction.id}`;
+      });
       attractionsContainer.appendChild(gridItem);
     });
   }
