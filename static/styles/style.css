@@ -340,6 +340,7 @@ section.indivisual-location div.location .pic-area .right-btn img {
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
+  animation: none !important;
 }
 section.indivisual-location div.location .pic-area .left-btn:active,
 section.indivisual-location div.location .pic-area .right-btn:active {
@@ -358,12 +359,16 @@ section.indivisual-location div.location .pic-area .location-image-area {
   justify-content: center;
   align-items: center;
 }
+section.indivisual-location div.location .pic-area .location-image-area .fade {
+  animation: fadeEffect 1s;
+}
 section.indivisual-location div.location .pic-area .location-image-area img {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
   border-radius: 10px;
+  overflow: hidden;
 }
 section.indivisual-location div.location .pic-area .circle-btn-area {
   position: absolute;
