@@ -983,6 +983,9 @@ section.description-area div.dis-content div.transportation div {
   .navi-content .header-button-area .header-2-buttons-area button {
     font-size: 1.1rem !important;
   }
+  section.indivisual-location div.location .pic-area {
+    height: 350px;
+  }
   section.indivisual-location div.location .profile {
     margin-top: 15px;
   }
