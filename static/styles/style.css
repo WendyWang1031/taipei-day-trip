@@ -906,6 +906,12 @@ section.description-area div.dis-content div.transportation div {
   section.indivisual-location div.location .profile .booking .time input {
     width: 60% !important;
   }
+  section.description-area {
+    width: 100%;
+  }
+  section.description-area div.dis-content {
+    width: 90%;
+  }
 }
 @media (min-width: 360px) and (max-width: 600px) {
   header.navigation {

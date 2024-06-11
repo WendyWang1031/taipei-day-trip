@@ -1014,6 +1014,12 @@ section.description-area {
       }
     }
   }
+  section.description-area {
+    width: 100%;
+    div.dis-content {
+      width: 90%;
+    }
+  }
 }
 
 @media (min-width: 360px) and (max-width: 600px) {
@@ -1080,6 +1086,7 @@ section.description-area {
       }
     }
   }
+
   div.seperate {
     hr {
       margin: 20px 0;
