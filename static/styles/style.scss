@@ -990,6 +990,12 @@ section.description-area {
       width: 90% !important;
       .pic-area {
         margin-right: 20px;
+        .circle-btn-area {
+          // width: 90%;
+          .circle-container {
+            // width: 90%;
+          }
+        }
       }
       .profile {
         margin-top: 30px;
@@ -1005,7 +1011,7 @@ section.description-area {
           }
 
           .time {
-            margin-bottom: 5px;
+            margin-bottom: 10px;
             input {
               width: 60% !important;
             }
