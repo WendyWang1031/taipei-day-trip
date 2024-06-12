@@ -20,6 +20,10 @@ let currentPage = 0;
 let hasNextPage = true;
 let isWaitingForData = false;
 
+let isDown = false;
+let startX;
+let scrollLeft;
+
 signinMask.style.display = "none";
 signupMask.style.display = "none";
 
@@ -44,6 +48,11 @@ function setupEventListeners() {
   rightContainerBtn.addEventListener("click", rightScroll);
   searchButton.addEventListener("click", search);
   searchInput.addEventListener("keypress", enterPress);
+
+  scrollableContainer.addEventListener("mousedown", mousedown);
+  scrollableContainer.addEventListener("mouseleave", mouseleave);
+  scrollableContainer.addEventListener("mouseup", mouseup);
+  scrollableContainer.addEventListener("mousemove", mousemove);
 }
 
 // 頁面初始化的載入API的MRT
@@ -227,4 +236,29 @@ function getSrollDistance() {
   } else {
     return 400;
   }
+}
+
+function mousedown(event) {
+  isDown = true;
+  startX = event.pageX - scrollableContainer.offsetLeft;
+  scrollLeft = scrollableContainer.scrollLeft;
+  scrollableContainer.style.cursor = "grabbing";
+}
+
+function mouseleave() {
+  isDown = false;
+  scrollableContainer.style.cursor = "grab";
+}
+
+function mouseup() {
+  isDown = false;
+  scrollableContainer.style.cursor = "grab";
+}
+
+function mousemove(event) {
+  if (!isDown) return;
+  event.preventDefault;
+  const x = event.pageX - scrollableContainer.offsetLeft;
+  const speed = (x - startX) * 1.5;
+  scrollableContainer.scrollLeft = scrollLeft - speed;
 }
