@@ -221,10 +221,10 @@ function rightScroll(event) {
 function getSrollDistance() {
   const width = window.innerWidth;
   if (width >= 601 && width <= 1200) {
-    return 300;
+    return 200;
   } else if (width >= 360 && width <= 600) {
     return 100;
   } else {
-    return 30;
+    return 400;
   }
 }
