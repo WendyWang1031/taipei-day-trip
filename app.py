@@ -4,9 +4,21 @@ from pydantic import BaseModel , Field
 from typing import List , Optional 
 from db import get_attractions_for_pages , get_attractions_for_id , get_mrts
 from fastapi.staticfiles import StaticFiles
+import logging
+from starlette.middleware.base import BaseHTTPMiddleware
+
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
+logging.basicConfig(level=logging.INFO , format='%(asctime)s - %(message)s' , filename= 'app.log')
+
 #定義資料型別
+class LoggingMiddleware(BaseHTTPMiddleware):
+	async def dispatch(self , request : Request , call_next):
+		logging.info(f'Request from IP: {request.client.host} to URL: {request.url.path}')
+		response = await call_next(request)
+		return response
+
+app.add_middleware(LoggingMiddleware)
 
 class Image(BaseModel):
 	url:str
