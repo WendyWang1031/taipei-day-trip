@@ -65,20 +65,19 @@ async function fetchGetAttractionID(attractionId) {
       window.location = "/";
     }
     console.log(data.data);
-    displayAttractionID(data.data);
+    displayAttraction(data.data);
   } catch (error) {
     console.error("Error fetching attraction:", error);
   }
 }
 
-function displayAttractionID(attraction) {
+function displayAttraction(attraction) {
   const attractionName = document.querySelector(".attraction-name");
   const category = document.querySelector(".category");
   const mrt = document.querySelector(".attraction-mrt");
   const description = document.querySelector(".content");
   const address = document.querySelector(".address-detail");
   const transportation = document.querySelector(".transportation-detail");
-  const imgArea = document.querySelector(".location-image-area");
 
   attractionName.textContent = attraction.name;
   category.textContent = attraction.category;
@@ -87,44 +86,49 @@ function displayAttractionID(attraction) {
   address.textContent = attraction.address;
   transportation.textContent = attraction.transport;
 
-  attraction.images.forEach((imgUrl, index) => {
+  displayImageUI(attraction.images);
+  displayCircleUI();
+}
+
+function displayImageUI(images) {
+  const imgArea = document.querySelector(".location-image-area");
+  images.forEach((imgUrl, index) => {
     const img = document.createElement("img");
     img.src = imgUrl;
     img.alt = "景點圖片";
     img.className = "fade";
 
-    if (index === 0) {
-      img.style.display = "block";
-    } else {
-      img.style.display = "none";
-    }
+    img.style.display = index === 0 ? "block" : "none";
+
     imgArea.appendChild(img);
   });
-  displayCircleContainer();
 }
 
-function displayCircleContainer() {
-  const circleContainer = document.querySelector(".circle-container");
-  const images = document.querySelectorAll(".location-image-area img");
-  images.forEach((_, index) => {
-    const circle = document.createElement("img");
-    circle.src =
-      index === 0
-        ? "/static/images/icon/circle-this.png"
-        : "/static/images/icon/circle current.png";
-    circleContainer.appendChild(circle);
-  });
-}
-const updateCircles = () => {
+const updateCirclesUI = (imageIndex) => {
   const circleContainer = document.querySelector(".circle-container");
   const circles = circleContainer.querySelectorAll("img");
   circles.forEach((circle, index) => {
     circle.src =
-      index === currentImageIndex
+      index === imageIndex
         ? "/static/images/icon/circle-this.png"
         : "/static/images/icon/circle current.png";
   });
 };
+
+function displayCircleUI() {
+  const circleContainer = document.querySelector(".circle-container");
+  const images = document.querySelectorAll(".location-image-area img");
+  images.forEach((_, index) => {
+    const circle = document.createElement("img");
+
+    circle.src =
+      index === 0
+        ? "/static/images/icon/circle-this.png"
+        : "/static/images/icon/circle current.png";
+
+    circleContainer.appendChild(circle);
+  });
+}
 
 function imagesTurnLeft(event) {
   event.preventDefault();
@@ -133,16 +137,17 @@ function imagesTurnLeft(event) {
   images[currentImageIndex].style.display = "none";
   currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
   images[currentImageIndex].style.display = "block";
-  updateCircles();
+  updateCirclesUI(currentImageIndex);
 }
 
 function imagesTurnRight(event) {
   event.preventDefault();
   const images = document.querySelectorAll(".location-image-area img");
+
   images[currentImageIndex].style.display = "none";
   currentImageIndex = (currentImageIndex + 1 + images.length) % images.length;
   images[currentImageIndex].style.display = "block";
-  updateCircles();
+  updateCirclesUI(currentImageIndex);
 }
 
 function moringFeeOption(event) {
