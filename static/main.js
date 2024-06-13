@@ -8,91 +8,88 @@ const signupMask = document.querySelector(".signup-mask");
 
 const leftContainerBtn = document.querySelector(".left-container");
 const rightContainerBtn = document.querySelector(".right-container");
+const scrollableContainer = document.getElementById("scrollable-container");
 
 const searchInput = document.querySelector(".searchKeyword");
 const searchButton = document.querySelector(".input-area button");
 
+const mrtURL = "/api/mrts";
+const attractionURL = "/api/attractions";
+
 let currentPage = 0;
 let hasNextPage = true;
-let isLoading = false;
 let isWaitingForData = false;
+
+let isDown = false;
+let startX;
+let scrollLeft;
 
 signinMask.style.display = "none";
 signupMask.style.display = "none";
 
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener("DOMContentLoaded", initializePage);
+
+// 頁面載入初始化
+function initializePage() {
+  setupEventListeners();
+  fetchGetMRTStations();
+  fetchGetAttractions();
+}
+
+// 各種功能性的函數呼叫
+function setupEventListeners() {
   loginSigninBtn.addEventListener("click", loginSignin);
   closeSigninBtn.addEventListener("click", closeSignin);
   gotoSignupBtn.addEventListener("click", gotoSignup);
   closeSignupBtn.addEventListener("click", closeSignup);
   gotoSigninBtn.addEventListener("click", gotoSignin);
 
-  const scrollableContainer = document.getElementById("scrollable-container");
-  if (scrollableContainer) {
-    scrollableContainer.scrollLeft = 0;
-  }
-
   leftContainerBtn.addEventListener("click", leftScroll);
   rightContainerBtn.addEventListener("click", rightScroll);
   searchButton.addEventListener("click", search);
   searchInput.addEventListener("keypress", enterPress);
 
+  scrollableContainer.addEventListener("mousedown", mousedown);
+  scrollableContainer.addEventListener("mouseleave", mouseleave);
+  scrollableContainer.addEventListener("mouseup", mouseup);
+  scrollableContainer.addEventListener("mousemove", mousemove);
+}
+
+// 頁面初始化的載入API的MRT
+async function fetchGetMRTStations() {
   try {
-    const response = await fetch("/api/mrts");
+    const response = await fetch(mrtURL);
     const data = await response.json();
     if (data && data.data) {
+      if (scrollableContainer) {
+        scrollableContainer.scrollLeft = 0;
+      }
       data.data.forEach((mrt) => {
         const mrtBtn = document.createElement("button");
         mrtBtn.className = "list-item";
         mrtBtn.textContent = mrt;
-        scrollableContainer.appendChild(mrtBtn);
+
         mrtBtn.addEventListener("click", (event) => {
           event.preventDefault();
           searchInput.value = mrt;
           searchButton.click();
         });
+        scrollableContainer.appendChild(mrtBtn);
       });
     }
   } catch (error) {
     console.error("Error fetching MRT stations:", error);
   }
-});
-
-function enterPress(event) {
-  if (event.key === "Enter") {
-    event.preventDefault();
-    search(event);
-  }
 }
 
-function search(event) {
-  event.preventDefault();
-  if (isLoading) return;
-  isLoading = true;
-  isWaitingForData = true;
-  const keyword = searchInput.value;
-  currentPage = 0;
-
-  fetchAttractions(keyword, currentPage, true).then(() => {
-    isLoading = false;
-    //資料夾加載完成後重置
-    isWaitingForData = false;
-    updateObserver();
-  });
-  console.log(keyword);
-}
-
-async function fetchAttractions(
-  keyword = "",
-  page = 0,
-  isKeywordSearch = false
-) {
-  const url = `/api/attractions?page=${page}&keyword=${encodeURIComponent(
-    keyword
-  )}`;
-
+//fetch GET API頁面的景點
+async function fetchGetAttractions(keyword = "", page = 0, refresh = false) {
   try {
-    const response = await fetch(url);
+    //開始新的資料加載前設定
+    isWaitingForData = true;
+    const response = await fetch(
+      `${attractionURL}?keyword=${keyword}&page=${page}`
+    );
     if (!response.ok) {
       throw new Error(`Server responded with status ${response.status}`);
     }
@@ -101,55 +98,22 @@ async function fetchAttractions(
     if (!data || !Array.isArray(data.data)) {
       throw new Error("Invalid data structure");
     }
-    displayAttractions(data.data, keyword, isKeywordSearch);
+    displayAttractions(data.data, keyword, refresh);
     currentPage = page;
     hasNextPage = data.nextPage != null;
-    isLoading = false;
+    isWaitingForData = false;
   } catch (error) {
     console.error("Error fetching attractions:", error);
-    isLoading = false;
-  }
-}
-fetchAttractions();
-
-const observer = new IntersectionObserver(
-  (entries) => {
-    const firstEntry = entries[0];
-
-    if (
-      firstEntry.isIntersecting &&
-      hasNextPage &&
-      !isLoading &&
-      !isWaitingForData
-    ) {
-      //開始新的資料加載前設定
-      isWaitingForData = true;
-
-      const keyword = searchInput.value;
-      //調用fetch函式的時候使用非同步加載
-      fetchAttractions(keyword, currentPage + 1).then(() => {
-        //資料夾加載完成後重置
-        isWaitingForData = false;
-      });
-    }
-  },
-  { threshold: 0.5 }
-);
-
-const lastItem = document.querySelector(".grid-item:last-child");
-observer.observe(lastItem);
-
-function updateObserver() {
-  const lastItem = document.querySelector(".grid-item:last-child");
-  observer.unobserve(lastItem);
-  if (hasNextPage) {
-    observer.observe(lastItem);
+    isWaitingForData = false;
   }
 }
 
-function displayAttractions(attractions, keyword, isKeywordSearch = false) {
+function displayAttractions(attractions, keyword, refresh = false) {
+  lastItem = document.querySelector(".grid-item:last-child");
+
   const attractionsContainer = document.querySelector(".attractions-group");
-  if (isKeywordSearch) {
+  if (refresh) {
+    currentPage == 0;
     attractionsContainer.innerHTML = "";
   }
   if (attractions.length === 0) {
@@ -174,11 +138,51 @@ function displayAttractions(attractions, keyword, isKeywordSearch = false) {
         <p>${attraction.category}</p>
     </div>
 `;
+      gridItem.addEventListener("click", () => {
+        window.location.href = `/attraction/${attraction.id}`;
+      });
       attractionsContainer.appendChild(gridItem);
     });
   }
+
+  newItem = document.querySelector(".grid-item:last-child");
+
+  if (lastItem) observer.unobserve(lastItem);
   if (hasNextPage) {
-    updateObserver();
+    if (newItem) observer.observe(newItem);
+  }
+}
+
+const observer = new IntersectionObserver(
+  (entries) => {
+    const firstEntry = entries[0];
+
+    if (firstEntry.isIntersecting && hasNextPage && !isWaitingForData) {
+      const keywordInputValue = searchInput.value;
+      //調用fetch函式的時候使用非同步加載
+      fetchGetAttractions(keywordInputValue, currentPage + 1).then(() => {});
+    }
+  },
+  { threshold: 0.5 }
+);
+
+function search(event) {
+  event.preventDefault();
+  if (isWaitingForData) return;
+
+  isWaitingForData = true;
+  currentPage = 0;
+
+  const keywordInputValue = searchInput.value;
+
+  fetchGetAttractions(keywordInputValue, currentPage, true).then(() => {});
+  console.log(keywordInputValue);
+}
+
+function enterPress(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    search(event);
   }
 }
 
@@ -211,16 +215,50 @@ function gotoSignin(event) {
 
 function leftScroll(event) {
   event.preventDefault();
-
-  const scrollableContainer = document.getElementById("scrollable-container");
-  scrollableContainer.scrollLeft -= 300;
+  const scrollDistance = getSrollDistance();
+  scrollableContainer.scrollLeft -= scrollDistance;
   console.log("Scrolled left to:", scrollableContainer.scrollLeft);
 }
 
 function rightScroll(event) {
   event.preventDefault();
-
-  const scrollableContainer = document.getElementById("scrollable-container");
-  scrollableContainer.scrollLeft += 300;
+  const scrollDistance = getSrollDistance();
+  scrollableContainer.scrollLeft += scrollDistance;
   console.log("Scrolled right to:", scrollableContainer.scrollLeft);
+}
+
+function getSrollDistance() {
+  const width = window.innerWidth;
+  if (width >= 601 && width <= 1200) {
+    return 200;
+  } else if (width >= 360 && width <= 600) {
+    return 100;
+  } else {
+    return 400;
+  }
+}
+
+function mousedown(event) {
+  isDown = true;
+  startX = event.pageX - scrollableContainer.offsetLeft;
+  scrollLeft = scrollableContainer.scrollLeft;
+  scrollableContainer.style.cursor = "grabbing";
+}
+
+function mouseleave() {
+  isDown = false;
+  scrollableContainer.style.cursor = "grab";
+}
+
+function mouseup() {
+  isDown = false;
+  scrollableContainer.style.cursor = "grab";
+}
+
+function mousemove(event) {
+  if (!isDown) return;
+  event.preventDefault;
+  const x = event.pageX - scrollableContainer.offsetLeft;
+  const speed = (x - startX) * 1.5;
+  scrollableContainer.scrollLeft = scrollLeft - speed;
 }

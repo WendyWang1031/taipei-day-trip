@@ -4,12 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Attraction</title>
-    <link rel="stylesheet" href="./styles/style.css" />
+    <link rel="stylesheet" href="/static/styles/style.css" />
   </head>
   <body>
     <header class="navigation sticky">
       <div class="navi-content">
-        <h2 class="navi-header">台北一日遊</h2>
+        <a href="/" class="navi-link">
+          <h2 class="navi-header">台北一日遊</h2>
+        </a>
+
         <div class="header-button-area">
           <div class="header-2-buttons-area">
             <button class="reservation">預定行程</button>
@@ -18,12 +21,141 @@
         </div>
       </div>
     </header>
-    <section class="location">
-      <div class="location-image">
-        <img
-          src="/static/images/image/892379fe-a6f7-494a-b205-c84ea5e6d07d.webp"
-          alt="景點圖片"
-        />
+    <section class="indivisual-location">
+      <div class="location">
+        <div class="pic-area">
+          <div class="location-image-area">
+            <!-- <img
+              src="/static/images/image/892379fe-a6f7-494a-b205-c84ea5e6d07d.webp"
+              alt="景點圖片"
+              class="fade"
+            />
+            <img
+              src="/static/images/image/welcome_image.svg"
+              alt="景點圖片"
+              class="fade"
+              style="display: none"
+            />
+            <img
+              src="/static/images/icon/icon_calendar.png"
+              alt="景點圖片"
+              class="fade"
+              style="display: none"
+            /> -->
+          </div>
+          <div class="circle-btn-area">
+            <div class="circle-container">
+              <!-- <img src="./images/icon/circle-this.png" alt="" />
+              <img src="./images/icon/circle current.png" alt="" />
+              <img src="./images/icon/circle current.png" alt="" /> -->
+            </div>
+          </div>
+          <button class="left-btn">
+            <img
+              src="/static/images/icon/ArrowLeft_Default.png"
+              alt="pic-left-btn"
+            />
+          </button>
+          <button class="right-btn">
+            <img
+              src="/static/images/icon/ArrowRight_Default.png"
+              alt="pic-right-btn"
+            />
+          </button>
+        </div>
+
+        <div class="profile">
+          <h1 class="attraction-name">景點名稱</h1>
+          <div class="profile-p">
+            <p class="category">景點類型</p>
+            at
+            <p class="attraction-mrt">捷運站</p>
+          </div>
+
+          <form class="booking">
+            <p class="tour-title">訂購導覽行程</p>
+            <p class="tour-content">
+              以此景點為中心的一日行程，帶您探索城市角落故事
+            </p>
+            <div class="time">
+              <label for="start">選擇日期：</label>
+              <input
+                type="date"
+                id="start"
+                name="trip-start"
+                required
+                pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
+              />
+            </div>
+            <div class="choose-day">
+              選擇時間：
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="inlineRadioOptions"
+                  id="inlineRadio1"
+                  value="option1"
+                />
+                <label class="form-check-label" for="inlineRadio1"
+                  >上半天</label
+                >
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="inlineRadioOptions"
+                  id="inlineRadio2"
+                  value="option2"
+                />
+                <label class="form-check-label" for="inlineRadio2"
+                  >下半天</label
+                >
+              </div>
+            </div>
+            <div class="price">
+              導覽費用：
+              <p class="fee">新台幣 2000 元</p>
+            </div>
+            <div class="reservation-btn">
+              <button>開始預約行程</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <div class="seperate">
+      <hr />
+    </div>
+
+    <section class="description-area">
+      <div class="dis-content">
+        <div class="content">
+          景點敘述Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quis
+          sint autem, iste quia incidunt atque ut debitis nobis voluptas neque
+          magnam, quidem officia fuga odit? Cum asperiores molestias praesentium
+          et!
+        </div>
+        <div class="address">
+          景點地址：
+          <div class="address-detail">
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid
+            labore tempora exercitationem vitae nobis omnis obcaecati amet
+            repellendus hic cupiditate? Reprehenderit nisi labore ad
+            perferendis, atque sit eos odit doloribus.
+          </div>
+        </div>
+        <div class="transportation">
+          交通方式：
+          <div class="transportation-detail">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia fugit
+            vero magnam? Perferendis, harum officia. Animi quae ratione
+            assumenda impedit unde veritatis magni ipsam, rerum, culpa sequi
+            quos doloremque quaerat!
+          </div>
+        </div>
       </div>
     </section>
 
@@ -33,7 +165,7 @@
           <div class="decorator-bar"></div>
           <div class="close">
             <button class="close-sigin">
-              <img src="./images/icon/icon_close.png" alt="close" />
+              <img src="/static/images/icon/icon_close.png" alt="close" />
             </button>
 
             <h1>登入會員帳號</h1>
@@ -63,7 +195,7 @@
           <div class="decorator-bar"></div>
           <div class="close">
             <button class="close-sigup">
-              <img src="./images/icon/icon_close.png" alt="close" />
+              <img src="/static/images/icon/icon_close.png" alt="close" />
             </button>
             <h1>註冊會員帳號</h1>
           </div>
@@ -96,5 +228,5 @@
       <p>COPYRIGHT © 2024 台北一日遊</p>
     </footer>
   </body>
-  <script src="/app.js"></script>
+  <script src="/static/attraction.js"></script>
 </html>

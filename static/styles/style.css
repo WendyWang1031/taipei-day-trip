@@ -28,6 +28,7 @@ header.navigation {
   margin: 0 auto;
   height: 54px;
   width: 100%;
+  border: 1px solid #e8e8e8;
   margin: 0 auto;
   position: sticky;
   top: 0;
@@ -40,7 +41,11 @@ header.navigation div.navi-content {
   justify-content: space-between;
   width: 1200px;
 }
-header.navigation div.navi-content h2.navi-header {
+header.navigation div.navi-content a.navi-link {
+  text-decoration: none;
+  color: inherit;
+}
+header.navigation div.navi-content a.navi-link h2.navi-header {
   font-family: Noto Sans TC;
   font-size: 30px;
   font-weight: 700;
@@ -248,12 +253,22 @@ section.list-bar .list-content .left-container:hover img {
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 40px;
 }
+.attractions .attractions-group .grid-item:hover {
+  transition: 0.1s;
+  color: #d3d3d3;
+  box-shadow: 0px 0px 10px #888888;
+}
 .attractions .attractions-group .grid-item {
   border: 1px solid #e8e8e8;
   display: flex;
   flex-direction: column;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out;
+}
+.attractions .attractions-group .grid-item:active {
+  transform: scale(1.05);
 }
 .attractions .attractions-group .grid-item .img {
   position: relative;
@@ -296,6 +311,317 @@ section.list-bar .list-content .left-container:hover img {
   transform: translate(0, 2px);
   color: #757575;
   text-align: center;
+}
+
+section.indivisual-location {
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+}
+section.indivisual-location div.location {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 1200px;
+}
+section.indivisual-location div.location .pic-area {
+  position: relative;
+  width: 50%;
+  height: 400px;
+  margin-right: 40px;
+}
+section.indivisual-location div.location .pic-area .left-btn,
+section.indivisual-location div.location .pic-area .right-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.1s ease-in-out;
+}
+section.indivisual-location div.location .pic-area .left-btn img,
+section.indivisual-location div.location .pic-area .right-btn img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  animation: none !important;
+}
+section.indivisual-location div.location .pic-area .left-btn:active,
+section.indivisual-location div.location .pic-area .right-btn:active {
+  transform: translateY(-50%) scale(1.2);
+}
+section.indivisual-location div.location .pic-area .left-btn {
+  left: 10px;
+}
+section.indivisual-location div.location .pic-area .right-btn {
+  right: 10px;
+}
+section.indivisual-location div.location .pic-area .location-image-area {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+section.indivisual-location div.location .pic-area .location-image-area img.fade {
+  animation: fadeEffect 1s;
+}
+@keyframes fadeEffect {
+  from {
+    opacity: 0.6;
+  }
+  to {
+    opacity: 1;
+  }
+}
+section.indivisual-location div.location .pic-area .location-image-area img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  overflow: hidden;
+}
+section.indivisual-location div.location .pic-area .circle-btn-area {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+section.indivisual-location div.location .pic-area .circle-btn-area .circle-container {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  width: 12px;
+  height: 12px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+section.indivisual-location div.location .pic-area .circle-btn-area .circle-container img {
+  width: 100%;
+  height: 100%;
+  margin-right: 5px;
+}
+section.indivisual-location div.location .pic-area .circle-btn-area .circle-container img:last-child {
+  margin-right: 0;
+}
+section.indivisual-location div.location .profile {
+  width: 50%;
+  height: 400px;
+  display: block;
+}
+section.indivisual-location div.location .profile .attraction-name {
+  font-family: Noto Sans TC;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 24px;
+  text-align: left;
+  color: #666666;
+  margin: 5px auto;
+}
+section.indivisual-location div.location .profile .profile-p {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+  font-family: Noto Sans TC;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 13.3px;
+  text-align: left;
+  color: #666666;
+}
+section.indivisual-location div.location .profile .profile-p .category {
+  margin-right: 5px;
+}
+section.indivisual-location div.location .profile .profile-p .attraction-mrt {
+  margin-left: 5px;
+}
+section.indivisual-location div.location .profile .profile-p .category {
+  color: #666666;
+}
+section.indivisual-location div.location .profile .profile-p .attraction-mrt {
+  color: #666666;
+}
+section.indivisual-location div.location .profile .booking {
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #e8e8e8;
+  height: 302px;
+}
+section.indivisual-location div.location .profile .booking .tour-title {
+  font-family: Noto Sans TC;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: left;
+  color: #666666;
+  margin-bottom: 15px;
+}
+section.indivisual-location div.location .profile .booking .tour-content {
+  font-family: Noto Sans TC;
+  font-size: 16px;
+  font-weight: 400;
+  text-align: left;
+  color: #666666;
+  margin-bottom: 15px;
+}
+section.indivisual-location div.location .profile .booking .time {
+  margin-bottom: 15px;
+  font-family: Noto Sans TC;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: left;
+  color: #666666;
+}
+section.indivisual-location div.location .profile .booking .time input[type=date] {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-family: Noto Sans TC;
+  font-size: 16px;
+  font-weight: 400;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  text-align: left;
+  position: relative;
+  z-index: 1;
+  width: 193px;
+}
+section.indivisual-location div.location .profile .booking .time input[type=date]::-webkit-calendar-picker-indicator {
+  background: url("../images/icon/icon_calendar.png") no-repeat;
+  color: transparent;
+  z-index: 2;
+  width: 20px;
+  height: 20px;
+  border-width: thin;
+}
+section.indivisual-location div.location .profile .booking .choose-day {
+  display: flex;
+  margin-bottom: 15px;
+  font-family: Noto Sans TC;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: left;
+  color: #666666;
+}
+section.indivisual-location div.location .profile .booking .choose-day label {
+  margin-left: 10px;
+}
+section.indivisual-location div.location .profile .booking .choose-day .form-check-input:checked + .form-check-label::before {
+  background-color: #448899;
+  border-color: #448899;
+}
+section.indivisual-location div.location .profile .booking .choose-day .form-check-input {
+  display: none;
+}
+section.indivisual-location div.location .profile .booking .choose-day .form-check-label::before {
+  content: "";
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  background-color: #fff;
+  vertical-align: middle;
+  cursor: pointer;
+}
+section.indivisual-location div.location .profile .booking .price {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  font-family: Noto Sans TC;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: left;
+  color: #666666;
+}
+section.indivisual-location div.location .profile .booking .price .fee {
+  margin-left: 10px;
+  font-family: Noto Sans TC;
+  font-size: 16px;
+  font-weight: 400;
+  text-align: left;
+}
+section.indivisual-location div.location .profile .booking .reservation-btn {
+  display: flex;
+  justify-content: flex-start;
+  margin: 20px 0;
+}
+section.indivisual-location div.location .profile .booking .reservation-btn button {
+  width: 154px;
+  height: 36px;
+  font-family: Noto Sans TC;
+  font-size: 19px;
+  font-weight: 400;
+  text-align: center;
+  background-color: #448899;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 10px, 20px, 10px, 20px;
+}
+section.indivisual-location div.location .profile .booking .reservation-btn button:hover {
+  background-color: #2b5762;
+}
+
+div.seperate {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+div.seperate hr {
+  width: 1200px;
+  border: 1px solid #e8e8e8;
+  margin: 40px 0;
+}
+
+section.description-area {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+section.description-area div.dis-content {
+  width: 1200px;
+  margin: 10px;
+  font-family: Noto Sans TC;
+  font-size: 16px;
+  font-weight: 400;
+  text-align: left;
+  color: #666666;
+}
+section.description-area div.dis-content div.content {
+  margin-bottom: 20px;
+}
+section.description-area div.dis-content div.address,
+section.description-area div.dis-content div.transportation {
+  margin-bottom: 20px;
+  font-family: Noto Sans TC;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: left;
+}
+section.description-area div.dis-content div.address div,
+section.description-area div.dis-content div.transportation div {
+  font-family: Noto Sans TC;
+  font-size: 16px;
+  font-weight: 400;
+  text-align: left;
+  color: #666666;
 }
 
 .signin-mask {
@@ -550,6 +876,42 @@ section.list-bar .list-content .left-container:hover img {
     width: 90% !important;
     grid-template-columns: repeat(2, 1fr);
   }
+  section.indivisual-location {
+    width: 100% !important;
+  }
+  section.indivisual-location div.location {
+    display: flex;
+    justify-content: space-around;
+    width: 90% !important;
+  }
+  section.indivisual-location div.location .pic-area {
+    margin-right: 20px;
+  }
+  section.indivisual-location div.location .profile {
+    margin-top: 30px;
+  }
+  section.indivisual-location div.location .profile .booking {
+    margin-bottom: 0;
+  }
+  section.indivisual-location div.location .profile .booking .tour-title,
+  section.indivisual-location div.location .profile .booking .tour-content,
+  section.indivisual-location div.location .profile .booking .choose-day,
+  section.indivisual-location div.location .profile .booking .time,
+  section.indivisual-location div.location .profile .booking .price {
+    font-size: 14px;
+  }
+  section.indivisual-location div.location .profile .booking .time {
+    margin-bottom: 10px;
+  }
+  section.indivisual-location div.location .profile .booking .time input {
+    width: 60% !important;
+  }
+  section.description-area {
+    width: 100%;
+  }
+  section.description-area div.dis-content {
+    width: 90%;
+  }
 }
 @media (min-width: 360px) and (max-width: 600px) {
   header.navigation {
@@ -560,7 +922,7 @@ section.list-bar .list-content .left-container:hover img {
   }
   header.navigation .navi-content .header-button-area .header-2-buttons-area button {
     padding: 0 !important;
-    font-size: 1.4vh !important;
+    font-size: 0.9rem !important;
   }
   section.welcome-area {
     width: 100%;
@@ -584,15 +946,50 @@ section.list-bar .list-content .left-container:hover img {
     width: 90% !important;
     grid-template-columns: repeat(1, 1fr);
   }
+  section.indivisual-location {
+    width: 100% !important;
+    margin-top: 0;
+  }
+  section.indivisual-location div.location {
+    width: 100% !important;
+    flex-direction: column;
+    align-items: center;
+  }
+  section.indivisual-location div.location .pic-area {
+    width: 100%;
+    margin-right: 0;
+  }
+  section.indivisual-location div.location .profile {
+    width: 95%;
+    margin-top: 30px;
+  }
+  section.indivisual-location div.location .profile .booking .price {
+    margin-bottom: 30px;
+  }
+  section.indivisual-location div.location .profile .booking .reservation-btn {
+    margin: 0;
+  }
+  div.seperate hr {
+    margin: 20px 0;
+  }
 }
 @media (min-width: 360px) and (max-width: 390px) {
   .navi-content {
     font-size: 100% !important;
   }
-  .navi-content h2 {
-    font-size: 2.3vh !important;
+  .navi-content a.navi-link h2 {
+    font-size: 2rem !important;
   }
   .navi-content .header-button-area .header-2-buttons-area button {
-    font-size: 1.2vh !important;
+    font-size: 1.1rem !important;
+  }
+  section.indivisual-location div.location .pic-area {
+    height: 350px;
+  }
+  section.indivisual-location div.location .profile {
+    margin-top: 15px;
+  }
+  section.indivisual-location div.location .profile .booking .price {
+    margin-bottom: 15px;
   }
 }/*# sourceMappingURL=style.css.map */
