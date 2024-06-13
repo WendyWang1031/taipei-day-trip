@@ -130,22 +130,22 @@ function displayCircleUI() {
   });
 }
 
-function imagesTurnLeft(event) {
-  event.preventDefault();
-  const images = document.querySelectorAll(".location-image-area img");
-
-  images[currentImageIndex].style.display = "none";
-  currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
-  images[currentImageIndex].style.display = "block";
-  updateCirclesUI(currentImageIndex);
-}
-
 function imagesTurnRight(event) {
   event.preventDefault();
   const images = document.querySelectorAll(".location-image-area img");
 
   images[currentImageIndex].style.display = "none";
   currentImageIndex = (currentImageIndex + 1 + images.length) % images.length;
+  images[currentImageIndex].style.display = "block";
+  updateCirclesUI(currentImageIndex);
+}
+
+function imagesTurnLeft(event) {
+  event.preventDefault();
+  const images = document.querySelectorAll(".location-image-area img");
+
+  images[currentImageIndex].style.display = "none";
+  currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
   images[currentImageIndex].style.display = "block";
   updateCirclesUI(currentImageIndex);
 }
