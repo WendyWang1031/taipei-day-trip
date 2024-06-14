@@ -4,12 +4,14 @@ from pydantic import BaseModel , Field
 from typing import List , Optional 
 from db import get_attractions_for_pages , get_attractions_for_id , get_mrts
 from fastapi.staticfiles import StaticFiles
-import logging
+import logging , redis , json
 from starlette.middleware.base import BaseHTTPMiddleware
+
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 logging.basicConfig(level=logging.INFO , format='%(asctime)s - %(message)s' , filename= 'app.log')
+r = redis.Redis(host="localhost" , port=6379 , db=0)
 
 #定義資料型別
 class LoggingMiddleware(BaseHTTPMiddleware):
@@ -246,8 +248,20 @@ async def attraction(
 async def attraction_for_id( attractionId: int = Path(..., description = "景點編號")):
 
 	try:
+		cached_data = r.get(f'attraction:{attractionId}')
+		if cached_data:
+			response = JSONResponse(
+				status_code = status.HTTP_200_OK,
+				content={
+					"data":json.loads(cached_data)
+				},
+				headers={"X-Cache":"Hit from Redis"})
+			
+			return response
+
 		data = get_attractions_for_id( attractionId )
 		# print(f"Data retrieved: {data}")
+		
 
 		if not data:
 			response = JSONResponse(
@@ -255,14 +269,20 @@ async def attraction_for_id( attractionId: int = Path(..., description = "景點
 			content={
 			"error":True,
 			"message":"沒有找到指定的景點"
-		})
+			
+			},
+			headers={"X-Cache":"Miss from Redis"})
+			
 			return response
-		else:
-			response = JSONResponse(
-				status_code = status.HTTP_200_OK,
-				content={
-					"data":data
-				})
+		
+		r.setex(f'attraction:{attractionId}' , 3600 , json.dumps(data))
+		
+		
+		response = JSONResponse(
+			status_code = status.HTTP_200_OK,
+			content={
+				"data":data
+			})
 		return response
 		
 	except ValueError as ve :
