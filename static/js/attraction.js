@@ -1,3 +1,4 @@
+// 登入
 const loginSigninBtn = document.querySelector(".login-signin");
 const closeSigninBtn = document.querySelector(".close-sigin");
 const gotoSignupBtn = document.querySelector(".go-to-signup");
@@ -6,13 +7,16 @@ const gotoSigninBtn = document.querySelector(".go-to-signin");
 const signinMask = document.querySelector(".signin-mask");
 const signupMask = document.querySelector(".signup-mask");
 
+// 圖片往左往右轉換
 const imagesLeftBtn = document.querySelector(".left-btn");
 const imagesRightBtn = document.querySelector(".right-btn");
 
+// 預約行程
 const feeElement = document.querySelector(".fee");
 const moringOption = document.getElementById("inlineRadio1");
 const AfternoonOption = document.getElementById("inlineRadio2");
 
+// 其餘
 const attractionIdURL = "/api/attraction";
 
 let currentImageIndex = 0;
@@ -92,9 +96,14 @@ function displayAttraction(attraction) {
 
 function displayImageUI(images) {
   const imgArea = document.querySelector(".location-image-area");
-  images.forEach((imgUrl, index) => {
-    const img = document.createElement("img");
+
+  const preloadedImages = images.map((imgUrl) => {
+    const img = new Image();
     img.src = imgUrl;
+    return img;
+  });
+
+  preloadedImages.forEach((img, index) => {
     img.alt = "景點圖片";
     img.className = "fade";
 
@@ -135,8 +144,10 @@ function imagesTurnRight(event) {
   const images = document.querySelectorAll(".location-image-area img");
 
   images[currentImageIndex].style.display = "none";
-  currentImageIndex = (currentImageIndex + 1 + images.length) % images.length;
-  images[currentImageIndex].style.display = "block";
+  nextImageIndex = (currentImageIndex + 1 + images.length) % images.length;
+  images[nextImageIndex].style.display = "block";
+
+  currentImageIndex = nextImageIndex;
   updateCirclesUI(currentImageIndex);
 }
 
@@ -145,8 +156,10 @@ function imagesTurnLeft(event) {
   const images = document.querySelectorAll(".location-image-area img");
 
   images[currentImageIndex].style.display = "none";
-  currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
-  images[currentImageIndex].style.display = "block";
+  nextImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+  images[nextImageIndex].style.display = "block";
+
+  currentImageIndex = nextImageIndex;
   updateCirclesUI(currentImageIndex);
 }
 
