@@ -9,13 +9,16 @@ const signupMask = document.querySelector(".signup-mask");
 signinMask.style.display = "none";
 signupMask.style.display = "none";
 
-// 各種功能性的函數呼叫
+document.addEventListener("DOMContentLoaded", initializePage);
 
-loginSigninBtn.addEventListener("click", loginSignin);
-closeSigninBtn.addEventListener("click", closeSignin);
-gotoSignupBtn.addEventListener("click", gotoSignup);
-closeSignupBtn.addEventListener("click", closeSignup);
-gotoSigninBtn.addEventListener("click", gotoSignin);
+// 各種功能性的函數呼叫
+function initializePage() {
+  loginSigninBtn.addEventListener("click", loginSignin);
+  closeSigninBtn.addEventListener("click", closeSignin);
+  gotoSignupBtn.addEventListener("click", gotoSignup);
+  closeSignupBtn.addEventListener("click", closeSignup);
+  gotoSigninBtn.addEventListener("click", gotoSignin);
+}
 
 function loginSignin(event) {
   event.preventDefault();
