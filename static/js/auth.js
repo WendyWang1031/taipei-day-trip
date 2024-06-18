@@ -61,7 +61,9 @@ async function fetchUserRegister(event) {
 
     if (response.ok) {
       console.log("註冊成功");
+      hintSignupMessage.style.display = "block";
       hintSignupMessage.textContent = "註冊成功，請登入會員";
+      hintSignupMessage.style.color = "#367688";
 
       clearSignupValue();
     } else {
@@ -157,38 +159,47 @@ function loginSignin(event) {
 
 function closeSignin(event) {
   event.preventDefault();
+  const hintSignupMessage = document.querySelector(".hint-signup-message");
   signinMask.style.display = "none";
+
+  hintSignupMessage.style.display = "none";
   clearSignupValue();
   clearSigninValue();
 }
 
 function gotoSignup(event) {
   event.preventDefault();
+  const hintSignupMessage = document.querySelector(".hint-signup-message");
   signinMask.style.display = "none";
   signupMask.style.display = "flex";
+
+  hintSignupMessage.style.display = "none";
   clearSignupValue();
   clearSigninValue();
 }
 
 function closeSignup(event) {
   event.preventDefault();
+  const hintSignupMessage = document.querySelector(".hint-signup-message");
   signupMask.style.display = "none";
+
+  hintSignupMessage.style.display = "none";
   clearSignupValue();
   clearSigninValue();
 }
 
 function gotoSignin(event) {
   event.preventDefault();
+  const hintSignupMessage = document.querySelector(".hint-signup-message");
   signupMask.style.display = "none";
   signinMask.style.display = "flex";
+
+  hintSignupMessage.style.display = "none";
   clearSignupValue();
   clearSigninValue();
 }
 
 function clearSignupValue() {
-  const hintSignupMessage = document.querySelector(".hint-signup-message");
-  hintSignupMessage.style.display = "none";
-
   document.getElementById("signup-name").value = "";
   document.getElementById("signup-email").value = "";
   document.getElementById("signup-password").value = "";
