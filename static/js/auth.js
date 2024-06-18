@@ -32,7 +32,7 @@ function initializePage() {
   signInForm.addEventListener("submit", fetchUserSignIn);
 
   logout.addEventListener("click", logOut);
-  // displayLogInLogOut();
+
   fetchCheckUserState();
 }
 
@@ -114,7 +114,7 @@ async function fetchUserSignIn(event) {
   }
 }
 
-async function fetchCheckUserState(event) {
+async function fetchCheckUserState() {
   try {
     const response = await fetch(userSignInUrl, {
       method: "GET",
