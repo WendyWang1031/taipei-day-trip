@@ -9,6 +9,9 @@ const signupMask = document.querySelector(".signup-mask");
 const registerForm = document.querySelector(".signup");
 const signInForm = document.querySelector(".signin");
 
+const loginAndSignin = document.querySelector(".login-signin");
+const logout = document.querySelector(".logout");
+
 signinMask.style.display = "none";
 signupMask.style.display = "none";
 
@@ -27,6 +30,9 @@ function initializePage() {
 
   registerForm.addEventListener("submit", fetchUserRegister);
   signInForm.addEventListener("submit", fetchUserSignIn);
+
+  logout.addEventListener("click", logOut);
+  displayLogInLogOut();
 }
 
 async function fetchUserRegister(event) {
@@ -54,7 +60,7 @@ async function fetchUserRegister(event) {
 
     if (response.ok) {
       console.log("註冊成功");
-      hintSignupMessage.textContent = "註冊成功";
+      hintSignupMessage.textContent = "註冊成功，請登入會員";
 
       clearSignupValue();
     } else {
@@ -89,14 +95,40 @@ async function fetchUserSignIn(event) {
 
     if (response.ok) {
       console.log("登入成功");
-      hintSigninMessage.textContent = "登入成功";
+      hintSigninMessage.textContent = "登入成功！";
+      hintSigninMessage.style.color = "#367688";
+      hintSigninMessage.style.display = "block";
+
+      localStorage.setItem("userToken", data.token);
+
+      window.location.reload();
     } else {
       hintSigninMessage.textContent = data.message;
       hintSigninMessage.style.display = "block";
     }
   } catch (error) {
-    console.error("Error Registering user:", error);
+    console.error("Error Signin in:", error);
+    hintSigninMessage.textContent = "網路錯誤，無法完成登入。";
+    hintSigninMessage.style.display = "block";
   }
+}
+
+function displayLogInLogOut() {
+  if (localStorage.getItem("userToken")) {
+    loginAndSignin.style.display = "none";
+    logout.style.display = "flex";
+  } else {
+    loginAndSignin.style.display = "flex";
+    logout.style.display = "none";
+  }
+}
+
+function logOut() {
+  localStorage.removeItem("userToken");
+  loginAndSignin.style.display = "flex";
+  logout.style.display = "none";
+
+  window.location.href = "/";
 }
 
 function loginSignin(event) {
