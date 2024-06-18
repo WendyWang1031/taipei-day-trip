@@ -1,11 +1,16 @@
 from fastapi import *
 from fastapi.responses import FileResponse , JSONResponse
 from pydantic import BaseModel , Field 
-from typing import List , Optional 
-from db import get_attractions_for_pages , get_attractions_for_id , get_mrts
+from typing import List , Optional ,Annotated
 from fastapi.staticfiles import StaticFiles
 import logging , redis , json
+import bcrypt
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from jose import jwt , JWTError
+from datetime import datetime , timedelta
 from starlette.middleware.base import BaseHTTPMiddleware
+
+from db import get_attractions_for_pages , get_attractions_for_id , get_mrts , insert_new_user , check_email_password ,check_user_email_exists 
 
 
 app = FastAPI()
@@ -42,16 +47,17 @@ class UserBase(BaseModel):
 	email: str = Field(... , example="ply@ply.com")
 	password: str = Field(... , example="12345678")	
 
-# user_instance = UserBase(email="123@gmail" , password="123")
-# print(user_instance)
 
 class UserCreate(BaseModel):
 	name: str = Field(... , example="彭彭彭")
 	email: str = Field(... , example="ply@ply.com")
 	password: str = Field(... , example="12345678")	
 
+SECRET_KEY = "YOUR_SECRET_KEY"
+ALGORITHM = "HS256"
+
 class UserRead(BaseModel):
-	id: int = Field(...,example=1)
+	id: str = Field(...,example=1)
 	name: str = Field(... , example="彭彭彭")
 	email: str = Field(... , example="ply@ply.com")				
 
@@ -78,6 +84,28 @@ class ErrorResponse(BaseModel):
 	error : bool = Field(True, description = "指示是否為錯誤響應")
 	message : str = Field(..., description = "錯誤訊息描述" , example="請按照情境提供對應的錯誤訊息")
 
+def create_access_token(data: dict , expires_delta: timedelta = timedelta(days = 7)):
+	to_encode = data.copy()
+	if expires_delta:
+		expire = datetime.utcnow() + expires_delta
+	else:
+		expire = datetime.utcnow() + timedelta(minutes = 60)
+	to_encode.update({"exp":expire})
+	encoded_jwt = jwt.encode(to_encode , SECRET_KEY , algorithm=ALGORITHM)
+	return encoded_jwt
+
+def decode_access_token(token: str):
+	try:
+		payload = jwt.decode(token , SECRET_KEY , algorithms=[ALGORITHM])
+		return payload
+	except JWTError:
+		raise HTTPException(status_code=403, detail="Invalid credentials")
+
+security = HTTPBearer()
+
+def get_current_user(token: HTTPAuthorizationCredentials = Security(security)):
+	return decode_access_token(token.credentials)
+
 @app.post("/api/user" , 
 		 tags= ["User"],
 		 response_model = UserCreate ,
@@ -97,14 +125,47 @@ class ErrorResponse(BaseModel):
 				"description" : "伺服器內部錯誤"
 			}
 		 })
-async def member_register():
+async def user_register( name :  Annotated[str, Form()] , email :  Annotated[str, Form()] , password :  Annotated[str, Form()]):
 	try:
-		response = JSONResponse(
-		status_code = status.HTTP_200_OK,
+		user_exists = check_user_email_exists(email)
+		
+		if user_exists is True :
+			response = JSONResponse(
+		status_code = status.HTTP_400_BAD_REQUEST,
 		content={
-			"ok":True
+			"error":True,
+			"message":"Email already exists"
 		})
-		return response
+			return response
+
+		
+		
+		elif user_exists is False:
+			hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+			if insert_new_user(name , email , hashed_password):
+				response = JSONResponse(
+				status_code = status.HTTP_200_OK,
+				content={
+					"ok":True
+				})
+				return response
+			else:
+				response = JSONResponse(
+				status_code = status.HTTP_500_INTERNAL_SERVER_ERROR,
+				content={
+					"error":True,
+					"message":"Failed to create user due to a server error"
+				})
+				return response
+		else:
+			response = JSONResponse(
+			status_code = status.HTTP_500_INTERNAL_SERVER_ERROR,
+			content={
+				"error":True,
+				"message":"Failed to perform th check due to a database error"
+			})
+			return response
+		
 	except Exception as e :
 		response = JSONResponse(
 		status_code = status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -126,12 +187,13 @@ async def member_register():
 				"description" : "已登入的會員資料，null 表示未登入"
 			}
 		 })
-async def get_member():
+async def get_user(user: dict = Depends(get_current_user)):
 	try:
+		user_model = UserRead(**user)
 		response = JSONResponse(
 		status_code = status.HTTP_200_OK,
 		content={
-			"ok":True
+			"data":user_model.dict()
 		})
 		return response
 	except Exception as e :
@@ -162,14 +224,40 @@ async def get_member():
 				"description" : "伺服器內部錯誤"
 			}
 		 })
-async def member_signin():
+async def user_signin( email :  str = Form(...) , password :  str = Form(...)):
 	try:
+		user_info = check_email_password(email , password)
+		if user_info:
+			access_token = create_access_token(
+				data={"id": user_info['id'] , 
+		  			"name" :user_info['name'], 
+		  			"email": user_info['email']}
+			) 
+	
+			response = JSONResponse(
+			status_code = status.HTTP_200_OK,
+			content={
+				"token":access_token
+			})
+			return response
+			
+		else:
+			response = JSONResponse(
+			status_code = status.HTTP_400_BAD_REQUEST,
+			content={
+				"error":True,
+				"message":"Invalid email or password"
+			})
+			return response
+	
+	except KeyError as e:
 		response = JSONResponse(
-		status_code = status.HTTP_200_OK,
-		content={
-			"ok":True
-		})
+			status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
+			content={"error": True, 
+					"message": f"Missing key {e}"}
+					)
 		return response
+
 	except Exception as e :
 		response = JSONResponse(
 		status_code = status.HTTP_500_INTERNAL_SERVER_ERROR,
