@@ -32,7 +32,8 @@ function initializePage() {
   signInForm.addEventListener("submit", fetchUserSignIn);
 
   logout.addEventListener("click", logOut);
-  displayLogInLogOut();
+  // displayLogInLogOut();
+  fetchCheckUserState();
 }
 
 async function fetchUserRegister(event) {
@@ -113,13 +114,31 @@ async function fetchUserSignIn(event) {
   }
 }
 
-function displayLogInLogOut() {
-  if (localStorage.getItem("userToken")) {
-    loginAndSignin.style.display = "none";
-    logout.style.display = "flex";
-  } else {
-    loginAndSignin.style.display = "flex";
-    logout.style.display = "none";
+async function fetchCheckUserState(event) {
+  try {
+    const response = await fetch(userSignInUrl, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      if (data.data) {
+        loginAndSignin.style.display = "none";
+        logout.style.display = "flex";
+      } else {
+        loginAndSignin.style.display = "flex";
+        logout.style.display = "none";
+      }
+    } else {
+      console.error("驗證用戶狀態失敗：", data.message);
+    }
+  } catch (error) {
+    console.error("Error Checking User's State:", error);
   }
 }
 
