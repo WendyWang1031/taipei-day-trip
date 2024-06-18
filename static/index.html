@@ -89,6 +89,15 @@
               name="signin-password"
               id="signin-password"
             />
+            <div
+              class="hint-signin-message"
+              style="
+                color: red;
+                display: none;
+                text-align: center;
+                margin-bottom: 10px;
+              "
+            ></div>
             <button class="signin-button">登入帳戶</button>
             <button class="go-to-signup">還沒有帳戶？點此註冊</button>
           </div>
@@ -111,19 +120,31 @@
               placeholder="輸入姓名"
               name="signup-name"
               id="signup-name"
+              required
             />
             <input
               type="text"
               placeholder="輸入電子信箱"
               name="signup-email"
               id="signup-email"
+              required
             />
             <input
               type="password"
               placeholder="輸入密碼"
               name="signup-password"
-              id="signsignupin-password"
+              id="signup-password"
+              required
             />
+            <div
+              class="hint-signup-message"
+              style="
+                color: red;
+                display: none;
+                text-align: center;
+                margin-bottom: 10px;
+              "
+            ></div>
             <button class="signup-button">註冊新帳戶</button>
             <button class="go-to-signin">已經有新帳戶了？點此登入</button>
           </div>
