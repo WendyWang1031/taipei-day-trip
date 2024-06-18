@@ -689,6 +689,7 @@ section.description-area div.dis-content div.transportation div {
 .signin-mask form.signin .sign-content .main {
   padding: 15px;
 }
+.signin-mask form.signin .sign-content .main input[type=email],
 .signin-mask form.signin .sign-content .main input[type=text],
 .signin-mask form.signin .sign-content .main input[type=password] {
   width: 100%;
@@ -698,6 +699,7 @@ section.description-area div.dis-content div.transportation div {
   border-radius: 5px;
   color: #757575;
 }
+.signin-mask form.signin .sign-content .main input[type=email]:focus,
 .signin-mask form.signin .sign-content .main input[type=text]:focus,
 .signin-mask form.signin .sign-content .main input[type=password]:focus {
   border-color: #448899;
@@ -791,6 +793,7 @@ section.description-area div.dis-content div.transportation div {
 .signup-mask form.signup .signup-content .main {
   padding: 15px;
 }
+.signup-mask form.signup .signup-content .main input[type=email],
 .signup-mask form.signup .signup-content .main input[type=text],
 .signup-mask form.signup .signup-content .main input[type=password] {
   width: 100%;
@@ -800,6 +803,7 @@ section.description-area div.dis-content div.transportation div {
   border-radius: 5px;
   color: #757575;
 }
+.signup-mask form.signup .signup-content .main input[type=email]:focus,
 .signup-mask form.signup .signup-content .main input[type=text]:focus,
 .signup-mask form.signup .signup-content .main input[type=password]:focus {
   border-color: #448899;
