@@ -712,7 +712,7 @@ section.description-area {
   padding-top: 100px;
   z-index: 1000;
 
-  .signin {
+  form.signin {
     height: 275px;
     width: 340px;
     box-shadow: 0px 4px 60px 0px #aaaaaa;
@@ -830,7 +830,7 @@ section.description-area {
   padding-top: 100px;
   z-index: 1000;
 
-  .signup {
+  form.signup {
     width: 340px;
     height: auto;
     box-shadow: 0px 4px 60px 0px #aaaaaa;
