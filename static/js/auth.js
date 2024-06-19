@@ -69,6 +69,7 @@ async function fetchUserRegister(event) {
     } else {
       hintSignupMessage.textContent = data.message;
       hintSignupMessage.style.display = "block";
+      hintSignupMessage.style.color = "red";
     }
   } catch (error) {
     console.error("Error Registering user:", error);
@@ -108,6 +109,7 @@ async function fetchUserSignIn(event) {
     } else {
       hintSigninMessage.textContent = data.message;
       hintSigninMessage.style.display = "block";
+      hintSigninMessage.style.color = "red";
     }
   } catch (error) {
     console.error("Error Signin in:", error);
