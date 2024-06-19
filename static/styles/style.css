@@ -662,7 +662,7 @@ section.description-area div.dis-content div.transportation div {
   justify-content: space-between;
   position: relative;
 }
-.signin-mask form.signin .sign-content .close .close-sigin img {
+.signin-mask form.signin .sign-content .close .close-signin img {
   cursor: pointer;
   width: 20px;
   height: 20px;
@@ -671,7 +671,7 @@ section.description-area div.dis-content div.transportation div {
   top: -5px;
   transition: transform 0.1s ease-in-out;
 }
-.signin-mask form.signin .sign-content .close .close-sigin img:active {
+.signin-mask form.signin .sign-content .close .close-signin img:active {
   transform: scale(1.2);
 }
 .signin-mask form.signin .sign-content .close h1 {
@@ -768,7 +768,7 @@ section.description-area div.dis-content div.transportation div {
   justify-content: space-between;
   position: relative;
 }
-.signup-mask form.signup .signup-content .close button.close-sigup img {
+.signup-mask form.signup .signup-content .close button.close-signup img {
   cursor: pointer;
   width: 20px;
   height: 20px;
@@ -777,7 +777,7 @@ section.description-area div.dis-content div.transportation div {
   top: -5px;
   transition: transform 0.1s ease-in-out;
 }
-.signup-mask form.signup .signup-content .close button.close-sigup img:active {
+.signup-mask form.signup .signup-content .close button.close-signup img:active {
   transform: scale(1.2);
 }
 .signup-mask form.signup .signup-content .close h1 {
