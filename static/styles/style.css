@@ -638,31 +638,31 @@ section.description-area div.dis-content div.transportation div {
   padding-top: 100px;
   z-index: 1000;
 }
-.signin-mask .signin {
+.signin-mask form.signin {
   height: 275px;
   width: 340px;
   box-shadow: 0px 4px 60px 0px #aaaaaa;
   border-radius: 6px;
   margin: 0 auto;
 }
-.signin-mask .signin .sign-content {
+.signin-mask form.signin .sign-content {
   background: #f0f4f8;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-.signin-mask .signin .sign-content .decorator-bar {
+.signin-mask form.signin .sign-content .decorator-bar {
   height: 10px;
   background: linear-gradient(270deg, #337788 0%, #66aabb 100%);
   border-radius: 6px 6px 0px 0px;
   margin-bottom: 20px;
 }
-.signin-mask .signin .sign-content .close {
+.signin-mask form.signin .sign-content .close {
   display: flex;
   align-items: center;
   justify-content: space-between;
   position: relative;
 }
-.signin-mask .signin .sign-content .close .close-sigin img {
+.signin-mask form.signin .sign-content .close .close-signin img {
   cursor: pointer;
   width: 20px;
   height: 20px;
@@ -671,10 +671,10 @@ section.description-area div.dis-content div.transportation div {
   top: -5px;
   transition: transform 0.1s ease-in-out;
 }
-.signin-mask .signin .sign-content .close .close-sigin img:active {
+.signin-mask form.signin .sign-content .close .close-signin img:active {
   transform: scale(1.2);
 }
-.signin-mask .signin .sign-content .close h1 {
+.signin-mask form.signin .sign-content .close h1 {
   color: #666666;
   font-size: 24px;
   margin: 0;
@@ -686,11 +686,12 @@ section.description-area div.dis-content div.transportation div {
   line-height: 24px;
   text-align: center;
 }
-.signin-mask .signin .sign-content .main {
+.signin-mask form.signin .sign-content .main {
   padding: 15px;
 }
-.signin-mask .signin .sign-content .main input[type=text],
-.signin-mask .signin .sign-content .main input[type=password] {
+.signin-mask form.signin .sign-content .main input[type=email],
+.signin-mask form.signin .sign-content .main input[type=text],
+.signin-mask form.signin .sign-content .main input[type=password] {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
@@ -698,13 +699,14 @@ section.description-area div.dis-content div.transportation div {
   border-radius: 5px;
   color: #757575;
 }
-.signin-mask .signin .sign-content .main input[type=text]:focus,
-.signin-mask .signin .sign-content .main input[type=password]:focus {
+.signin-mask form.signin .sign-content .main input[type=email]:focus,
+.signin-mask form.signin .sign-content .main input[type=text]:focus,
+.signin-mask form.signin .sign-content .main input[type=password]:focus {
   border-color: #448899;
   outline: none;
 }
-.signin-mask .signin .sign-content .main .signin-button,
-.signin-mask .signin .sign-content .main .go-to-signup {
+.signin-mask form.signin .sign-content .main .signin-button,
+.signin-mask form.signin .sign-content .main .go-to-signup {
   width: 100%;
   padding: 10px;
   margin-bottom: 5px;
@@ -714,16 +716,16 @@ section.description-area div.dis-content div.transportation div {
   border-radius: 5px;
   cursor: pointer;
 }
-.signin-mask .signin .sign-content .main .signin-button:hover,
-.signin-mask .signin .sign-content .main .go-to-signup:hover {
+.signin-mask form.signin .sign-content .main .signin-button:hover,
+.signin-mask form.signin .sign-content .main .go-to-signup:hover {
   background-color: #346976;
 }
-.signin-mask .signin .sign-content .main .go-to-signup {
+.signin-mask form.signin .sign-content .main .go-to-signup {
   background-color: #f0f4f8;
   color: #666666;
   text-decoration: none;
 }
-.signin-mask .signin .sign-content .main .go-to-signup:hover {
+.signin-mask form.signin .sign-content .main .go-to-signup:hover {
   background-color: #dae0e5;
 }
 
@@ -741,7 +743,7 @@ section.description-area div.dis-content div.transportation div {
   padding-top: 100px;
   z-index: 1000;
 }
-.signup-mask .signup {
+.signup-mask form.signup {
   width: 340px;
   height: auto;
   box-shadow: 0px 4px 60px 0px #aaaaaa;
@@ -749,24 +751,24 @@ section.description-area div.dis-content div.transportation div {
   margin: 0 auto;
   background: #f0f4f8;
 }
-.signup-mask .signup .signup-content {
+.signup-mask form.signup .signup-content {
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   width: 100%;
 }
-.signup-mask .signup .signup-content .decorator-bar {
+.signup-mask form.signup .signup-content .decorator-bar {
   height: 10px;
   background: linear-gradient(270deg, #337788 0%, #66aabb 100%);
   border-radius: 6px 6px 0 0;
   margin-bottom: 20px;
 }
-.signup-mask .signup .signup-content .close {
+.signup-mask form.signup .signup-content .close {
   display: flex;
   align-items: center;
   justify-content: space-between;
   position: relative;
 }
-.signup-mask .signup .signup-content .close button.close-sigup img {
+.signup-mask form.signup .signup-content .close button.close-signup img {
   cursor: pointer;
   width: 20px;
   height: 20px;
@@ -775,10 +777,10 @@ section.description-area div.dis-content div.transportation div {
   top: -5px;
   transition: transform 0.1s ease-in-out;
 }
-.signup-mask .signup .signup-content .close button.close-sigup img:active {
+.signup-mask form.signup .signup-content .close button.close-signup img:active {
   transform: scale(1.2);
 }
-.signup-mask .signup .signup-content .close h1 {
+.signup-mask form.signup .signup-content .close h1 {
   color: #666666;
   font-size: 24px;
   margin: 0;
@@ -788,11 +790,12 @@ section.description-area div.dis-content div.transportation div {
   font-weight: 700;
   line-height: 24px;
 }
-.signup-mask .signup .signup-content .main {
+.signup-mask form.signup .signup-content .main {
   padding: 15px;
 }
-.signup-mask .signup .signup-content .main input[type=text],
-.signup-mask .signup .signup-content .main input[type=password] {
+.signup-mask form.signup .signup-content .main input[type=email],
+.signup-mask form.signup .signup-content .main input[type=text],
+.signup-mask form.signup .signup-content .main input[type=password] {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
@@ -800,13 +803,14 @@ section.description-area div.dis-content div.transportation div {
   border-radius: 5px;
   color: #757575;
 }
-.signup-mask .signup .signup-content .main input[type=text]:focus,
-.signup-mask .signup .signup-content .main input[type=password]:focus {
+.signup-mask form.signup .signup-content .main input[type=email]:focus,
+.signup-mask form.signup .signup-content .main input[type=text]:focus,
+.signup-mask form.signup .signup-content .main input[type=password]:focus {
   border-color: #448899;
   outline: none;
 }
-.signup-mask .signup .signup-content .main .signup-button,
-.signup-mask .signup .signup-content .main .go-to-signin {
+.signup-mask form.signup .signup-content .main .signup-button,
+.signup-mask form.signup .signup-content .main .go-to-signin {
   width: 100%;
   padding: 10px;
   margin-bottom: 5px;
@@ -816,16 +820,16 @@ section.description-area div.dis-content div.transportation div {
   border-radius: 5px;
   cursor: pointer;
 }
-.signup-mask .signup .signup-content .main .signup-button:hover,
-.signup-mask .signup .signup-content .main .go-to-signin:hover {
+.signup-mask form.signup .signup-content .main .signup-button:hover,
+.signup-mask form.signup .signup-content .main .go-to-signin:hover {
   background-color: #346976;
 }
-.signup-mask .signup .signup-content .main .go-to-signin {
+.signup-mask form.signup .signup-content .main .go-to-signin {
   background-color: #f0f4f8;
   color: #666666;
   text-decoration: none;
 }
-.signup-mask .signup .signup-content .main .go-to-signin:hover {
+.signup-mask form.signup .signup-content .main .go-to-signin:hover {
   background-color: #dae0e5;
 }
 

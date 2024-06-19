@@ -1,11 +1,3 @@
-const loginSigninBtn = document.querySelector(".login-signin");
-const closeSigninBtn = document.querySelector(".close-sigin");
-const gotoSignupBtn = document.querySelector(".go-to-signup");
-const closeSignupBtn = document.querySelector(".close-sigup");
-const gotoSigninBtn = document.querySelector(".go-to-signin");
-const signinMask = document.querySelector(".signin-mask");
-const signupMask = document.querySelector(".signup-mask");
-
 const leftContainerBtn = document.querySelector(".left-container");
 const rightContainerBtn = document.querySelector(".right-container");
 const scrollableContainer = document.getElementById("scrollable-container");
@@ -38,12 +30,6 @@ function initializePage() {
 
 // 各種功能性的函數呼叫
 function setupEventListeners() {
-  loginSigninBtn.addEventListener("click", loginSignin);
-  closeSigninBtn.addEventListener("click", closeSignin);
-  gotoSignupBtn.addEventListener("click", gotoSignup);
-  closeSignupBtn.addEventListener("click", closeSignup);
-  gotoSigninBtn.addEventListener("click", gotoSignin);
-
   leftContainerBtn.addEventListener("click", leftScroll);
   rightContainerBtn.addEventListener("click", rightScroll);
   searchButton.addEventListener("click", search);
@@ -184,33 +170,6 @@ function enterPress(event) {
     event.preventDefault();
     search(event);
   }
-}
-
-function loginSignin(event) {
-  event.preventDefault();
-  signinMask.style.display = "flex";
-}
-
-function closeSignin(event) {
-  event.preventDefault();
-  signinMask.style.display = "none";
-}
-
-function gotoSignup(event) {
-  event.preventDefault();
-  signinMask.style.display = "none";
-  signupMask.style.display = "flex";
-}
-
-function closeSignup(event) {
-  event.preventDefault();
-  signupMask.style.display = "none";
-}
-
-function gotoSignin(event) {
-  event.preventDefault();
-  signupMask.style.display = "none";
-  signinMask.style.display = "flex";
 }
 
 function leftScroll(event) {

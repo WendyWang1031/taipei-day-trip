@@ -17,6 +17,7 @@
           <div class="header-2-buttons-area">
             <button class="reservation">預定行程</button>
             <button class="login-signin">登入/註冊</button>
+            <button class="logout" style="display: none">登出系統</button>
           </div>
         </div>
       </div>
@@ -160,11 +161,11 @@
     </section>
 
     <div class="signin-mask">
-      <section class="signin">
+      <form class="signin">
         <div class="sign-content">
           <div class="decorator-bar"></div>
           <div class="close">
-            <button class="close-sigin">
+            <button class="close-signin" type="button">
               <img src="/static/images/icon/icon_close.png" alt="close" />
             </button>
 
@@ -183,18 +184,29 @@
               name="signin-password"
               id="signin-password"
             />
-            <button class="signin-button">登入帳戶</button>
-            <button class="go-to-signup">還沒有帳戶？點此註冊</button>
+            <div
+              class="hint-signin-message"
+              style="
+                color: red;
+                display: none;
+                text-align: center;
+                margin-bottom: 10px;
+              "
+            ></div>
+            <button class="signin-button" type="submit">登入帳戶</button>
+            <button class="go-to-signup" type="button">
+              還沒有帳戶？點此註冊
+            </button>
           </div>
         </div>
-      </section>
+      </form>
     </div>
     <div class="signup-mask">
-      <section class="signup">
+      <form class="signup">
         <div class="signup-content">
           <div class="decorator-bar"></div>
           <div class="close">
-            <button class="close-sigup">
+            <button class="close-signup" type="button">
               <img src="/static/images/icon/icon_close.png" alt="close" />
             </button>
             <h1>註冊會員帳號</h1>
@@ -205,28 +217,43 @@
               placeholder="輸入姓名"
               name="signup-name"
               id="signup-name"
+              required
             />
             <input
-              type="text"
+              type="email"
               placeholder="輸入電子信箱"
               name="signup-email"
               id="signup-email"
+              required
             />
             <input
               type="password"
               placeholder="輸入密碼"
               name="signup-password"
-              id="signsignupin-password"
+              id="signup-password"
+              required
             />
-            <button class="signup-button">註冊新帳戶</button>
-            <button class="go-to-signin">已經有新帳戶了？點此登入</button>
+            <div
+              class="hint-signup-message"
+              style="
+                color: red;
+                display: none;
+                text-align: center;
+                margin-bottom: 10px;
+              "
+            ></div>
+            <button class="signup-button" type="submit">註冊新帳戶</button>
+            <button class="go-to-signin" type="button">
+              已經有新帳戶了？點此登入
+            </button>
           </div>
         </div>
-      </section>
+      </form>
     </div>
     <footer class="footer">
       <p>COPYRIGHT © 2024 台北一日遊</p>
     </footer>
   </body>
-  <script src="/static/attraction.js"></script>
+  <script type="module" src="/static/js/auth.js"></script>
+  <script src="/static/js/attraction.js"></script>
 </html>

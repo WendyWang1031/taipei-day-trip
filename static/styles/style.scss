@@ -712,7 +712,7 @@ section.description-area {
   padding-top: 100px;
   z-index: 1000;
 
-  .signin {
+  form.signin {
     height: 275px;
     width: 340px;
     box-shadow: 0px 4px 60px 0px #aaaaaa;
@@ -738,7 +738,7 @@ section.description-area {
         justify-content: space-between;
         position: relative;
 
-        .close-sigin {
+        .close-signin {
           img {
             cursor: pointer;
             width: 20px;
@@ -771,6 +771,7 @@ section.description-area {
       .main {
         padding: 15px;
 
+        input[type="email"],
         input[type="text"],
         input[type="password"] {
           width: 100%;
@@ -830,7 +831,7 @@ section.description-area {
   padding-top: 100px;
   z-index: 1000;
 
-  .signup {
+  form.signup {
     width: 340px;
     height: auto;
     box-shadow: 0px 4px 60px 0px #aaaaaa;
@@ -856,7 +857,7 @@ section.description-area {
         justify-content: space-between;
         position: relative;
 
-        button.close-sigup {
+        button.close-signup {
           img {
             cursor: pointer;
             width: 20px;
@@ -886,6 +887,7 @@ section.description-area {
       .main {
         padding: 15px;
 
+        input[type="email"],
         input[type="text"],
         input[type="password"] {
           width: 100%;

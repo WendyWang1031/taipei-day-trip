@@ -1,18 +1,22 @@
+// 登入
 const loginSigninBtn = document.querySelector(".login-signin");
-const closeSigninBtn = document.querySelector(".close-sigin");
+const closeSigninBtn = document.querySelector(".close-signin");
 const gotoSignupBtn = document.querySelector(".go-to-signup");
-const closeSignupBtn = document.querySelector(".close-sigup");
+const closeSignupBtn = document.querySelector(".close-signup");
 const gotoSigninBtn = document.querySelector(".go-to-signin");
 const signinMask = document.querySelector(".signin-mask");
 const signupMask = document.querySelector(".signup-mask");
 
+// 圖片往左往右轉換
 const imagesLeftBtn = document.querySelector(".left-btn");
 const imagesRightBtn = document.querySelector(".right-btn");
 
+// 預約行程
 const feeElement = document.querySelector(".fee");
 const moringOption = document.getElementById("inlineRadio1");
 const AfternoonOption = document.getElementById("inlineRadio2");
 
+// 其餘
 const attractionIdURL = "/api/attraction";
 
 let currentImageIndex = 0;
@@ -65,20 +69,19 @@ async function fetchGetAttractionID(attractionId) {
       window.location = "/";
     }
     console.log(data.data);
-    displayAttractionID(data.data);
+    displayAttraction(data.data);
   } catch (error) {
     console.error("Error fetching attraction:", error);
   }
 }
 
-function displayAttractionID(attraction) {
+function displayAttraction(attraction) {
   const attractionName = document.querySelector(".attraction-name");
   const category = document.querySelector(".category");
   const mrt = document.querySelector(".attraction-mrt");
   const description = document.querySelector(".content");
   const address = document.querySelector(".address-detail");
   const transportation = document.querySelector(".transportation-detail");
-  const imgArea = document.querySelector(".location-image-area");
 
   attractionName.textContent = attraction.name;
   category.textContent = attraction.category;
@@ -87,62 +90,77 @@ function displayAttractionID(attraction) {
   address.textContent = attraction.address;
   transportation.textContent = attraction.transport;
 
-  attraction.images.forEach((imgUrl, index) => {
-    const img = document.createElement("img");
+  displayImageUI(attraction.images);
+  displayCircleUI();
+}
+
+function displayImageUI(images) {
+  const imgArea = document.querySelector(".location-image-area");
+
+  const preloadedImages = images.map((imgUrl) => {
+    const img = new Image();
     img.src = imgUrl;
+    return img;
+  });
+
+  preloadedImages.forEach((img, index) => {
     img.alt = "景點圖片";
     img.className = "fade";
 
-    if (index === 0) {
-      img.style.display = "block";
-    } else {
-      img.style.display = "none";
-    }
+    img.style.display = index === 0 ? "block" : "none";
+
     imgArea.appendChild(img);
   });
-  displayCircleContainer();
 }
 
-function displayCircleContainer() {
-  const circleContainer = document.querySelector(".circle-container");
-  const images = document.querySelectorAll(".location-image-area img");
-  images.forEach((_, index) => {
-    const circle = document.createElement("img");
-    circle.src =
-      index === 0
-        ? "/static/images/icon/circle-this.png"
-        : "/static/images/icon/circle current.png";
-    circleContainer.appendChild(circle);
-  });
-}
-const updateCircles = () => {
+const updateCirclesUI = (imageIndex) => {
   const circleContainer = document.querySelector(".circle-container");
   const circles = circleContainer.querySelectorAll("img");
   circles.forEach((circle, index) => {
     circle.src =
-      index === currentImageIndex
+      index === imageIndex
         ? "/static/images/icon/circle-this.png"
         : "/static/images/icon/circle current.png";
   });
 };
+
+function displayCircleUI() {
+  const circleContainer = document.querySelector(".circle-container");
+  const images = document.querySelectorAll(".location-image-area img");
+  images.forEach((_, index) => {
+    const circle = document.createElement("img");
+
+    circle.src =
+      index === 0
+        ? "/static/images/icon/circle-this.png"
+        : "/static/images/icon/circle current.png";
+
+    circleContainer.appendChild(circle);
+  });
+}
+
+function imagesTurnRight(event) {
+  event.preventDefault();
+  const images = document.querySelectorAll(".location-image-area img");
+
+  images[currentImageIndex].style.display = "none";
+  nextImageIndex = (currentImageIndex + 1 + images.length) % images.length;
+  images[nextImageIndex].style.display = "block";
+
+  currentImageIndex = nextImageIndex;
+  updateCirclesUI(currentImageIndex);
+}
 
 function imagesTurnLeft(event) {
   event.preventDefault();
   const images = document.querySelectorAll(".location-image-area img");
 
   images[currentImageIndex].style.display = "none";
-  currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
-  images[currentImageIndex].style.display = "block";
-  updateCircles();
-}
+  nextImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+  images[nextImageIndex].style.display = "block";
 
-function imagesTurnRight(event) {
-  event.preventDefault();
-  const images = document.querySelectorAll(".location-image-area img");
-  images[currentImageIndex].style.display = "none";
-  currentImageIndex = (currentImageIndex + 1 + images.length) % images.length;
-  images[currentImageIndex].style.display = "block";
-  updateCircles();
+  currentImageIndex = nextImageIndex;
+  updateCirclesUI(currentImageIndex);
 }
 
 function moringFeeOption(event) {
