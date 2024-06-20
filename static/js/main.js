@@ -2,6 +2,9 @@ const leftContainerBtn = document.querySelector(".left-container");
 const rightContainerBtn = document.querySelector(".right-container");
 const scrollableContainer = document.getElementById("scrollable-container");
 
+const signinMask = document.querySelector(".signin-mask");
+const signupMask = document.querySelector(".signup-mask");
+
 const searchInput = document.querySelector(".searchKeyword");
 const searchButton = document.querySelector(".input-area button");
 
