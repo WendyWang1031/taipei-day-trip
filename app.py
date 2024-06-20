@@ -13,25 +13,27 @@ from starlette.middleware.base import BaseHTTPMiddleware
 # from db import get_attractions_for_pages , get_attractions_for_id , get_mrts , insert_new_user , check_email_password ,check_user_email_exists 
 from db.attraction import get_attractions_for_pages , get_attractions_for_id , get_mrts
 from db.user import insert_new_user , check_email_password ,check_user_email_exists 
-from db.redis_connection import get_redis_connection
+
 from service.cache_service import CacheService
+from middlewares.logging_middleware import LoggingMiddleware
 
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
+app.add_middleware(LoggingMiddleware)
 
-logging.basicConfig(level=logging.INFO , format='%(asctime)s - %(message)s' , filename= 'app.log')
+# logging.basicConfig(level=logging.INFO , format='%(asctime)s - %(message)s' , filename= 'app.log')
 
 # r = redis.Redis(host="localhost" , port=6379 , db=0)
 
 #定義資料型別
-class LoggingMiddleware(BaseHTTPMiddleware):
-	async def dispatch(self , request : Request , call_next):
-		logging.info(f'Request from IP: {request.client.host} to URL: {request.url.path}')
-		response = await call_next(request)
-		return response
+# class LoggingMiddleware(BaseHTTPMiddleware):
+# 	async def dispatch(self , request : Request , call_next):
+# 		logging.info(f'Request from IP: {request.client.host} to URL: {request.url.path}')
+# 		response = await call_next(request)
+# 		return response
 
-app.add_middleware(LoggingMiddleware)
+
 
 class Image(BaseModel):
 	url:str
