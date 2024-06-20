@@ -10,8 +10,9 @@ from jose import jwt , JWTError
 from datetime import datetime , timedelta
 from starlette.middleware.base import BaseHTTPMiddleware
 
-from db import get_attractions_for_pages , get_attractions_for_id , get_mrts , insert_new_user , check_email_password ,check_user_email_exists 
-
+# from db import get_attractions_for_pages , get_attractions_for_id , get_mrts , insert_new_user , check_email_password ,check_user_email_exists 
+from db.attraction import get_attractions_for_pages , get_attractions_for_id , get_mrts
+from db.user import insert_new_user , check_email_password ,check_user_email_exists 
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
