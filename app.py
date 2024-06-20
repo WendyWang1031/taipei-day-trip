@@ -1,16 +1,10 @@
 from fastapi import *
 from fastapi.responses import FileResponse , JSONResponse
 from pydantic import BaseModel , Field 
-from typing import List , Optional ,Annotated
+from typing import List , Optional 
 from fastapi.staticfiles import StaticFiles
-import logging , redis , json
-import bcrypt
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from jose import jwt , JWTError
-from datetime import datetime , timedelta
-from starlette.middleware.base import BaseHTTPMiddleware
+import  json
 
-# from db import get_attractions_for_pages , get_attractions_for_id , get_mrts , insert_new_user , check_email_password ,check_user_email_exists 
 from db.attraction import get_attractions_for_pages , get_attractions_for_id , get_mrts
 from controller.user import register_user, authenticate_user, get_user_details
 from model.user import *
@@ -24,46 +18,81 @@ app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 app.add_middleware(LoggingMiddleware)
 
-@app.post("/api/user", tags=["User"], response_model=UserCreate, summary="註冊一個新會員")
+@app.post("/api/user" , 
+		 tags= ["User"],
+		 response_model = UserCreate ,
+		 summary = "註冊一個新會員",
+        
+		 responses = {
+			200:{
+				"model" : SuccessfulResponseForMemberRegister,
+				"description" : "註冊成功"
+			},
+			400:{
+				"model" : ErrorResponse,
+				"description" : "註冊失敗，重複的 Email 或其他原因"
+			},
+			500:{
+				"model" : ErrorResponse,
+				"description" : "伺服器內部錯誤"
+			}
+		 })
 async def user_register(name: str = Form(...), email: str = Form(...), password: str = Form(...)):
     return await register_user(name, email, password)
 
-@app.get("/api/user/auth", tags=["User"], response_model=UserRead, summary="獲取當前的登入訊息")
+@app.get("/api/user/auth" , 
+		 tags= ["User"],
+		 response_model = UserRead ,
+		 summary = "取得當前的登入資訊",
+        
+		 responses = {
+			200:{
+				"model" : SuccessfulResponseForMember,
+				"description" : "已登入的會員資料，null 表示未登入"
+			}
+		 })
 async def get_user(user: dict = Depends(get_current_user)):
     return await get_user_details(user)
 
-@app.put("/api/user/auth", tags=["User"], summary="登入會員帳戶")
+@app.put("/api/user/auth" , 
+		 tags= ["User"],
+		 response_model = UserBase ,
+		 summary = "登入會員帳戶",
+        
+		 responses = {
+			200:{
+				"model" : SuccessfulResponseForMemberBase,
+				"description" : "登入成功，取得有效期為七天的 JWT 加密字串"
+			},
+			400:{
+				"model" : ErrorResponse,
+				"description" : "登入失敗，帳號或密碼錯誤或其他原因"
+			},
+			500:{
+				"model" : ErrorResponse,
+				"description" : "伺服器內部錯誤"
+			}
+		 })
 async def user_signin(email: str = Form(...), password: str = Form(...)):
     return await authenticate_user(email, password)
 
-# logging.basicConfig(level=logging.INFO , format='%(asctime)s - %(message)s' , filename= 'app.log')
-
-# r = redis.Redis(host="localhost" , port=6379 , db=0)
-
-#定義資料型別
-# class LoggingMiddleware(BaseHTTPMiddleware):
-# 	async def dispatch(self , request : Request , call_next):
-# 		logging.info(f'Request from IP: {request.client.host} to URL: {request.url.path}')
-# 		response = await call_next(request)
-# 		return response
 
 
-
-class Image(BaseModel):
-	url:str
+# class Image(BaseModel):
+# 	url:str
 	
 
-class Attraction(BaseModel):
-	id: int = Field(... , example=10)
-	name: str = Field(... , example="平安鐘")
-	category: str = Field(... , example="公共藝術")
-	description: str = Field(... , example="平安鐘祈求大家的平安，這是為了紀念 921 地震週年的設計")
-	address: str = Field(... , example="臺北市大安區忠孝東路 4 段 1 號")
-	transport: str = Field(... , example="公車：204、212、212直")
-	mrt: str = Field(... , example="忠孝復興")
-	lat: float = Field(... , example=25.04181)
-	lng: float = Field(... , example=121.544814)
-	images: List[Image] = Field(..., example=["http://140.112.3.4/images/92-0.jpg"])
+# class Attraction(BaseModel):
+# 	id: int = Field(... , example=10)
+# 	name: str = Field(... , example="平安鐘")
+# 	category: str = Field(... , example="公共藝術")
+# 	description: str = Field(... , example="平安鐘祈求大家的平安，這是為了紀念 921 地震週年的設計")
+# 	address: str = Field(... , example="臺北市大安區忠孝東路 4 段 1 號")
+# 	transport: str = Field(... , example="公車：204、212、212直")
+# 	mrt: str = Field(... , example="忠孝復興")
+# 	lat: float = Field(... , example=25.04181)
+# 	lng: float = Field(... , example=121.544814)
+# 	images: List[Image] = Field(..., example=["http://140.112.3.4/images/92-0.jpg"])
 
 # class UserBase(BaseModel):
 # 	email: str = Field(... , example="ply@ply.com")
@@ -83,28 +112,32 @@ class Attraction(BaseModel):
 # 	name: str = Field(... , example="彭彭彭")
 # 	email: str = Field(... , example="ply@ply.com")				
 
-class MRTList(BaseModel):
-	data: str = Field(..., description="捷運站名稱列表")
 
-class SuccessfulResponseForAttraction(BaseModel):
-	nextPage : Optional[int]= Field(None, example=2, description = "下一頁的頁碼，若無更多頁面則為 None")
-	data : List[Attraction] = Field(..., description = "景點數據列表")
+# class SuccessfulResponseForMemberRegister(BaseModel):
+# 	ok : bool = Field(..., description = "註冊成功")
 
-class SuccessfulResponseForID(BaseModel):
-	data : Attraction = Field(..., description = "景點數據列表")
+# class SuccessfulResponseForMember(BaseModel):
+# 	data : UserRead = Field(..., description = "取得當前登入資訊")
 
-class SuccessfulResponseForMemberRegister(BaseModel):
-	ok : bool = Field(..., description = "註冊成功")
+# class SuccessfulResponseForMemberBase(BaseModel):
+# 	token : str = Field(..., description = "FHSTHSGHFtrhsthfghs")
 
-class SuccessfulResponseForMember(BaseModel):
-	data : UserRead = Field(..., description = "取得當前登入資訊")
+# class ErrorResponse(BaseModel):
+# 	error : bool = Field(True, description = "指示是否為錯誤響應")
+# 	message : str = Field(..., description = "錯誤訊息描述" , example="請按照情境提供對應的錯誤訊息")
 
-class SuccessfulResponseForMemberBase(BaseModel):
-	token : str = Field(..., description = "FHSTHSGHFtrhsthfghs")
+# logging.basicConfig(level=logging.INFO , format='%(asctime)s - %(message)s' , filename= 'app.log')
 
-class ErrorResponse(BaseModel):
-	error : bool = Field(True, description = "指示是否為錯誤響應")
-	message : str = Field(..., description = "錯誤訊息描述" , example="請按照情境提供對應的錯誤訊息")
+# r = redis.Redis(host="localhost" , port=6379 , db=0)
+
+#定義資料型別
+# class LoggingMiddleware(BaseHTTPMiddleware):
+# 	async def dispatch(self , request : Request , call_next):
+# 		logging.info(f'Request from IP: {request.client.host} to URL: {request.url.path}')
+# 		response = await call_next(request)
+# 		return response
+
+
 
 # def create_access_token(data: dict , expires_delta: timedelta = timedelta(days = 7)):
 # 	to_encode = data.copy()
@@ -288,6 +321,17 @@ class ErrorResponse(BaseModel):
 # 			"message":str(e)
 # 		})
 # 		return response
+
+
+class MRTList(BaseModel):
+	data: str = Field(..., description="捷運站名稱列表")
+
+class SuccessfulResponseForAttraction(BaseModel):
+	nextPage : Optional[int]= Field(None, example=2, description = "下一頁的頁碼，若無更多頁面則為 None")
+	data : List[Attraction] = Field(..., description = "景點數據列表")
+
+class SuccessfulResponseForID(BaseModel):
+	data : Attraction = Field(..., description = "景點數據列表")
 
 
 @app.get("/api/attractions" , 
