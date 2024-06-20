@@ -224,7 +224,7 @@ async def get_user(user: dict = Depends(get_current_user)):
 				"description" : "伺服器內部錯誤"
 			}
 		 })
-async def user_signin( email :  str = Form(...) , password :  str = Form(...)):
+async def user_signin( email :  Annotated[str, Form()] , password :  Annotated[str, Form()]):
 	try:
 		user_info = check_email_password(email , password)
 		if user_info:
