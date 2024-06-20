@@ -13,11 +13,16 @@ from starlette.middleware.base import BaseHTTPMiddleware
 # from db import get_attractions_for_pages , get_attractions_for_id , get_mrts , insert_new_user , check_email_password ,check_user_email_exists 
 from db.attraction import get_attractions_for_pages , get_attractions_for_id , get_mrts
 from db.user import insert_new_user , check_email_password ,check_user_email_exists 
+from db.redis_connection import get_redis_connection
+from service.cache_service import CacheService
+
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
+
 logging.basicConfig(level=logging.INFO , format='%(asctime)s - %(message)s' , filename= 'app.log')
-r = redis.Redis(host="localhost" , port=6379 , db=0)
+
+# r = redis.Redis(host="localhost" , port=6379 , db=0)
 
 #定義資料型別
 class LoggingMiddleware(BaseHTTPMiddleware):
@@ -336,8 +341,12 @@ async def attraction(
 		 })
 async def attraction_for_id( attractionId: int = Path(..., description = "景點編號")):
 
+	cache_service = CacheService()
+	cache_key = f'attraction:{attractionId}'
 	try:
-		cached_data = r.get(f'attraction:{attractionId}')
+		
+		cached_data = cache_service.get_value(cache_key)
+		
 		if cached_data:
 			response = JSONResponse(
 				status_code = status.HTTP_200_OK,
@@ -364,7 +373,7 @@ async def attraction_for_id( attractionId: int = Path(..., description = "景點
 			
 			return response
 		
-		r.setex(f'attraction:{attractionId}' , 3600 , json.dumps(data))
+		cache_service.set_value(cache_key, json.dumps(data), expiry=3600)
 		
 		
 		response = JSONResponse(
