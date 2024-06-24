@@ -1,9 +1,15 @@
-from db.redis_connection import get_redis_connection
+import redis
+
+def get_redis_connection():
+    r = redis.Redis(host="localhost" , port=6379 , db=0)
+    return r
 
 
 class CacheService:
-    def __init__(self):
-        self.redis = get_redis_connection()
+    def __init__(self, redis_connection):
+        print("get ready to connect redis")
+        self.redis = redis_connection
+        print("already connect redis")
 
     def set_value(self, key, value, expiry=None):
         if expiry:
@@ -16,3 +22,5 @@ class CacheService:
 
     def delete_value(self, key):
         self.redis.delete(key)
+
+
