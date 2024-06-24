@@ -10,6 +10,7 @@ from controller.user import register_user, authenticate_user, get_user_details
 from model.model import *
 from service.security import get_current_user
 from db.booking import *
+from controller.booking import *
 
 from service.cache_service import *
 from middlewares.logging_middleware import LoggingMiddleware
@@ -44,31 +45,8 @@ cache_service = CacheService(redis_connection)
 			}
 		 }
 		 )
-async def create_booking(booking: Booking , current_user : dict = Depends(get_current_user)):
-	try:
-		if current_user :
-			member_id = current_user["id"]
-			result = insert_new_booking(booking.attraction_id , booking.date , booking.time , booking.price , member_id)
-			if result:
-				response = JSONResponse(
-				status_code = status.HTTP_200_OK,
-				content={
-					"ok":True
-				})
-				return response
-			else:
-				raise HTTPException(status_code=400, detail="Booking creation failed")
-		else:
-			raise HTTPException(status_code=403, detail="User not authenticated")
-	
-	except Exception as e :
-		response = JSONResponse(
-		status_code = status.HTTP_500_INTERNAL_SERVER_ERROR,
-		content={
-			"error":True,
-			"message":str(e)
-		})
-		return response
+async def booking(booking: Booking , current_user : dict = Depends(get_current_user)):
+	return await create_booking(booking,current_user)
 	
 	
 		
