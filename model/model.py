@@ -46,3 +46,15 @@ class SuccessfulResponseForMemberBase(BaseModel):
 class ErrorResponse(BaseModel):
 	error : bool = Field(True, description = "指示是否為錯誤響應")
 	message : str = Field(..., description = "錯誤訊息描述" , example="請按照情境提供對應的錯誤訊息")
+
+class BookingAttraction(BaseModel):
+	id: int = Field(... , example=10)
+	name: str = Field(... , example="平安鐘")
+	address: str = Field(... , example="臺北市大安區忠孝東路 4 段 1 號")
+	images: List[Image] = Field(..., example=["http://140.112.3.4/images/92-0.jpg"])
+
+class Booking(BaseModel):
+	attraction_id : int = Field(... , example = 1)
+	date : str = Field(... , example = "2024-06-24")
+	time : str = Field(... , example = "afternoon")
+	price : int = Field(... , example = 2500)
