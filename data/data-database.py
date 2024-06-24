@@ -21,10 +21,24 @@ create_member_table_sql = """
 );
 """
 
+create_booking_table_sql = """
+        CREATE TABLE IF NOT EXISTS booking (
+        id int AUTO_INCREMENT primary key,
+        attraction_id BIGINT not null,
+        date DATE not null,
+        time varchar(255) not null,
+        price int not null,
+        member_id char(36) not null,
+        FOREIGN KEY (attraction_id) REFERENCES location(id),
+        FOREIGN KEY (member_id) REFERENCES member(id)
+);
+"""
+
 
 try:
     cursor.execute("BEGIN;")
     cursor.execute(create_member_table_sql)
+    cursor.execute(create_booking_table_sql)
     db.commit()
 except Exception as e :
     print("Error creating tables:" , e)
