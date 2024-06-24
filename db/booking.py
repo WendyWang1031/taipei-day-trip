@@ -23,13 +23,36 @@ def insert_new_booking(attractionId , date , time , price , member_id):
         cursor.close()
         connection.close()
 
-def check_booking_detail(email):
+def check_booking_detail(member_id):
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:
-        sql = "select email from member where email = %s"
-        cursor.execute( sql , (email,))
-        user_email = cursor.fetchone()
+        sql = """select location.id , location.name , location.address ,
+                DATE_FORMAT(booking.date, '%%Y-%%m-%%d') AS formatted_date,
+                booking.date , booking.time , booking.price ,
+                URL_file.images AS image
+        from booking 
+        JOIN location on booking.attraction_id = location.id
+        JOIN URL_file on location.id = URL_file.location_id
+        where booking.member_id = %s;
+        """
+        cursor.execute( sql , (member_id ,))
+        user_booking = cursor.fetchone()
+        
+        if user_booking:
+            return {
+                "attraction": {
+                        "id": user_booking['id'],
+                        "name": user_booking['name'],
+                        "address": user_booking['address'],
+                        "image": user_booking['image']
+                    },
+                    "date": user_booking['formatted_date'],  # Use formatted date
+                    "time": user_booking['time'],
+                    "price": user_booking['price']
+            }
+            
+
     except Exception as e:
         print(f"Error retrieving username: {e}")
         return None
@@ -37,7 +60,6 @@ def check_booking_detail(email):
         cursor.close()
         connection.close()
     
-    return user_email is not None   
 
 def delete_booking(email , password):
     connection = get_db_connection_pool()
