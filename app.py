@@ -7,8 +7,9 @@ import  json
 
 from db.attraction import get_attractions_for_pages , get_attractions_for_id , get_mrts
 from controller.user import register_user, authenticate_user, get_user_details
-from model.user import *
+from model.model import *
 from service.security import get_current_user
+from db.booking import *
 
 from service.cache_service import *
 from middlewares.logging_middleware import LoggingMiddleware
@@ -19,6 +20,66 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 app.add_middleware(LoggingMiddleware)
 redis_connection = get_redis_connection()
 cache_service = CacheService(redis_connection)
+
+@app.post("/api/booking",
+		tags= ["Booking"],
+		response_model = Booking , 
+		summary = "建立新的預定行程",
+		responses = {
+			200:{
+				"model" : Booking,
+				"description" : "建立成功"
+			},
+			400:{
+				"model" : ErrorResponse,
+				"description" : "建立失敗，輸入不正確或其他原因"
+			},
+			403:{
+				"model" : ErrorResponse,
+				"description" : "未登入系統，拒絕存取"
+			},
+			500:{
+				"model" : ErrorResponse,
+				"description" : "伺服器內部錯誤"
+			}
+		 }
+		 )
+async def create_booking(booking: Booking , current_user : dict = Depends(get_current_user)):
+	try:
+		if current_user :
+			member_id = current_user["id"]
+			result = insert_new_booking(booking.attraction_id , booking.date , booking.time , booking.price , member_id)
+			if result:
+				response = JSONResponse(
+				status_code = status.HTTP_200_OK,
+				content={
+					"ok":True
+				})
+				return response
+			else:
+				raise HTTPException(status_code=400, detail="Booking creation failed")
+		else:
+			raise HTTPException(status_code=403, detail="User not authenticated")
+	
+	except Exception as e :
+		response = JSONResponse(
+		status_code = status.HTTP_500_INTERNAL_SERVER_ERROR,
+		content={
+			"error":True,
+			"message":str(e)
+		})
+		return response
+	
+	
+		
+
+	
+	
+
+
+
+
+
 
 @app.post("/api/user" , 
 		 tags= ["User"],
