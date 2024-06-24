@@ -46,8 +46,33 @@ cache_service = CacheService(redis_connection)
 		 }
 		 )
 async def booking(booking: Booking , current_user : dict = Depends(get_current_user)):
-	return await create_booking(booking,current_user)
-	
+	return await create_booking(booking , current_user)
+
+@app.get("/api/booking",
+		tags= ["Booking"],
+		response_model = BookingResponse , 
+		summary = "建立新的預定行程",
+		responses = {
+			200:{
+				"model" : BookingResponse,
+				"description" : "建立成功"
+			},
+			400:{
+				"model" : ErrorResponse,
+				"description" : "建立失敗，輸入不正確或其他原因"
+			},
+			403:{
+				"model" : ErrorResponse,
+				"description" : "未登入系統，拒絕存取"
+			},
+			500:{
+				"model" : ErrorResponse,
+				"description" : "伺服器內部錯誤"
+			}
+		 }
+		 )
+async def get_booking( current_user : dict = Depends(get_current_user) , ):
+	return await get_booking_details( current_user)	
 	
 		
 

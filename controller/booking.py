@@ -6,28 +6,54 @@ from fastapi import HTTPException, Depends
 from fastapi.responses import JSONResponse
 
 async def create_booking(booking: Booking , current_user : dict = Depends(get_current_user)):
-	try:
-		if current_user :
-			member_id = current_user["id"]
-			result = insert_new_booking(booking.attraction_id , booking.date , booking.time , booking.price , member_id)
-			if result:
-				response = JSONResponse(
-				status_code = status.HTTP_200_OK,
-				content={
-					"ok":True
-				})
-				return response
-			else:
-				raise HTTPException(status_code=400, detail="Booking creation failed")
-		else:
-			raise HTTPException(status_code=403, detail="User not authenticated")
-	
-	except Exception as e :
-		response = JSONResponse(
-		status_code = status.HTTP_500_INTERNAL_SERVER_ERROR,
-		content={
-			"error":True,
-			"message":str(e)
-		})
-		return response
-	
+    try:
+        if current_user :
+            member_id = current_user["id"]
+            result = insert_new_booking(booking.attraction_id , booking.date , booking.time , booking.price , member_id)
+            if result:
+                response = JSONResponse(
+                status_code = status.HTTP_200_OK,
+                content={
+                    "ok":True
+                })
+                return response
+            else:
+                raise HTTPException(status_code=400, detail="Booking creation failed")
+        else:
+            raise HTTPException(status_code=403, detail="User not authenticated")
+    
+    except Exception as e :
+        response = JSONResponse(
+            status_code = status.HTTP_500_INTERNAL_SERVER_ERROR,
+            content={
+                "error":True,
+                "message":str(e)
+            })
+        return response
+    
+async def get_booking_details( current_user : dict = Depends(get_current_user)):
+    try:
+        if current_user :
+            member_id = current_user["id"]
+            booking_details = check_booking_detail(member_id)
+            print(booking_details)
+            if booking_details:
+                response = JSONResponse(
+                status_code = status.HTTP_200_OK,
+                content={
+                    "data" : booking_details
+                })
+                return response
+            else:
+                raise HTTPException(status_code=400, detail="Get booking details failed")
+        else:
+            raise HTTPException(status_code=403, detail="User not authenticated")
+        
+    except Exception as e :
+        response = JSONResponse(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            content={
+                "error": True,
+                "message": str(e)
+            })
+        return response

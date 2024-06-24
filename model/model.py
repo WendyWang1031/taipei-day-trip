@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field
 from typing import List 
+from datetime import date as date_use
 
 class Image(BaseModel):
 	url:str
@@ -55,6 +56,16 @@ class BookingAttraction(BaseModel):
 
 class Booking(BaseModel):
 	attraction_id : int = Field(... , example = 1)
-	date : str = Field(... , example = "2024-06-24")
+	date : date_use = Field(... , example = "2024-06-24")
 	time : str = Field(... , example = "afternoon")
 	price : int = Field(... , example = 2500)
+	
+
+class BookingDatails(BaseModel):
+	attraction : BookingAttraction
+	date : date_use = Field(... , example = "2024-06-24")
+	time : str = Field(... , example = "afternoon")
+	price : int = Field(... , example = 2500)
+
+class BookingResponse(BaseModel):
+	data : BookingDatails
