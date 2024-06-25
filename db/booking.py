@@ -2,26 +2,49 @@ import bcrypt
 import pymysql.cursors
 from .connection import get_db_connection_pool
 
-
-def insert_new_booking(attractionId , date , time , price , member_id):
+def get_existing_booking(member_id):
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:
-        sql = "insert into booking ( attraction_id , date , time , price , member_id) values ( %s , %s , %s , %s , %s)"
-        cursor.execute(sql ,( attractionId,  date , time , price , member_id))
-        connection.commit()
+        sql = "select * from booking where member_id = %s"
+        cursor.execute( sql , (member_id ,))
+        user_booking = cursor.fetchone()
+        return user_booking
+    except Exception as e:
+        print(f"Error getting booking details: {e}")
+        return None
+    finally:
+        cursor.close()
+        connection.close()
+    
 
-        if cursor.rowcount>0:
-            return True
+def save_or_update_booking(member_id , booking_data):
+    connection = get_db_connection_pool()
+    cursor = connection.cursor(pymysql.cursors.DictCursor)
+    booking_existing = get_existing_booking(member_id)
+    try:
+        if booking_existing : 
+            sql = """update booking 
+                SET date = %s , time = %s , price = %s , attraction_id = %s 
+                where member_id = %s
+            """
+            cursor.execute(sql ,(booking_data.date , booking_data.time , booking_data.price , booking_data.attraction_id , member_id))
+            
         else:
-            return False
+            sql = "insert into booking ( attraction_id , date , time , price , member_id) values ( %s , %s , %s , %s , %s)"
+            cursor.execute(sql ,( booking_data.attraction_id , booking_data.date , booking_data.time , booking_data.price , member_id))
         
+        connection.commit()
+        return True
     except Exception as e:
         print(f"Error inserting new booking: {e}") 
         return False
     finally:
         cursor.close()
         connection.close()
+
+
+
 
 def check_booking_detail(member_id):
     connection = get_db_connection_pool()
@@ -47,14 +70,14 @@ def check_booking_detail(member_id):
                         "address": user_booking['address'],
                         "image": user_booking['image']
                     },
-                    "date": user_booking['formatted_date'],  # Use formatted date
+                    "date": user_booking['formatted_date'],  
                     "time": user_booking['time'],
                     "price": user_booking['price']
             }
             
 
     except Exception as e:
-        print(f"Error retrieving username: {e}")
+        print(f"Error retrieving booking details: {e}")
         return None
     finally:
         cursor.close()

@@ -9,7 +9,8 @@ async def create_booking(booking: Booking , current_user : dict = Depends(get_cu
     try:
         if current_user :
             member_id = current_user["id"]
-            result = insert_new_booking(booking.attraction_id , booking.date , booking.time , booking.price , member_id)
+            result = save_or_update_booking(member_id , booking)
+            print(result)
             if result:
                 response = JSONResponse(
                 status_code = status.HTTP_200_OK,
@@ -30,6 +31,7 @@ async def create_booking(booking: Booking , current_user : dict = Depends(get_cu
                 "message":str(e)
             })
         return response
+    
     
 async def get_booking_details( current_user : dict = Depends(get_current_user)):
     try:

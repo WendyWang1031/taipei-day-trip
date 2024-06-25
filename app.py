@@ -71,7 +71,7 @@ async def booking(booking: Booking , current_user : dict = Depends(get_current_u
 			}
 		 }
 		 )
-async def get_booking( current_user : dict = Depends(get_current_user) , ):
+async def get_booking( current_user : dict = Depends(get_current_user) ):
 	return await get_booking_details( current_user)	
 	
 		
