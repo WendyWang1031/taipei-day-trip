@@ -1,11 +1,256 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Booking</title>
-</head>
-<body>
-  
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Booking</title>
+    <link rel="stylesheet" href="/static/styles/style.css" />
+  </head>
+  <body>
+    <header class="navigation sticky">
+      <div class="navi-content">
+        <a href="/" class="navi-link">
+          <h2 class="navi-header">台北一日遊</h2>
+        </a>
+
+        <div class="header-button-area">
+          <div class="header-2-buttons-area">
+            <button class="reservation">預定行程</button>
+            <button class="login-signin">登入/註冊</button>
+            <button class="logout" style="display: none">登出系統</button>
+          </div>
+        </div>
+      </div>
+    </header>
+    <section class="booking-location">
+      <div class="location">
+        <div class="pic-area">
+          <div class="location-image-area">
+            <img
+              src="/static/images/image/892379fe-a6f7-494a-b205-c84ea5e6d07d.webp"
+              alt="景點圖片"
+              class="fade"
+            />
+          </div>
+        </div>
+
+        <div class="booking-profile">
+          <h1 class="attraction-name">台北一日遊：景點名稱</h1>
+
+          <div class="booking">
+            <div class="date">
+              日期：
+              <div class="date-detail">2024-06-24</div>
+            </div>
+            <div class="time">
+              時間：
+              <div class="time-detail">早上九點到下午四點</div>
+            </div>
+            <div class="price">
+              費用：
+              <div class="price-detail">新台幣 2000 元</div>
+            </div>
+            <div class="address">
+              地點：
+              <div class="address-detail">地址....</div>
+            </div>
+            <div class="trash-btn">
+              <button class="trash">
+                <img src="./images/icon/icon_delete.png" alt="remove-booking" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="seperate">
+      <hr />
+    </div>
+
+    <section class="contact-area">
+      <div class="contact-group">
+        <h3 class="contact-title">您的連絡資訊</h3>
+        <form class="contact-user">
+          <div class="name">
+            <label for="contact-name">連絡姓名：</label>
+            <input
+              type="email"
+              id="contact-name"
+              name="contact-name"
+              required
+            />
+          </div>
+          <div class="email">
+            <label for="contact-email">連絡信箱：</label>
+            <input
+              type="email"
+              id="contact-email"
+              name="contact-email"
+              required
+            />
+          </div>
+          <div class="phone">
+            <label for="contact-phone">手機號碼：</label>
+            <input
+              type="tel"
+              id="contact-phone"
+              name="contact-phone"
+              required
+            />
+          </div>
+        </form>
+        <p>
+          請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。
+        </p>
+      </div>
+    </section>
+
+    <div class="seperate">
+      <hr />
+    </div>
+
+    <section class="card-area">
+      <div class="card-group">
+        <h3 class="card-title">信用卡付款資訊</h3>
+        <form class="card-user">
+          <div class="card-detail">
+            <label>卡片號碼：</label>
+            <input
+              type="text"
+              id="card-number"
+              name="card-number"
+              placeholder="**** **** **** ****"
+              required
+            />
+          </div>
+          <div class="expire">
+            <label for="card-expiration">過期時間：</label>
+            <input
+              type="text"
+              id="card-expiration"
+              name="card-expiration"
+              placeholder="MM/YY"
+              required
+            />
+          </div>
+          <div class="code">
+            <label for="card-cvc">驗證密碼：</label>
+            <input
+              type="text"
+              id="card-cvc"
+              name="card-cvc"
+              placeholder="CVC"
+              required
+            />
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <div class="seperate">
+      <hr />
+    </div>
+
+    <section class="total-submit">
+      <div class="totla-area">
+        <div class="booking-price">總價：新台幣2000元</div>
+        <button class="submit-booking-payment">確認訂購並付款</button>
+      </div>
+    </section>
+
+    <!-- <div class="signin-mask">
+      <form class="signin">
+        <div class="sign-content">
+          <div class="decorator-bar"></div>
+          <div class="close">
+            <button class="close-signin" type="button">
+              <img src="/static/images/icon/icon_close.png" alt="close" />
+            </button>
+
+            <h1>登入會員帳號</h1>
+          </div>
+          <div class="main">
+            <input
+              type="text"
+              placeholder="輸入電子信箱"
+              name="email"
+              id="signin-email"
+            />
+            <input
+              type="password"
+              placeholder="輸入密碼"
+              name="password"
+              id="signin-password"
+            />
+            <div
+              class="hint-signin-message"
+              style="
+                color: red;
+                display: none;
+                text-align: center;
+                margin-bottom: 10px;
+              "
+            ></div>
+            <button class="signin-button" type="submit">登入帳戶</button>
+            <button class="go-to-signup" type="button">
+              還沒有帳戶？點此註冊
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="signup-mask">
+      <form class="signup">
+        <div class="signup-content">
+          <div class="decorator-bar"></div>
+          <div class="close">
+            <button class="close-signup" type="button">
+              <img src="/static/images/icon/icon_close.png" alt="close" />
+            </button>
+            <h1>註冊會員帳號</h1>
+          </div>
+          <div class="main">
+            <input
+              type="text"
+              placeholder="輸入姓名"
+              name="name"
+              id="signup-name"
+              required
+            />
+            <input
+              type="email"
+              placeholder="輸入電子信箱"
+              name="email"
+              id="signup-email"
+              required
+            />
+            <input
+              type="password"
+              placeholder="輸入密碼"
+              name="password"
+              id="signup-password"
+              required
+            />
+            <div
+              class="hint-signup-message"
+              style="
+                color: red;
+                display: none;
+                text-align: center;
+                margin-bottom: 10px;
+              "
+            ></div>
+            <button class="signup-button" type="submit">註冊新帳戶</button>
+            <button class="go-to-signin" type="button">
+              已經有新帳戶了？點此登入
+            </button>
+          </div>
+        </div>
+      </form>
+    </div> -->
+    <footer class="footer">
+      <p>COPYRIGHT © 2024 台北一日遊</p>
+    </footer>
+  </body>
 </html>

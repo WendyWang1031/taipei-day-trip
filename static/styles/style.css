@@ -28,7 +28,7 @@ header.navigation {
   margin: 0 auto;
   height: 54px;
   width: 100%;
-  border: 1px solid #e8e8e8;
+  box-shadow: 0 3px 6px -6px gray;
   margin: 0 auto;
   position: sticky;
   top: 0;
@@ -622,6 +622,187 @@ section.description-area div.dis-content div.transportation div {
   font-weight: 400;
   text-align: left;
   color: #666666;
+}
+
+section.booking-location {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px;
+  width: 100%;
+}
+section.booking-location .location {
+  display: flex;
+  justify-content: space-between;
+  width: 1200px;
+}
+section.booking-location .location .pic-area {
+  width: 266px;
+  height: 200px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 40px;
+}
+section.booking-location .location .pic-area img {
+  width: 100%;
+  height: auto;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+section.booking-location .location .booking-profile {
+  width: 80%;
+  position: relative;
+}
+section.booking-location .location .booking-profile h1 {
+  font-family: Noto Sans TC;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: left;
+  color: #448899;
+  margin-bottom: 20px;
+}
+section.booking-location .location .booking-profile .booking {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+section.booking-location .location .booking-profile .booking div.date,
+section.booking-location .location .booking-profile .booking div.time,
+section.booking-location .location .booking-profile .booking div.price,
+section.booking-location .location .booking-profile .booking div.address {
+  font-family: Noto Sans TC;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: left;
+}
+section.booking-location .location .booking-profile .booking div {
+  display: flex;
+  justify-content: flex-start;
+  font-family: Noto Sans TC;
+  font-size: 16px;
+  font-weight: 400;
+  text-align: left;
+  color: #666666;
+}
+section.booking-location .location .booking-profile .booking .trash-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+section.booking-location .location .booking-profile .booking .trash-btn button {
+  background: transparent;
+  border: none;
+}
+section.booking-location .location .booking-profile .booking .trash-btn button img {
+  width: 100%;
+  height: auto;
+  transition: transform 0.3s ease;
+}
+section.booking-location .location .booking-profile .booking .trash-btn button:hover img {
+  transform: scale(1.1);
+}
+section.booking-location .location .booking-profile .booking .trash-btn button:active img {
+  transform: scale(1.2);
+}
+
+section.contact-area,
+section.card-area {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+section.contact-area .contact-group,
+section.contact-area .card-group,
+section.card-area .contact-group,
+section.card-area .card-group {
+  width: 1200px;
+}
+section.contact-area .contact-group h3,
+section.contact-area .card-group h3,
+section.card-area .contact-group h3,
+section.card-area .card-group h3 {
+  margin-bottom: 15px;
+  font-family: Noto Sans TC;
+  font-size: 19px;
+  font-weight: 700;
+  text-align: left;
+  color: #666666;
+}
+section.contact-area .contact-group p,
+section.contact-area .card-group p,
+section.card-area .contact-group p,
+section.card-area .card-group p {
+  font-family: Noto Sans TC;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: left;
+  color: #666666;
+  margin-top: 15px;
+}
+section.contact-area .contact-group div,
+section.contact-area .card-group div,
+section.card-area .contact-group div,
+section.card-area .card-group div {
+  font-family: Noto Sans TC;
+  font-size: 16px;
+  font-weight: 400;
+  text-align: left;
+  color: #666666;
+}
+section.contact-area .contact-group form,
+section.contact-area .card-group form,
+section.card-area .contact-group form,
+section.card-area .card-group form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+section.contact-area .contact-group form input,
+section.contact-area .card-group form input,
+section.card-area .contact-group form input,
+section.card-area .card-group form input {
+  border: 1px solid #e8e8e8;
+  height: 38px;
+  border-radius: 5px;
+  padding: 8px;
+}
+
+section.total-submit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+section.total-submit div.totla-area {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 20px;
+  width: 1200px;
+}
+section.total-submit div.totla-area div {
+  color: #666666;
+}
+section.total-submit div.totla-area .submit-booking-payment {
+  padding: 10px 20px 10px 20px;
+  border-radius: 5px;
+  font-family: Noto Sans TC;
+  font-size: 19px;
+  font-weight: 400;
+  text-align: center;
+  color: white;
+  background-color: #448899;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+section.total-submit div.totla-area .submit-booking-payment:active {
+  transform: scale(1.2);
 }
 
 .signin-mask {
