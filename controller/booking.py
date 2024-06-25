@@ -47,7 +47,7 @@ async def get_booking_details( current_user : dict = Depends(get_current_user)):
                 })
                 return response
             else:
-                raise HTTPException(status_code=400, detail="Get booking details failed")
+                raise HTTPException(status_code=400, detail="資料庫沒有該用戶的預約行程")
         else:
             raise HTTPException(status_code=403, detail="User not authenticated")
         
