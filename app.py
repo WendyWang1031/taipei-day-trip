@@ -73,7 +73,28 @@ async def booking(booking: Booking , current_user : dict = Depends(get_current_u
 		 )
 async def get_booking( current_user : dict = Depends(get_current_user) ):
 	return await get_booking_details( current_user)	
-	
+
+@app.delete("/api/booking",
+		tags= ["Booking"],
+		response_model = SuccessfulResponseForBookingDelete , 
+		summary = "建立新的預定行程",
+		responses = {
+			200:{
+				"model" : SuccessfulResponseForBookingDelete,
+				"description" : "刪除成功"
+			},
+			403:{
+				"model" : ErrorResponse,
+				"description" : "未登入系統，拒絕存取"
+			},
+			500:{
+				"model" : ErrorResponse,
+				"description" : "伺服器內部錯誤"
+			}
+		 }
+		 )
+async def delete_booking_api( current_user : dict = Depends(get_current_user) ):
+	return await delete_booking(current_user)		
 		
 
 	

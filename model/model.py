@@ -52,7 +52,7 @@ class BookingAttraction(BaseModel):
 	id: int = Field(... , example=10)
 	name: str = Field(... , example="平安鐘")
 	address: str = Field(... , example="臺北市大安區忠孝東路 4 段 1 號")
-	images: List[Image] = Field(..., example=["http://140.112.3.4/images/92-0.jpg"])
+	images: Image = Field(..., example="http://140.112.3.4/images/92-0.jpg")
 
 class Booking(BaseModel):
 	attraction_id : int = Field(... , example = 1)
@@ -69,3 +69,6 @@ class BookingDatails(BaseModel):
 
 class BookingResponse(BaseModel):
 	data : BookingDatails
+
+class SuccessfulResponseForBookingDelete(BaseModel):
+	ok : bool = Field(..., description = "刪除成功")
