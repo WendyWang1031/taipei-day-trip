@@ -122,12 +122,12 @@ async function fetchGetAttractionID(attractionId) {
   try {
     const response = await fetch(`${attractionIdURL}/${attractionId}`);
     if (!response.ok) {
-      window.location = "/";
+      window.location.href = "/";
     }
 
     const data = await response.json();
     if (!data || !data.data || attractionId != data.data.id) {
-      window.location = "/";
+      window.location.href = "/";
     }
     console.log(data.data);
     displayAttraction(data.data);
