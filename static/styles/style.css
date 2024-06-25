@@ -628,7 +628,6 @@ section.booking-location {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 20px;
   width: 100%;
 }
 section.booking-location .location {
@@ -711,6 +710,7 @@ section.booking-location .location .booking-profile .booking .trash-btn button:a
   transform: scale(1.2);
 }
 
+section.no-booking-area,
 section.contact-area,
 section.card-area {
   width: 100%;
@@ -718,14 +718,36 @@ section.card-area {
   align-items: center;
   justify-content: center;
 }
+section.no-booking-area .no-booking-group,
+section.no-booking-area .contact-group,
+section.no-booking-area .card-group,
+section.contact-area .no-booking-group,
 section.contact-area .contact-group,
 section.contact-area .card-group,
+section.card-area .no-booking-group,
 section.card-area .contact-group,
 section.card-area .card-group {
   width: 1200px;
 }
+section.no-booking-area .no-booking-group h3.no-booking-title,
+section.no-booking-area .contact-group h3.no-booking-title,
+section.no-booking-area .card-group h3.no-booking-title,
+section.contact-area .no-booking-group h3.no-booking-title,
+section.contact-area .contact-group h3.no-booking-title,
+section.contact-area .card-group h3.no-booking-title,
+section.card-area .no-booking-group h3.no-booking-title,
+section.card-area .contact-group h3.no-booking-title,
+section.card-area .card-group h3.no-booking-title {
+  margin: 20px;
+  margin-bottom: 0px;
+}
+section.no-booking-area .no-booking-group h3,
+section.no-booking-area .contact-group h3,
+section.no-booking-area .card-group h3,
+section.contact-area .no-booking-group h3,
 section.contact-area .contact-group h3,
 section.contact-area .card-group h3,
+section.card-area .no-booking-group h3,
 section.card-area .contact-group h3,
 section.card-area .card-group h3 {
   margin-bottom: 15px;
@@ -735,8 +757,13 @@ section.card-area .card-group h3 {
   text-align: left;
   color: #666666;
 }
+section.no-booking-area .no-booking-group p,
+section.no-booking-area .contact-group p,
+section.no-booking-area .card-group p,
+section.contact-area .no-booking-group p,
 section.contact-area .contact-group p,
 section.contact-area .card-group p,
+section.card-area .no-booking-group p,
 section.card-area .contact-group p,
 section.card-area .card-group p {
   font-family: Noto Sans TC;
@@ -746,8 +773,25 @@ section.card-area .card-group p {
   color: #666666;
   margin-top: 15px;
 }
+section.no-booking-area .no-booking-group div.result,
+section.no-booking-area .contact-group div.result,
+section.no-booking-area .card-group div.result,
+section.contact-area .no-booking-group div.result,
+section.contact-area .contact-group div.result,
+section.contact-area .card-group div.result,
+section.card-area .no-booking-group div.result,
+section.card-area .contact-group div.result,
+section.card-area .card-group div.result {
+  margin: 20px;
+  margin-bottom: 0px;
+}
+section.no-booking-area .no-booking-group div,
+section.no-booking-area .contact-group div,
+section.no-booking-area .card-group div,
+section.contact-area .no-booking-group div,
 section.contact-area .contact-group div,
 section.contact-area .card-group div,
+section.card-area .no-booking-group div,
 section.card-area .contact-group div,
 section.card-area .card-group div {
   font-family: Noto Sans TC;
@@ -756,16 +800,26 @@ section.card-area .card-group div {
   text-align: left;
   color: #666666;
 }
+section.no-booking-area .no-booking-group form,
+section.no-booking-area .contact-group form,
+section.no-booking-area .card-group form,
+section.contact-area .no-booking-group form,
 section.contact-area .contact-group form,
 section.contact-area .card-group form,
+section.card-area .no-booking-group form,
 section.card-area .contact-group form,
 section.card-area .card-group form {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
+section.no-booking-area .no-booking-group form input,
+section.no-booking-area .contact-group form input,
+section.no-booking-area .card-group form input,
+section.contact-area .no-booking-group form input,
 section.contact-area .contact-group form input,
 section.contact-area .card-group form input,
+section.card-area .no-booking-group form input,
 section.card-area .contact-group form input,
 section.card-area .card-group form input {
   border: 1px solid #e8e8e8;

@@ -704,7 +704,6 @@ section.booking-location {
   align-items: center;
   justify-content: center;
 
-  margin: 20px;
   width: 100%;
 
   .location {
@@ -799,6 +798,7 @@ section.booking-location {
   }
 }
 
+section.no-booking-area,
 section.contact-area,
 section.card-area {
   width: 100%;
@@ -806,9 +806,15 @@ section.card-area {
   align-items: center;
   justify-content: center;
 
+  .no-booking-group,
   .contact-group,
   .card-group {
     width: 1200px;
+    h3.no-booking-title {
+      margin: 20px;
+      margin-bottom: 0px;
+    }
+
     h3 {
       margin-bottom: 15px;
 
@@ -826,6 +832,11 @@ section.card-area {
       color: #666666;
       margin-top: 15px;
     }
+    div.result {
+      margin: 20px;
+      margin-bottom: 0px;
+    }
+
     div {
       font-family: Noto Sans TC;
       font-size: 16px;
