@@ -87,15 +87,17 @@ export async function checkUserState() {
   const token = localStorage.getItem("userToken");
   if (!token) {
     View.displayUserInterface(false);
-    return;
+    return false;
   }
 
   const result = await Model.fetchUserState(token);
   if (result.ok && result.data.data) {
     View.displayUserInterface(true);
+    return true;
   } else {
     console.error("驗證用戶狀態失敗：", result.data.data);
     View.displayUserInterface(false);
+    return false;
   }
 }
 
