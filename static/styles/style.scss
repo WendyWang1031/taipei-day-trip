@@ -712,6 +712,7 @@ section.booking-location {
     justify-content: space-between;
     // align-items: center;
     width: 1200px;
+    margin: 10px;
 
     .pic-area {
       width: 266px;
@@ -1216,6 +1217,31 @@ section.total-submit {
       width: 90%;
     }
   }
+  section.booking-location {
+    width: 100% !important;
+    div.location {
+      width: 90% !important;
+    }
+  }
+  section.contact-area {
+    width: 100%;
+    div.contact-group {
+      width: 95%;
+    }
+  }
+
+  section.card-area {
+    width: 100%;
+    div.card-group {
+      width: 95%;
+    }
+  }
+  section.total-submit {
+    width: 100%;
+    div.totla-area {
+      width: 95%;
+    }
+  }
 }
 
 @media (min-width: 360px) and (max-width: 600px) {
@@ -1282,10 +1308,56 @@ section.total-submit {
       }
     }
   }
+  section.booking-location {
+    width: 100% !important;
+    margin: 0;
+    margin-top: 10px;
+    div.location {
+      width: 100% !important;
+      flex-direction: column;
+      align-items: center;
+      .pic-area {
+        width: 100%;
+        margin-right: 0px;
+        margin-bottom: 30px;
+      }
+      .booking-profile {
+        width: 100%;
+        div.trash-btn {
+          align-items: flex-end;
+          position: unset !important;
+          button {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+          }
+        }
+      }
+    }
+  }
 
   div.seperate {
     hr {
       margin: 20px 0;
+    }
+  }
+  section.contact-area {
+    width: 100%;
+    div.contact-group {
+      width: 95%;
+    }
+  }
+
+  section.card-area {
+    width: 100%;
+    div.card-group {
+      width: 95%;
+    }
+  }
+  section.total-submit {
+    width: 100%;
+    div.totla-area {
+      width: 95%;
     }
   }
 }
