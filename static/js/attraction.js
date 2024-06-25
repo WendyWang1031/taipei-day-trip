@@ -1,5 +1,5 @@
 import { checkUserState } from "./controller/auth.js";
-import * as View from "./view/auth.js";
+import * as View from "./view/view.js";
 
 // 登入
 const loginSigninBtn = document.querySelector(".login-signin");

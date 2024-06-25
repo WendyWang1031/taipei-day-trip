@@ -1,5 +1,5 @@
 import * as Model from "../model/auth.js";
-import * as View from "../view/auth.js";
+import * as View from "../view/view.js";
 
 const userRegisterUrl = "/api/user";
 const userSignInUrl = "/api/user/auth";
