@@ -856,6 +856,9 @@ section.total-submit div.totla-area .submit-booking-payment {
   cursor: pointer;
   transition: transform 0.3s ease;
 }
+section.total-submit div.totla-area .submit-booking-payment:hover {
+  background-color: #356672;
+}
 section.total-submit div.totla-area .submit-booking-payment:active {
   transform: scale(1.2);
 }

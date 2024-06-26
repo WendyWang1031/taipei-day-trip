@@ -890,7 +890,9 @@ section.total-submit {
 
       cursor: pointer;
       transition: transform 0.3s ease;
-
+      &:hover {
+        background-color: #356672;
+      }
       &:active {
         transform: scale(1.2);
       }
