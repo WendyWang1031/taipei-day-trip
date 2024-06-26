@@ -1,12 +1,15 @@
 import * as View from "../view/view.js";
 import * as BookingView from "../view/booking.js";
 
-const trashBtn = document.querySelector(".trash");
-
 const bookingURL = "/api/booking";
 
 document.addEventListener("DOMContentLoaded", function () {
-  trashBtn.addEventListener("click", fetchDeleteBooking);
+  const trashBtn = document.querySelector(".trash");
+  if (trashBtn) {
+    trashBtn.addEventListener("click", fetchDeleteBooking);
+  } else {
+    console.log("trashBtn button not found on this page.");
+  }
   fetchGetBooking();
 });
 

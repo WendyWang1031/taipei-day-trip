@@ -85,14 +85,17 @@ export function setupEventListeners() {
 
 export async function checkUserState() {
   const token = localStorage.getItem("userToken");
+
   if (!token) {
     View.displayUserInterface(false);
     return false;
   }
 
   const result = await Model.fetchUserState(token);
+
   if (result.ok && result.data.data) {
     View.displayUserInterface(true);
+    localStorage.setItem("userName", result.data.data.name);
     return true;
   } else {
     console.error("驗證用戶狀態失敗：", result.data.data);
@@ -101,33 +104,33 @@ export async function checkUserState() {
   }
 }
 
-export async function fetchGetUserName() {
-  const token = localStorage.getItem("userToken");
-  try {
-    const response = await fetch(userSignInUrl, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+// export async function fetchGetUserName() {
+//   const token = localStorage.getItem("userToken");
+//   try {
+//     const response = await fetch(userSignInUrl, {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//       },
+//     });
 
-    if (!response.ok) {
-      console.error("Failed to fetch booking details:", response.status);
-      return;
-    }
+//     if (!response.ok) {
+//       console.error("Failed to fetch booking details:", response.status);
+//       return;
+//     }
 
-    const data = await response.json();
+//     const data = await response.json();
 
-    if (!data || !data.data) {
-      console.error("No booking data available");
-      return;
-    }
-    console.log(data.data.name);
-    localStorage.setItem("userName", data.data.name);
-    return data.data.name;
-  } catch (error) {
-    console.error("Error fetching attraction:", error);
-  }
-}
+//     if (!data || !data.data) {
+//       console.error("No booking data available");
+//       return;
+//     }
+//     console.log(data.data.name);
+//     localStorage.setItem("userName", data.data.name);
+//     return data.data.name;
+//   } catch (error) {
+//     console.error("Error fetching attraction:", error);
+//   }
+// }
 
 export function setupLogoutListener() {
   const logout = document.querySelector(".logout");
@@ -144,5 +147,5 @@ function logOut() {
 export function initialize() {
   setupEventListeners();
   setupLogoutListener();
-  fetchGetUserName();
+  // fetchGetUserName();
 }
