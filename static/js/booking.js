@@ -1,5 +1,6 @@
 import { checkUserState } from "./controller/auth.js";
 import * as View from "./view/view.js";
+import { fetchGetBooking } from "./controller/booking.js";
 
 const reservBtn = document.querySelector(".reservation");
 
@@ -12,6 +13,7 @@ async function checkUserTobooking() {
   const isLoggedIn = await checkUserState();
   if (isLoggedIn) {
     window.location.href = "/booking";
+    fetchGetBooking();
   } else {
     View.setElementDisplay(".signin-mask", "flex");
   }

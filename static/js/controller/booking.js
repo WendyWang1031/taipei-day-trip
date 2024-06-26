@@ -1,4 +1,4 @@
-import { checkUserState } from "../auth.js";
+import { checkUserState } from "./auth.js";
 import * as View from "../view/view.js";
 
 const reservBtn = document.querySelector(".reservation");
@@ -49,7 +49,7 @@ async function fetchGetUserName() {
   }
 }
 
-async function fetchGetBooking() {
+export async function fetchGetBooking() {
   const token = localStorage.getItem("userToken");
   const userName = await fetchGetUserName();
   try {
