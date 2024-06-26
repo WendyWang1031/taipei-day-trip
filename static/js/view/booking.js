@@ -1,6 +1,6 @@
 export function updateBookingDetails(attraction) {
   const image = document.querySelector(".fade");
-  const attractionName = document.querySelector(".attraction-name");
+  const attractionName = document.querySelector(".booking-attraction-name");
   const date = document.querySelector(".date-detail");
   const time = document.querySelector(".time-detail");
   const price = document.querySelector(".price-detail");
