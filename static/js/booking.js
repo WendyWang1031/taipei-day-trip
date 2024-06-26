@@ -11,9 +11,10 @@ document.addEventListener("DOMContentLoaded", function () {
 async function checkUserTobooking() {
   console.log("click reservBtn!!");
   const isLoggedIn = await checkUserState();
+
   if (isLoggedIn) {
     window.location.href = "/booking";
-    fetchGetBooking();
+    await fetchGetBooking();
   } else {
     View.setElementDisplay(".signin-mask", "flex");
   }

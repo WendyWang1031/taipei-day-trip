@@ -1,45 +1,19 @@
 import * as View from "../view/view.js";
 import * as BookingView from "../view/booking.js";
+import { fetchAndStoreUserInfo } from "../controller/auth.js";
 
 const trashBtn = document.querySelector(".trash");
 
 const bookingURL = "/api/booking";
-const userSignInUrl = "/api/user/auth";
 
 document.addEventListener("DOMContentLoaded", function () {
   trashBtn.addEventListener("click", fetchDeleteBooking);
   fetchGetBooking();
 });
 
-async function fetchGetUserName() {
-  const token = localStorage.getItem("userToken");
-  try {
-    const response = await fetch(userSignInUrl, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (!response.ok) {
-      console.error("Failed to fetch booking details:", response.status);
-      return;
-    }
-
-    const data = await response.json();
-
-    if (!data || !data.data) {
-      console.error("No booking data available");
-      return;
-    }
-    return data.data.name;
-  } catch (error) {
-    console.error("Error fetching attraction:", error);
-  }
-}
-
 export async function fetchGetBooking() {
   const token = localStorage.getItem("userToken");
-  const userName = await fetchGetUserName();
+  const userName = localStorage.getItem("userName");
   try {
     const response = await fetch(bookingURL, {
       headers: {
