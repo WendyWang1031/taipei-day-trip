@@ -1164,23 +1164,26 @@ section.total-submit div.totla-area .submit-booking-payment:active {
   section.booking-location div.location {
     width: 90% !important;
   }
+  section.booking-location div.location .pic-area {
+    width: auto;
+  }
   section.contact-area {
     width: 100%;
   }
   section.contact-area div.contact-group {
-    width: 95%;
+    width: 90%;
   }
   section.card-area {
     width: 100%;
   }
   section.card-area div.card-group {
-    width: 95%;
+    width: 90%;
   }
   section.total-submit {
     width: 100%;
   }
   section.total-submit div.totla-area {
-    width: 95%;
+    width: 90%;
   }
 }
 @media (min-width: 360px) and (max-width: 600px) {
