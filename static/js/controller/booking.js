@@ -1,27 +1,14 @@
-import { checkUserState } from "./auth.js";
 import * as View from "../view/view.js";
 
-const reservBtn = document.querySelector(".reservation");
 const trashBtn = document.querySelector(".trash");
 
 const bookingURL = "/api/booking";
 const userSignInUrl = "/api/user/auth";
 
 document.addEventListener("DOMContentLoaded", function () {
-  reservBtn.addEventListener("click", checkUserTobooking);
   trashBtn.addEventListener("click", fetchDeleteBooking);
   fetchGetBooking();
 });
-
-async function checkUserTobooking() {
-  console.log("click reservBtn!!");
-  const isLoggedIn = await checkUserState();
-  if (isLoggedIn) {
-    window.location.href = "/booking";
-  } else {
-    View.setElementDisplay(".signin-mask", "flex");
-  }
-}
 
 async function fetchGetUserName() {
   const token = localStorage.getItem("userToken");
@@ -147,6 +134,5 @@ function removeDisplayBooking() {
 }
 
 function noBooking() {
-  const result = document.querySelector(".result");
-  result.style.display = "flex";
+  View.setElementDisplay(".result", "flex");
 }
