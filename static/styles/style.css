@@ -1169,6 +1169,7 @@ section.total-submit div.totla-area .submit-booking-payment:active {
   }
   section.booking-location div.location .pic-area {
     width: auto;
+    height: auto;
   }
   section.contact-area {
     width: 100%;
