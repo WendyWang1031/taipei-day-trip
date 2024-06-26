@@ -1,16 +1,21 @@
 import * as View from "../view/view.js";
 import * as BookingView from "../view/booking.js";
+import { checkUserState } from "./auth.js";
 
 const bookingURL = "/api/booking";
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
   const trashBtn = document.querySelector(".trash");
-  if (trashBtn) {
-    trashBtn.addEventListener("click", fetchDeleteBooking);
-  } else {
-    console.log("trashBtn button not found on this page.");
+  trashBtn.addEventListener("click", fetchDeleteBooking);
+
+  if (window.location.pathname === "/booking") {
+    const isLoggedIn = await checkUserState();
+    if (isLoggedIn) {
+      await fetchGetBooking();
+    } else {
+      View.setElementDisplay(".signin-mask", "flex");
+    }
   }
-  fetchGetBooking();
 });
 
 export async function fetchGetBooking() {
