@@ -811,7 +811,7 @@ section.card-area {
   .card-group {
     width: 1200px;
     h3.no-booking-title {
-      margin: 20px;
+      margin-top: 20px;
       margin-bottom: 0px;
     }
 
@@ -833,7 +833,7 @@ section.card-area {
       margin-top: 15px;
     }
     div.result {
-      margin: 20px;
+      margin-top: 20px;
       margin-bottom: 0px;
     }
 
@@ -1162,6 +1162,12 @@ section.total-submit {
       width: 90% !important;
     }
   }
+  section.no-booking-area {
+    width: 100%;
+    div.no-booking-group {
+      width: 90%;
+    }
+  }
   section.welcome-area {
     width: 100%;
     .hero {
@@ -1269,6 +1275,12 @@ section.total-submit {
           }
         }
       }
+    }
+  }
+  section.no-booking-area {
+    width: 100%;
+    div.no-booking-group {
+      width: 90%;
     }
   }
   section.welcome-area {

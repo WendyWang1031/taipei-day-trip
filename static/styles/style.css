@@ -738,7 +738,7 @@ section.contact-area .card-group h3.no-booking-title,
 section.card-area .no-booking-group h3.no-booking-title,
 section.card-area .contact-group h3.no-booking-title,
 section.card-area .card-group h3.no-booking-title {
-  margin: 20px;
+  margin-top: 20px;
   margin-bottom: 0px;
 }
 section.no-booking-area .no-booking-group h3,
@@ -782,7 +782,7 @@ section.contact-area .card-group div.result,
 section.card-area .no-booking-group div.result,
 section.card-area .contact-group div.result,
 section.card-area .card-group div.result {
-  margin: 20px;
+  margin-top: 20px;
   margin-bottom: 0px;
 }
 section.no-booking-area .no-booking-group div,
@@ -1097,6 +1097,12 @@ section.total-submit div.totla-area .submit-booking-payment:active {
   header.navigation .navi-content {
     width: 90% !important;
   }
+  section.no-booking-area {
+    width: 100%;
+  }
+  section.no-booking-area div.no-booking-group {
+    width: 90%;
+  }
   section.welcome-area {
     width: 100%;
   }
@@ -1187,6 +1193,12 @@ section.total-submit div.totla-area .submit-booking-payment:active {
   header.navigation .navi-content .header-button-area .header-2-buttons-area button {
     padding: 0 !important;
     font-size: 0.9rem !important;
+  }
+  section.no-booking-area {
+    width: 100%;
+  }
+  section.no-booking-area div.no-booking-group {
+    width: 90%;
   }
   section.welcome-area {
     width: 100%;
