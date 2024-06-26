@@ -25,6 +25,7 @@ const attractionIdURL = "/api/attraction";
 const bookingURL = "/api/booking";
 
 let currentImageIndex = 0;
+let nextImageIndex;
 
 signinMask.style.display = "none";
 signupMask.style.display = "none";
