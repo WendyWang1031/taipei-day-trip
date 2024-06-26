@@ -1,6 +1,5 @@
 import * as View from "../view/view.js";
 import * as BookingView from "../view/booking.js";
-import { fetchAndStoreUserInfo } from "../controller/auth.js";
 
 const trashBtn = document.querySelector(".trash");
 

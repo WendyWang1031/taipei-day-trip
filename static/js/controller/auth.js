@@ -101,26 +101,6 @@ export async function checkUserState() {
   }
 }
 
-export async function fetchAndStoreUserInfo() {
-  const token = localStorage.getItem("userToken");
-  try {
-    const response = await fetch(userSignInUrl, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (!response.ok) {
-      throw new Error("Failed to fetch user info");
-    }
-
-    if (data && data.data) {
-      localStorage.setItem("userName", data.data.name);
-    }
-  } catch (error) {
-    console.error("Error fetching user info:", error);
-  }
-}
-
 export async function fetchGetUserName() {
   const token = localStorage.getItem("userToken");
   try {
