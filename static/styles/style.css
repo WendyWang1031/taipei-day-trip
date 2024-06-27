@@ -28,7 +28,7 @@ header.navigation {
   margin: 0 auto;
   height: 54px;
   width: 100%;
-  border: 1px solid #e8e8e8;
+  box-shadow: 0 3px 6px -6px gray;
   margin: 0 auto;
   position: sticky;
   top: 0;
@@ -624,6 +624,245 @@ section.description-area div.dis-content div.transportation div {
   color: #666666;
 }
 
+section.booking-location {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+section.booking-location .location {
+  display: flex;
+  justify-content: space-between;
+  width: 1200px;
+  margin: 10px;
+}
+section.booking-location .location .pic-area {
+  width: 266px;
+  height: 200px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 40px;
+}
+section.booking-location .location .pic-area img {
+  width: 100%;
+  height: auto;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+section.booking-location .location .booking-profile {
+  width: 80%;
+  position: relative;
+}
+section.booking-location .location .booking-profile h1 {
+  font-family: Noto Sans TC;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: left;
+  color: #448899;
+  margin-bottom: 20px;
+}
+section.booking-location .location .booking-profile .booking {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+section.booking-location .location .booking-profile .booking div.date,
+section.booking-location .location .booking-profile .booking div.time,
+section.booking-location .location .booking-profile .booking div.price,
+section.booking-location .location .booking-profile .booking div.address {
+  font-family: Noto Sans TC;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: left;
+}
+section.booking-location .location .booking-profile .booking div {
+  display: flex;
+  justify-content: flex-start;
+  font-family: Noto Sans TC;
+  font-size: 16px;
+  font-weight: 400;
+  text-align: left;
+  color: #666666;
+}
+section.booking-location .location .booking-profile .booking .trash-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+section.booking-location .location .booking-profile .booking .trash-btn button {
+  background: transparent;
+  border: none;
+}
+section.booking-location .location .booking-profile .booking .trash-btn button img {
+  width: 100%;
+  height: auto;
+  transition: transform 0.3s ease;
+}
+section.booking-location .location .booking-profile .booking .trash-btn button:hover img {
+  transform: scale(1.1);
+}
+section.booking-location .location .booking-profile .booking .trash-btn button:active img {
+  transform: scale(1.2);
+}
+
+section.no-booking-area,
+section.contact-area,
+section.card-area {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+section.no-booking-area .no-booking-group,
+section.no-booking-area .contact-group,
+section.no-booking-area .card-group,
+section.contact-area .no-booking-group,
+section.contact-area .contact-group,
+section.contact-area .card-group,
+section.card-area .no-booking-group,
+section.card-area .contact-group,
+section.card-area .card-group {
+  width: 1200px;
+}
+section.no-booking-area .no-booking-group h3.no-booking-title,
+section.no-booking-area .contact-group h3.no-booking-title,
+section.no-booking-area .card-group h3.no-booking-title,
+section.contact-area .no-booking-group h3.no-booking-title,
+section.contact-area .contact-group h3.no-booking-title,
+section.contact-area .card-group h3.no-booking-title,
+section.card-area .no-booking-group h3.no-booking-title,
+section.card-area .contact-group h3.no-booking-title,
+section.card-area .card-group h3.no-booking-title {
+  margin-top: 20px;
+  margin-bottom: 0px;
+}
+section.no-booking-area .no-booking-group h3,
+section.no-booking-area .contact-group h3,
+section.no-booking-area .card-group h3,
+section.contact-area .no-booking-group h3,
+section.contact-area .contact-group h3,
+section.contact-area .card-group h3,
+section.card-area .no-booking-group h3,
+section.card-area .contact-group h3,
+section.card-area .card-group h3 {
+  margin-bottom: 15px;
+  font-family: Noto Sans TC;
+  font-size: 19px;
+  font-weight: 700;
+  text-align: left;
+  color: #666666;
+}
+section.no-booking-area .no-booking-group p,
+section.no-booking-area .contact-group p,
+section.no-booking-area .card-group p,
+section.contact-area .no-booking-group p,
+section.contact-area .contact-group p,
+section.contact-area .card-group p,
+section.card-area .no-booking-group p,
+section.card-area .contact-group p,
+section.card-area .card-group p {
+  font-family: Noto Sans TC;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: left;
+  color: #666666;
+  margin-top: 15px;
+}
+section.no-booking-area .no-booking-group div.result,
+section.no-booking-area .contact-group div.result,
+section.no-booking-area .card-group div.result,
+section.contact-area .no-booking-group div.result,
+section.contact-area .contact-group div.result,
+section.contact-area .card-group div.result,
+section.card-area .no-booking-group div.result,
+section.card-area .contact-group div.result,
+section.card-area .card-group div.result {
+  margin-top: 20px;
+  margin-bottom: 0px;
+}
+section.no-booking-area .no-booking-group div,
+section.no-booking-area .contact-group div,
+section.no-booking-area .card-group div,
+section.contact-area .no-booking-group div,
+section.contact-area .contact-group div,
+section.contact-area .card-group div,
+section.card-area .no-booking-group div,
+section.card-area .contact-group div,
+section.card-area .card-group div {
+  font-family: Noto Sans TC;
+  font-size: 16px;
+  font-weight: 400;
+  text-align: left;
+  color: #666666;
+}
+section.no-booking-area .no-booking-group form,
+section.no-booking-area .contact-group form,
+section.no-booking-area .card-group form,
+section.contact-area .no-booking-group form,
+section.contact-area .contact-group form,
+section.contact-area .card-group form,
+section.card-area .no-booking-group form,
+section.card-area .contact-group form,
+section.card-area .card-group form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+section.no-booking-area .no-booking-group form input,
+section.no-booking-area .contact-group form input,
+section.no-booking-area .card-group form input,
+section.contact-area .no-booking-group form input,
+section.contact-area .contact-group form input,
+section.contact-area .card-group form input,
+section.card-area .no-booking-group form input,
+section.card-area .contact-group form input,
+section.card-area .card-group form input {
+  border: 1px solid #e8e8e8;
+  height: 38px;
+  border-radius: 5px;
+  padding: 8px;
+}
+
+section.total-submit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+section.total-submit div.totla-area {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 20px;
+  width: 1200px;
+}
+section.total-submit div.totla-area div {
+  color: #666666;
+}
+section.total-submit div.totla-area .submit-booking-payment {
+  padding: 10px 20px 10px 20px;
+  border-radius: 5px;
+  font-family: Noto Sans TC;
+  font-size: 19px;
+  font-weight: 400;
+  text-align: center;
+  color: white;
+  background-color: #448899;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+section.total-submit div.totla-area .submit-booking-payment:hover {
+  background-color: #356672;
+}
+section.total-submit div.totla-area .submit-booking-payment:active {
+  transform: scale(1.2);
+}
+
 .signin-mask {
   display: none;
   position: fixed;
@@ -861,6 +1100,12 @@ section.description-area div.dis-content div.transportation div {
   header.navigation .navi-content {
     width: 90% !important;
   }
+  section.no-booking-area {
+    width: 100%;
+  }
+  section.no-booking-area div.no-booking-group {
+    width: 90%;
+  }
   section.welcome-area {
     width: 100%;
   }
@@ -916,6 +1161,34 @@ section.description-area div.dis-content div.transportation div {
   section.description-area div.dis-content {
     width: 90%;
   }
+  section.booking-location {
+    width: 100% !important;
+  }
+  section.booking-location div.location {
+    width: 90% !important;
+  }
+  section.booking-location div.location .pic-area {
+    width: auto;
+    height: auto;
+  }
+  section.contact-area {
+    width: 100%;
+  }
+  section.contact-area div.contact-group {
+    width: 90%;
+  }
+  section.card-area {
+    width: 100%;
+  }
+  section.card-area div.card-group {
+    width: 90%;
+  }
+  section.total-submit {
+    width: 100%;
+  }
+  section.total-submit div.totla-area {
+    width: 90%;
+  }
 }
 @media (min-width: 360px) and (max-width: 600px) {
   header.navigation {
@@ -927,6 +1200,12 @@ section.description-area div.dis-content div.transportation div {
   header.navigation .navi-content .header-button-area .header-2-buttons-area button {
     padding: 0 !important;
     font-size: 0.9rem !important;
+  }
+  section.no-booking-area {
+    width: 100%;
+  }
+  section.no-booking-area div.no-booking-group {
+    width: 90%;
   }
   section.welcome-area {
     width: 100%;
@@ -973,8 +1252,53 @@ section.description-area div.dis-content div.transportation div {
   section.indivisual-location div.location .profile .booking .reservation-btn {
     margin: 0;
   }
+  section.booking-location {
+    width: 100% !important;
+    margin: 0;
+    margin-top: 10px;
+  }
+  section.booking-location div.location {
+    width: 100% !important;
+    flex-direction: column;
+    align-items: center;
+  }
+  section.booking-location div.location .pic-area {
+    width: 100%;
+    margin-right: 0px;
+    margin-bottom: 30px;
+  }
+  section.booking-location div.location .booking-profile {
+    width: 100%;
+  }
+  section.booking-location div.location .booking-profile div.trash-btn {
+    align-items: flex-end;
+    position: unset !important;
+  }
+  section.booking-location div.location .booking-profile div.trash-btn button {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
   div.seperate hr {
     margin: 20px 0;
+  }
+  section.contact-area {
+    width: 100%;
+  }
+  section.contact-area div.contact-group {
+    width: 95%;
+  }
+  section.card-area {
+    width: 100%;
+  }
+  section.card-area div.card-group {
+    width: 95%;
+  }
+  section.total-submit {
+    width: 100%;
+  }
+  section.total-submit div.totla-area {
+    width: 95%;
   }
 }
 @media (min-width: 360px) and (max-width: 390px) {

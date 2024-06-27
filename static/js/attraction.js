@@ -1,3 +1,6 @@
+import { checkUserState } from "./controller/auth.js";
+import * as View from "./view/view.js";
+
 // 登入
 const loginSigninBtn = document.querySelector(".login-signin");
 const closeSigninBtn = document.querySelector(".close-signin");
@@ -15,11 +18,14 @@ const imagesRightBtn = document.querySelector(".right-btn");
 const feeElement = document.querySelector(".fee");
 const moringOption = document.getElementById("inlineRadio1");
 const AfternoonOption = document.getElementById("inlineRadio2");
+const bookingBtn = document.querySelector(".go-booking");
 
 // 其餘
 const attractionIdURL = "/api/attraction";
+const bookingURL = "/api/booking";
 
 let currentImageIndex = 0;
+let nextImageIndex;
 
 signinMask.style.display = "none";
 signupMask.style.display = "none";
@@ -47,13 +53,69 @@ function setupEventListeners() {
 
   moringOption.addEventListener("change", moringFeeOption);
   AfternoonOption.addEventListener("change", AfternoonFeeOption);
+  bookingBtn.addEventListener("click", checkBooking);
+}
+
+async function checkBooking(event) {
+  event.preventDefault();
+  console.log("click!!");
+  const isLoggedIn = await checkUserState();
+  if (isLoggedIn) {
+    const attractionId = getAttractionIdFromPath();
+    const form = document.querySelector(".booking");
+    const date = form.querySelector("#start").value;
+    const timeOption = form.querySelector(
+      'input[name="inlineRadioOptions"]:checked'
+    ).value;
+    const timeMapping = { option1: "morning", option2: "afternoon" };
+    const time = timeMapping[timeOption] || "morning";
+    const price = form.querySelector(".fee").textContent;
+    const priceNumber = price.replace(/\D/g, "");
+
+    const bookingData = {
+      attraction_id: parseInt(attractionId),
+      date: date,
+      time: time,
+      price: parseInt(priceNumber),
+    };
+    console.log(bookingData);
+    await fetchPostBooking(bookingData);
+  } else {
+    View.setElementDisplay(".signin-mask", "flex");
+  }
+}
+
+async function fetchPostBooking(bookingData) {
+  try {
+    const token = localStorage.getItem("userToken");
+    const response = await fetch(bookingURL, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(bookingData),
+    });
+
+    if (!response.ok) {
+      window.location = "/";
+    }
+
+    const data = await response.json();
+    if (!data || !data.data || bookingData.attractionId != data.data.id) {
+      window.location = "/";
+    }
+    window.location.href = "/booking";
+  } catch (error) {
+    console.error("Error fetching post booking:", error);
+  }
 }
 
 function getAttractionIdFromPath() {
   const path = window.location.pathname;
-  console.log(path);
+
   const pathSegments = path.split("/");
-  console.log(pathSegments);
+
   return pathSegments[pathSegments.length - 1];
 }
 
@@ -61,12 +123,12 @@ async function fetchGetAttractionID(attractionId) {
   try {
     const response = await fetch(`${attractionIdURL}/${attractionId}`);
     if (!response.ok) {
-      window.location = "/";
+      window.location.href = "/";
     }
 
     const data = await response.json();
     if (!data || !data.data || attractionId != data.data.id) {
-      window.location = "/";
+      window.location.href = "/";
     }
     console.log(data.data);
     displayAttraction(data.data);

@@ -1,5 +1,5 @@
 from fastapi import Depends, HTTPException
-from model.user import UserCreate, UserRead
+from model.model import UserCreate, UserRead
 from fastapi.responses import JSONResponse
 from fastapi.security import HTTPAuthorizationCredentials
 from starlette import status
