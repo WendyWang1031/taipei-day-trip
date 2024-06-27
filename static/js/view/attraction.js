@@ -1,3 +1,11 @@
+export function getAttractionIdFromPath() {
+  const path = window.location.pathname;
+
+  const pathSegments = path.split("/");
+
+  return pathSegments[pathSegments.length - 1];
+}
+
 export async function AttractionsBooking(event) {
   event.preventDefault();
 

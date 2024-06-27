@@ -1,6 +1,10 @@
 import { checkUserState } from "./controller/auth.js";
 import * as View from "./view/view.js";
-import { AttractionsBooking } from "./view/attraction.js";
+import {
+  AttractionsBooking,
+  getAttractionIdFromPath,
+} from "./view/attraction.js";
+import { fetchPostBooking } from "./controller/booking.js";
 
 // 登入
 const loginSigninBtn = document.querySelector(".login-signin");
@@ -62,46 +66,12 @@ async function checkBooking(event) {
   console.log("click!!");
   const isLoggedIn = await checkUserState();
   if (isLoggedIn) {
-    const bookingData = await AttractionsBooking();
+    const bookingData = await AttractionsBooking(event);
     console.log(bookingData);
     await fetchPostBooking(bookingData);
   } else {
     View.setElementDisplay(".signin-mask", "flex");
   }
-}
-
-async function fetchPostBooking(bookingData) {
-  try {
-    const token = localStorage.getItem("userToken");
-    const response = await fetch(bookingURL, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(bookingData),
-    });
-
-    if (!response.ok) {
-      window.location = "/";
-    }
-
-    const data = await response.json();
-    if (!data || !data.data || bookingData.attractionId != data.data.id) {
-      window.location = "/";
-    }
-    window.location.href = "/booking";
-  } catch (error) {
-    console.error("Error fetching post booking:", error);
-  }
-}
-
-function getAttractionIdFromPath() {
-  const path = window.location.pathname;
-
-  const pathSegments = path.split("/");
-
-  return pathSegments[pathSegments.length - 1];
 }
 
 async function fetchGetAttractionID(attractionId) {
