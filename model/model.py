@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import List 
+from typing import List , Optional 
 from datetime import date as date_use
 
 class Image(BaseModel):
@@ -16,6 +16,16 @@ class Attraction(BaseModel):
     lat: float = Field(... , example=25.04181)
     lng: float = Field(... , example=121.544814)
     images: List[Image] = Field(..., example=["http://140.112.3.4/images/92-0.jpg"])
+
+class MRTList(BaseModel):
+	data: str = Field(..., description="捷運站名稱列表")
+
+class SuccessfulResponseForAttraction(BaseModel):
+	nextPage : Optional[int]= Field(None, example=2, description = "下一頁的頁碼，若無更多頁面則為 None")
+	data : List[Attraction] = Field(..., description = "景點數據列表")
+
+class SuccessfulResponseForID(BaseModel):
+	data : Attraction = Field(..., description = "景點數據列表")
 
 
 class UserRead(BaseModel):

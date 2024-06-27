@@ -1,11 +1,9 @@
 from fastapi import *
-from fastapi.responses import FileResponse , JSONResponse
-from pydantic import BaseModel , Field 
-from typing import List , Optional 
+from fastapi.responses import FileResponse 
 from fastapi.staticfiles import StaticFiles
 import  json
 
-from db.attraction import get_attractions_for_pages , get_attractions_for_id , get_mrts
+from controller.attraction import *
 from controller.user import register_user, authenticate_user, get_user_details
 from model.model import *
 from service.security import get_current_user
@@ -155,15 +153,7 @@ async def get_user(user: dict = Depends(get_current_user)):
 async def user_signin(email: str = Form(...), password: str = Form(...)):
     return await authenticate_user(email, password)
 
-class MRTList(BaseModel):
-	data: str = Field(..., description="捷運站名稱列表")
 
-class SuccessfulResponseForAttraction(BaseModel):
-	nextPage : Optional[int]= Field(None, example=2, description = "下一頁的頁碼，若無更多頁面則為 None")
-	data : List[Attraction] = Field(..., description = "景點數據列表")
-
-class SuccessfulResponseForID(BaseModel):
-	data : Attraction = Field(..., description = "景點數據列表")
 
 
 @app.get("/api/attractions" , 
@@ -181,37 +171,10 @@ class SuccessfulResponseForID(BaseModel):
 				"description" : "伺服器內部錯誤"
 			}
 		 })
-async def attraction( 
+async def fetch_get_attraction( 
 	page: int = Query(ge=0 , description = "要取得的分頁，每頁 12 筆資料" ) , 
 	keyword: str = Query(None, description = "用來完全比對捷運站名稱、或模糊比對景點名稱的關鍵字，沒有給定則不做篩選")):
-	
-	try:
-		# print(f"Fetching data for page: {page} with keyword: {keyword}")
-		data = get_attractions_for_pages(page , keyword)
-		# print(f"Data retrieved: {data}")
-
-		if not data:
-			print("No data found , returing empty list.")
-			data = []
-
-		nextPage = None if len(data) < 12 else page + 1
-		
-		response = JSONResponse(
-		status_code = status.HTTP_200_OK,
-		content={
-			"nextPage":nextPage,
-			"data":data
-		})
-		return response
-	
-	except Exception as e :
-		response = JSONResponse(
-		status_code = status.HTTP_500_INTERNAL_SERVER_ERROR,
-		content={
-			"error":True,
-			"message":str(e)
-		})
-		return response
+	return await attractions_for_all(page , keyword)
 
 @app.get("/api/attraction/{attractionId}" ,
 		 tags= ["Attraction"],
@@ -231,67 +194,9 @@ async def attraction(
 				"description" : "伺服器內部錯誤"
 			}
 		 })
-async def attraction_for_id( attractionId: int = Path(..., description = "景點編號")):
+async def fetch_get_attraction_id( attractionId: int = Path(..., description = "景點編號")):
+	return await attraction_for_id(attractionId)
 
-	
-	cache_key = f'attraction:{attractionId}'
-	try:
-		
-		cached_data = cache_service.get_value(cache_key)
-		
-		if cached_data:
-			response = JSONResponse(
-				status_code = status.HTTP_200_OK,
-				content={
-					"data":json.loads(cached_data)
-				},
-				headers={"X-Cache":"Hit from Redis"})
-			
-			return response
-
-		data = get_attractions_for_id( attractionId )
-		# print(f"Data retrieved: {data}")
-		
-
-		if not data:
-			response = JSONResponse(
-			status_code = status.HTTP_404_NOT_FOUND,
-			content={
-			"error":True,
-			"message":"沒有找到指定的景點"
-			
-			},
-			headers={"X-Cache":"Miss from Redis"})
-			
-			return response
-		
-		cache_service.set_value(cache_key, json.dumps(data), expiry=3600)
-		
-		
-		response = JSONResponse(
-			status_code = status.HTTP_200_OK,
-			content={
-				"data":data
-			})
-		return response
-		
-	except ValueError as ve :
-		response = JSONResponse(
-		status_code = status.HTTP_400_BAD_REQUEST,
-		content={
-			"error":True,
-			"message":str(ve)
-		})
-		return response
-	
-	except Exception as e :
-		response = JSONResponse(
-		status_code = status.HTTP_500_INTERNAL_SERVER_ERROR,
-		content={
-			"error":True,
-			"message":str(e)
-		})
-		return response
 
 @app.get("/api/mrts" , 
 		 tags= ["MRT Station"],
@@ -307,25 +212,9 @@ async def attraction_for_id( attractionId: int = Path(..., description = "景點
 				"description" : "伺服器內部錯誤"
 			}
 		 })
-async def fetch_mrts():
-	try:
-		data = get_mrts()
-		# print(f"Data retrieved: {data}")
-		response = JSONResponse(
-			status_code = status.HTTP_200_OK,
-			content={
-				"data":data
-			})
-		return response
-	
-	except Exception as e :
-		response = JSONResponse(
-		status_code = status.HTTP_500_INTERNAL_SERVER_ERROR,
-		content={
-			"error":True,
-			"message":str(e)
-		})
-		return response
+async def fetch_get_mrts():
+	return await fetch_mrts()
+
 
 
 # Static Pages (Never Modify Code in this Block)
