@@ -6,15 +6,6 @@ import {
 } from "./view/attraction.js";
 import { fetchPostBooking } from "./controller/booking.js";
 
-// 登入
-const loginSigninBtn = document.querySelector(".login-signin");
-const closeSigninBtn = document.querySelector(".close-signin");
-const gotoSignupBtn = document.querySelector(".go-to-signup");
-const closeSignupBtn = document.querySelector(".close-signup");
-const gotoSigninBtn = document.querySelector(".go-to-signin");
-const signinMask = document.querySelector(".signin-mask");
-const signupMask = document.querySelector(".signup-mask");
-
 // 圖片往左往右轉換
 const imagesLeftBtn = document.querySelector(".left-btn");
 const imagesRightBtn = document.querySelector(".right-btn");
@@ -32,9 +23,6 @@ const bookingURL = "/api/booking";
 let currentImageIndex = 0;
 let nextImageIndex;
 
-signinMask.style.display = "none";
-signupMask.style.display = "none";
-
 document.addEventListener("DOMContentLoaded", initializePage);
 
 // 頁面載入初始化
@@ -47,12 +35,6 @@ function initializePage() {
 
 // 各種功能性的函數呼叫
 function setupEventListeners() {
-  loginSigninBtn.addEventListener("click", loginSignin);
-  closeSigninBtn.addEventListener("click", closeSignin);
-  gotoSignupBtn.addEventListener("click", gotoSignup);
-  closeSignupBtn.addEventListener("click", closeSignup);
-  gotoSigninBtn.addEventListener("click", gotoSignin);
-
   imagesLeftBtn.addEventListener("click", imagesTurnLeft);
   imagesRightBtn.addEventListener("click", imagesTurnRight);
 
@@ -192,31 +174,4 @@ function AfternoonFeeOption(event) {
   if (this.checked) {
     feeElement.textContent = "新台幣 2500 元";
   }
-}
-
-function loginSignin(event) {
-  event.preventDefault();
-  signinMask.style.display = "flex";
-}
-
-function closeSignin(event) {
-  event.preventDefault();
-  signinMask.style.display = "none";
-}
-
-function gotoSignup(event) {
-  event.preventDefault();
-  signinMask.style.display = "none";
-  signupMask.style.display = "flex";
-}
-
-function closeSignup(event) {
-  event.preventDefault();
-  signupMask.style.display = "none";
-}
-
-function gotoSignin(event) {
-  event.preventDefault();
-  signupMask.style.display = "none";
-  signinMask.style.display = "flex";
 }

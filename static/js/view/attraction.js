@@ -28,3 +28,132 @@ export async function AttractionsBooking(event) {
   };
   return bookingData;
 }
+
+export function displayAttraction(attraction) {
+  const attractionName = document.querySelector(".attraction-name");
+  const category = document.querySelector(".category");
+  const mrt = document.querySelector(".attraction-mrt");
+  const description = document.querySelector(".content");
+  const address = document.querySelector(".address-detail");
+  const transportation = document.querySelector(".transportation-detail");
+
+  attractionName.textContent = attraction.name;
+  category.textContent = attraction.category;
+  mrt.textContent = attraction.mrt;
+  description.textContent = attraction.description;
+  address.textContent = attraction.address;
+  transportation.textContent = attraction.transport;
+
+  displayImageUI(attraction.images);
+  displayCircleUI();
+}
+
+function displayImageUI(images) {
+  const imgArea = document.querySelector(".location-image-area");
+
+  const preloadedImages = images.map((imgUrl) => {
+    const img = new Image();
+    img.src = imgUrl;
+    return img;
+  });
+
+  preloadedImages.forEach((img, index) => {
+    img.alt = "景點圖片";
+    img.className = "fade";
+
+    img.style.display = index === 0 ? "block" : "none";
+
+    imgArea.appendChild(img);
+  });
+}
+
+function displayCircleUI() {
+  const circleContainer = document.querySelector(".circle-container");
+  const images = document.querySelectorAll(".location-image-area img");
+  images.forEach((_, index) => {
+    const circle = document.createElement("img");
+
+    circle.src =
+      index === 0
+        ? "/static/images/icon/circle-this.png"
+        : "/static/images/icon/circle current.png";
+
+    circleContainer.appendChild(circle);
+  });
+}
+
+const updateCirclesUI = (imageIndex) => {
+  const circleContainer = document.querySelector(".circle-container");
+  const circles = circleContainer.querySelectorAll("img");
+  circles.forEach((circle, index) => {
+    circle.src =
+      index === imageIndex
+        ? "/static/images/icon/circle-this.png"
+        : "/static/images/icon/circle current.png";
+  });
+};
+
+function imagesTurnRight(event) {
+  event.preventDefault();
+  const images = document.querySelectorAll(".location-image-area img");
+
+  images[currentImageIndex].style.display = "none";
+  nextImageIndex = (currentImageIndex + 1 + images.length) % images.length;
+  images[nextImageIndex].style.display = "block";
+
+  currentImageIndex = nextImageIndex;
+  updateCirclesUI(currentImageIndex);
+}
+
+function imagesTurnLeft(event) {
+  event.preventDefault();
+  const images = document.querySelectorAll(".location-image-area img");
+
+  images[currentImageIndex].style.display = "none";
+  nextImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+  images[nextImageIndex].style.display = "block";
+
+  currentImageIndex = nextImageIndex;
+  updateCirclesUI(currentImageIndex);
+}
+
+function moringFeeOption(event) {
+  event.preventDefault();
+  if (this.checked) {
+    feeElement.textContent = "新台幣 2000 元";
+  }
+}
+
+function AfternoonFeeOption(event) {
+  event.preventDefault();
+  if (this.checked) {
+    feeElement.textContent = "新台幣 2500 元";
+  }
+}
+
+function loginSignin(event) {
+  event.preventDefault();
+  signinMask.style.display = "flex";
+}
+
+function closeSignin(event) {
+  event.preventDefault();
+  signinMask.style.display = "none";
+}
+
+function gotoSignup(event) {
+  event.preventDefault();
+  signinMask.style.display = "none";
+  signupMask.style.display = "flex";
+}
+
+function closeSignup(event) {
+  event.preventDefault();
+  signupMask.style.display = "none";
+}
+
+function gotoSignin(event) {
+  event.preventDefault();
+  signupMask.style.display = "none";
+  signinMask.style.display = "flex";
+}
