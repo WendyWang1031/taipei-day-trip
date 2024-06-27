@@ -1,3 +1,6 @@
+let currentImageIndex = 0;
+let nextImageIndex;
+
 export function getAttractionIdFromPath() {
   const path = window.location.pathname;
 
@@ -93,7 +96,7 @@ const updateCirclesUI = (imageIndex) => {
   });
 };
 
-function imagesTurnRight(event) {
+export function imagesTurnRight(event) {
   event.preventDefault();
   const images = document.querySelectorAll(".location-image-area img");
 
@@ -105,7 +108,7 @@ function imagesTurnRight(event) {
   updateCirclesUI(currentImageIndex);
 }
 
-function imagesTurnLeft(event) {
+export function imagesTurnLeft(event) {
   event.preventDefault();
   const images = document.querySelectorAll(".location-image-area img");
 
@@ -117,43 +120,12 @@ function imagesTurnLeft(event) {
   updateCirclesUI(currentImageIndex);
 }
 
-function moringFeeOption(event) {
-  event.preventDefault();
-  if (this.checked) {
-    feeElement.textContent = "新台幣 2000 元";
-  }
-}
+export function updateFeeOption(timeOption) {
+  const feeElement = document.querySelector(".fee");
+  const feeMapping = {
+    morning: "新台幣 2000 元",
+    afternoon: "新台幣 2500 元",
+  };
 
-function AfternoonFeeOption(event) {
-  event.preventDefault();
-  if (this.checked) {
-    feeElement.textContent = "新台幣 2500 元";
-  }
-}
-
-function loginSignin(event) {
-  event.preventDefault();
-  signinMask.style.display = "flex";
-}
-
-function closeSignin(event) {
-  event.preventDefault();
-  signinMask.style.display = "none";
-}
-
-function gotoSignup(event) {
-  event.preventDefault();
-  signinMask.style.display = "none";
-  signupMask.style.display = "flex";
-}
-
-function closeSignup(event) {
-  event.preventDefault();
-  signupMask.style.display = "none";
-}
-
-function gotoSignin(event) {
-  event.preventDefault();
-  signupMask.style.display = "none";
-  signinMask.style.display = "flex";
+  feeElement.textContent = feeMapping[timeOption] || feeMapping["morning"];
 }
