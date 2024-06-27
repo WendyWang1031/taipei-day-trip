@@ -43,7 +43,7 @@ async def get_booking_details( current_user : dict = Depends(get_current_user)):
                 response = JSONResponse(
                 status_code = status.HTTP_200_OK,
                 content={
-                    "data" : booking_details
+                    "data" : booking_details.model_dump()
                 })
                 return response
             else:

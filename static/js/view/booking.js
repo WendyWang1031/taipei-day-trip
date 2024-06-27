@@ -1,4 +1,4 @@
-export function updateBookingDetails(attraction) {
+export function updateBookingDetails(bookingDetail) {
   const image = document.querySelector(".fade");
   const attractionName = document.querySelector(".booking-attraction-name");
   const date = document.querySelector(".date-detail");
@@ -7,16 +7,16 @@ export function updateBookingDetails(attraction) {
   const address = document.querySelector(".address-detail");
   const totalPrice = document.querySelector(".booking-price");
 
-  image.src = attraction.attraction.image;
-  attractionName.textContent = `台北一日遊：${attraction.attraction.name}`;
-  date.textContent = attraction.date;
-  time.textContent = attraction.time;
-  price.textContent = attraction.price;
-  address.textContent = attraction.attraction.address;
-  totalPrice.textContent = `總價：新台幣${attraction.price}`;
+  image.src = bookingDetail.attraction.images;
+  attractionName.textContent = `台北一日遊：${bookingDetail.attraction.name}`;
+  date.textContent = bookingDetail.date;
+  time.textContent = bookingDetail.time;
+  price.textContent = bookingDetail.price;
+  address.textContent = bookingDetail.attraction.address;
+  totalPrice.textContent = `總價：新台幣${bookingDetail.price}`;
 
   time.textContent =
-    attraction.time === "上半天" ? "上午9點到下午4點" : "下午5點到晚上12點";
+    bookingDetail.time === "上半天" ? "上午9點到下午4點" : "下午5點到晚上12點";
 }
 
 export function displayUserName(userName) {

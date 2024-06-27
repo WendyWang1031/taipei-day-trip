@@ -46,7 +46,7 @@ export async function fetchGetBooking() {
       return;
     }
     console.log(data.data);
-    BookingView.updateBookingDetails(data.data, userName);
+    BookingView.updateBookingDetails(data.data);
     BookingView.displayUserName(userName);
   } catch (error) {
     console.error("Error fetching attraction:", error);
