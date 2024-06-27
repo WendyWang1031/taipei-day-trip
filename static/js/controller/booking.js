@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (isLoggedIn) {
       await fetchGetBooking();
     } else {
+      window.location.href = "/";
       View.setElementDisplay(".signin-mask", "flex");
     }
   }
