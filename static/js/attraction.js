@@ -1,5 +1,6 @@
 import { checkUserState } from "./controller/auth.js";
 import * as View from "./view/view.js";
+import { AttractionsBooking } from "./view/attraction.js";
 
 // 登入
 const loginSigninBtn = document.querySelector(".login-signin");
@@ -61,23 +62,7 @@ async function checkBooking(event) {
   console.log("click!!");
   const isLoggedIn = await checkUserState();
   if (isLoggedIn) {
-    const attractionId = getAttractionIdFromPath();
-    const form = document.querySelector(".booking");
-    const date = form.querySelector("#start").value;
-    const timeOption = form.querySelector(
-      'input[name="inlineRadioOptions"]:checked'
-    ).value;
-    const timeMapping = { option1: "morning", option2: "afternoon" };
-    const time = timeMapping[timeOption] || "morning";
-    const price = form.querySelector(".fee").textContent;
-    const priceNumber = price.replace(/\D/g, "");
-
-    const bookingData = {
-      attraction_id: parseInt(attractionId),
-      date: date,
-      time: time,
-      price: parseInt(priceNumber),
-    };
+    const bookingData = await AttractionsBooking();
     console.log(bookingData);
     await fetchPostBooking(bookingData);
   } else {
