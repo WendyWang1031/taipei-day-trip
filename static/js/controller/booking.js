@@ -69,7 +69,7 @@ export async function fetchGetBooking() {
   }
 }
 
-async function fetchDeleteBooking() {
+export async function fetchDeleteBooking() {
   const token = localStorage.getItem("userToken");
   try {
     const response = await fetch(bookingURL, {
