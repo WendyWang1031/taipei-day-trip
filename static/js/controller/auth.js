@@ -100,6 +100,7 @@ export async function checkUserState() {
   } else {
     console.error("驗證用戶狀態失敗：", result.data.data);
     View.displayUserInterface(false);
+    window.location.href = "/";
     return false;
   }
 }

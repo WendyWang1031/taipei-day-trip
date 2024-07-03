@@ -589,6 +589,16 @@ div.seperate hr {
   margin: 40px 0;
 }
 
+div.seperate-card {
+  width: 100%;
+  justify-content: center;
+}
+div.seperate-card hr {
+  width: 100%;
+  border: 1px solid #e8e8e8;
+  margin: 40px 0;
+}
+
 section.description-area {
   width: 100%;
   display: flex;
@@ -917,6 +927,8 @@ section.thankyou-area div div div {
 section.thankyou-area div div a {
   text-decoration: none;
   color: inherit;
+  text-align: left;
+  padding: 5px;
   cursor: pointer;
   transition: transform 0.3s ease;
 }
@@ -1261,6 +1273,9 @@ section.thankyou-area div div a:active {
   section.total-submit div.totla-area {
     width: 90%;
   }
+  div.seperate hr {
+    width: 90%;
+  }
 }
 @media (min-width: 360px) and (max-width: 600px) {
   header.navigation {
@@ -1370,6 +1385,9 @@ section.thankyou-area div div a:active {
     width: 100%;
   }
   section.total-submit div.totla-area {
+    width: 95%;
+  }
+  div.seperate hr {
     width: 95%;
   }
 }

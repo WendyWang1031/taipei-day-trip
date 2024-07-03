@@ -1,9 +1,14 @@
 import * as View from "../view/view.js";
 import * as BookingView from "../view/booking.js";
-import { checkUserState } from "./auth.js";
-import { tappayGetPrime, fetchPostOrder } from "../controller/taypay_fields.js";
+import { checkUserState, initialize } from "./auth.js";
+import { tappayGetPrime } from "../controller/taypay_fields.js";
 
 const bookingURL = "/api/booking";
+const signinMask = document.querySelector(".signin-mask");
+const signupMask = document.querySelector(".signup-mask");
+
+signinMask.style.display = "none";
+signupMask.style.display = "none";
 
 document.addEventListener("DOMContentLoaded", async function () {
   const trashBtn = document.querySelector(".trash");
@@ -17,7 +22,9 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   if (window.location.pathname === "/booking") {
+    initialize();
     const isLoggedIn = await checkUserState();
+
     if (isLoggedIn) {
       await fetchGetBooking();
     } else {

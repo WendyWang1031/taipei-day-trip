@@ -11,6 +11,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 async function checkUserTobooking() {
   console.log("click reservBtn!!");
+  if (window.location.pathname === "/booking") {
+    console.log("Already on booking page.");
+    return;
+  }
+
   const isLoggedIn = await checkUserState();
 
   if (isLoggedIn) {

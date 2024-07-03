@@ -659,6 +659,16 @@ div.seperate {
     margin: 40px 0;
   }
 }
+div.seperate-card {
+  width: 100%;
+
+  justify-content: center;
+  hr {
+    width: 100%;
+    border: 1px solid #e8e8e8;
+    margin: 40px 0;
+  }
+}
 
 section.description-area {
   width: 100%;
@@ -941,6 +951,8 @@ section.thankyou-area {
       a {
         text-decoration: none;
         color: inherit;
+        text-align: left;
+        padding: 5px;
         h2 {
           font-family: Noto Sans TC;
           font-size: 15px;
@@ -1342,6 +1354,12 @@ section.thankyou-area {
       width: 90%;
     }
   }
+
+  div.seperate {
+    hr {
+      width: 90%;
+    }
+  }
 }
 
 @media (min-width: 360px) and (max-width: 600px) {
@@ -1463,6 +1481,11 @@ section.thankyou-area {
   section.total-submit {
     width: 100%;
     div.totla-area {
+      width: 95%;
+    }
+  }
+  div.seperate {
+    hr {
       width: 95%;
     }
   }
