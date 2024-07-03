@@ -1,4 +1,5 @@
 import { checkUserState } from "./controller/auth.js";
+
 import * as View from "./view/view.js";
 // import { fetchGetBooking } from "./controller/booking.js";
 

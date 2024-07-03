@@ -1,11 +1,15 @@
 import * as View from "../view/view.js";
 import * as BookingView from "../view/booking.js";
 import { checkUserState } from "./auth.js";
+import { tappayGetPrime, fetchPostOrder } from "../controller/taypay_fields.js";
 
 const bookingURL = "/api/booking";
 
 document.addEventListener("DOMContentLoaded", async function () {
   const trashBtn = document.querySelector(".trash");
+
+  tappayGetPrime(event);
+
   if (trashBtn) {
     trashBtn.addEventListener("click", fetchDeleteBooking);
   } else {
@@ -38,7 +42,7 @@ export async function fetchGetBooking() {
       View.setElementDisplay(".result", "flex");
       BookingView.displayUserName(userName);
       console.log("Failed to fetch booking details:", response.status);
-      return;
+      return null;
     }
 
     const data = await response.json();
@@ -47,11 +51,12 @@ export async function fetchGetBooking() {
       View.setElementDisplay(".result", "flex");
       BookingView.displayUserName(userName);
       console.error("No booking data available");
-      return;
+      return null;
     }
     console.log(data.data);
     BookingView.updateBookingDetails(data.data);
     BookingView.displayUserName(userName);
+    return data.data;
   } catch (error) {
     console.error("Error fetching attraction:", error);
   }
