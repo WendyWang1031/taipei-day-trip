@@ -20,10 +20,6 @@ async function checkUserTobooking() {
 
   if (isLoggedIn) {
     window.location.href = "/booking";
-
-    // if (["/booking"].includes(window.location.pathname)) {
-    //   await fetchGetBooking();
-    // }
   } else {
     View.setElementDisplay(".signin-mask", "flex");
   }

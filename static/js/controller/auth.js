@@ -105,34 +105,6 @@ export async function checkUserState() {
   }
 }
 
-// export async function fetchGetUserName() {
-//   const token = localStorage.getItem("userToken");
-//   try {
-//     const response = await fetch(userSignInUrl, {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     });
-
-//     if (!response.ok) {
-//       console.error("Failed to fetch booking details:", response.status);
-//       return;
-//     }
-
-//     const data = await response.json();
-
-//     if (!data || !data.data) {
-//       console.error("No booking data available");
-//       return;
-//     }
-//     console.log(data.data.name);
-//     localStorage.setItem("userName", data.data.name);
-//     return data.data.name;
-//   } catch (error) {
-//     console.error("Error fetching attraction:", error);
-//   }
-// }
-
 export function setupLogoutListener() {
   const logout = document.querySelector(".logout");
   logout.addEventListener("click", logOut);
@@ -148,5 +120,4 @@ function logOut() {
 export function initialize() {
   setupEventListeners();
   setupLogoutListener();
-  // fetchGetUserName();
 }
