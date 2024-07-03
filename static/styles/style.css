@@ -710,6 +710,146 @@ section.booking-location .location .booking-profile .booking .trash-btn button:a
   transform: scale(1.2);
 }
 
+section.no-booking-area,
+section.contact-area,
+section.card-area {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+section.no-booking-area .no-booking-group,
+section.no-booking-area .contact-group,
+section.no-booking-area .card-group,
+section.contact-area .no-booking-group,
+section.contact-area .contact-group,
+section.contact-area .card-group,
+section.card-area .no-booking-group,
+section.card-area .contact-group,
+section.card-area .card-group {
+  width: 1200px;
+}
+section.no-booking-area .no-booking-group h3.no-booking-title,
+section.no-booking-area .contact-group h3.no-booking-title,
+section.no-booking-area .card-group h3.no-booking-title,
+section.contact-area .no-booking-group h3.no-booking-title,
+section.contact-area .contact-group h3.no-booking-title,
+section.contact-area .card-group h3.no-booking-title,
+section.card-area .no-booking-group h3.no-booking-title,
+section.card-area .contact-group h3.no-booking-title,
+section.card-area .card-group h3.no-booking-title {
+  margin-top: 20px;
+  margin-bottom: 0px;
+}
+section.no-booking-area .no-booking-group h3,
+section.no-booking-area .contact-group h3,
+section.no-booking-area .card-group h3,
+section.contact-area .no-booking-group h3,
+section.contact-area .contact-group h3,
+section.contact-area .card-group h3,
+section.card-area .no-booking-group h3,
+section.card-area .contact-group h3,
+section.card-area .card-group h3 {
+  margin-bottom: 15px;
+  font-family: Noto Sans TC;
+  font-size: 19px;
+  font-weight: 700;
+  text-align: left;
+  color: #666666;
+}
+section.no-booking-area .no-booking-group p,
+section.no-booking-area .contact-group p,
+section.no-booking-area .card-group p,
+section.contact-area .no-booking-group p,
+section.contact-area .contact-group p,
+section.contact-area .card-group p,
+section.card-area .no-booking-group p,
+section.card-area .contact-group p,
+section.card-area .card-group p {
+  font-family: Noto Sans TC;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: left;
+  color: #666666;
+  margin-top: 15px;
+}
+section.no-booking-area .no-booking-group div.result,
+section.no-booking-area .contact-group div.result,
+section.no-booking-area .card-group div.result,
+section.contact-area .no-booking-group div.result,
+section.contact-area .contact-group div.result,
+section.contact-area .card-group div.result,
+section.card-area .no-booking-group div.result,
+section.card-area .contact-group div.result,
+section.card-area .card-group div.result {
+  margin-top: 20px;
+  margin-bottom: 0px;
+}
+section.no-booking-area .no-booking-group div,
+section.no-booking-area .contact-group div,
+section.no-booking-area .card-group div,
+section.contact-area .no-booking-group div,
+section.contact-area .contact-group div,
+section.contact-area .card-group div,
+section.card-area .no-booking-group div,
+section.card-area .contact-group div,
+section.card-area .card-group div {
+  font-family: Noto Sans TC;
+  font-size: 16px;
+  font-weight: 400;
+  text-align: left;
+  color: #666666;
+}
+section.no-booking-area .no-booking-group form.card-user,
+section.no-booking-area .contact-group form.card-user,
+section.no-booking-area .card-group form.card-user,
+section.contact-area .no-booking-group form.card-user,
+section.contact-area .contact-group form.card-user,
+section.contact-area .card-group form.card-user,
+section.card-area .no-booking-group form.card-user,
+section.card-area .contact-group form.card-user,
+section.card-area .card-group form.card-user {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+section.no-booking-area .no-booking-group form.card-user div,
+section.no-booking-area .contact-group form.card-user div,
+section.no-booking-area .card-group form.card-user div,
+section.contact-area .no-booking-group form.card-user div,
+section.contact-area .contact-group form.card-user div,
+section.contact-area .card-group form.card-user div,
+section.card-area .no-booking-group form.card-user div,
+section.card-area .contact-group form.card-user div,
+section.card-area .card-group form.card-user div {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+section.no-booking-area .no-booking-group form.card-user div input,
+section.no-booking-area .no-booking-group form.card-user div div.tpfield,
+section.no-booking-area .contact-group form.card-user div input,
+section.no-booking-area .contact-group form.card-user div div.tpfield,
+section.no-booking-area .card-group form.card-user div input,
+section.no-booking-area .card-group form.card-user div div.tpfield,
+section.contact-area .no-booking-group form.card-user div input,
+section.contact-area .no-booking-group form.card-user div div.tpfield,
+section.contact-area .contact-group form.card-user div input,
+section.contact-area .contact-group form.card-user div div.tpfield,
+section.contact-area .card-group form.card-user div input,
+section.contact-area .card-group form.card-user div div.tpfield,
+section.card-area .no-booking-group form.card-user div input,
+section.card-area .no-booking-group form.card-user div div.tpfield,
+section.card-area .contact-group form.card-user div input,
+section.card-area .contact-group form.card-user div div.tpfield,
+section.card-area .card-group form.card-user div input,
+section.card-area .card-group form.card-user div div.tpfield {
+  border: 1px solid #e8e8e8;
+  height: 38px;
+  border-radius: 5px;
+  padding: 8px;
+}
+
 section.total-submit {
   display: flex;
   justify-content: center;
@@ -719,7 +859,7 @@ section.total-submit {
 section.total-submit div.totla-area {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-end !important;
   gap: 20px;
   width: 1200px;
 }
@@ -743,14 +883,6 @@ section.total-submit div.totla-area .submit-booking-payment:hover {
 }
 section.total-submit div.totla-area .submit-booking-payment:active {
   transform: scale(1.2);
-}
-
-.tpfield {
-  height: 40px;
-  width: 300px;
-  border: 1px solid gray;
-  margin: 5px 0;
-  padding: 5px;
 }
 
 .signin-mask {
