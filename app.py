@@ -1,7 +1,7 @@
 from fastapi import *
 from fastapi.responses import FileResponse 
 from fastapi.staticfiles import StaticFiles
-import  json
+
 
 from controller.attraction import *
 from controller.user import register_user, authenticate_user, get_user_details
@@ -9,6 +9,7 @@ from model.model import *
 from service.security import get_current_user
 from db.booking import *
 from controller.booking import *
+from controller.order import *
 
 from service.cache_service import *
 from middlewares.logging_middleware import LoggingMiddleware
@@ -214,6 +215,35 @@ async def fetch_get_attraction_id( attractionId: int = Path(..., description = "
 		 })
 async def fetch_get_mrts():
 	return await fetch_mrts()
+
+@app.post("/api/orders",
+		tags= ["Order"],
+		response_model = Booking , 
+		summary = "建立新的訂單，並完成付款程序",
+		responses = {
+			200:{
+				"model" : PaymentOrderResponse,
+				"description" : "建立成功"
+			},
+			400:{
+				"model" : ErrorResponse,
+				"description" : "建立失敗，輸入不正確或其他原因"
+			},
+			403:{
+				"model" : ErrorResponse,
+				"description" : "未登入系統，拒絕存取"
+			},
+			500:{
+				"model" : ErrorResponse,
+				"description" : "伺服器內部錯誤"
+			}
+		 }
+		 )
+async def fetch_post_orders(current_user : dict = Depends(get_current_user) , order_request : PaymentOrderSummary = Body(...)):
+	return await create_order(current_user , order_request)
+
+
+
 
 
 

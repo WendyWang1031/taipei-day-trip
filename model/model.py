@@ -2,6 +2,7 @@ from pydantic import BaseModel, Field
 from typing import List , Optional 
 from datetime import date as date_use
 
+#...
 class Image(BaseModel):
     url:str
     
@@ -28,22 +29,20 @@ class SuccessfulResponseForID(BaseModel):
 	data : Attraction = Field(..., description = "景點數據列表")
 
 
+#....
 class UserRead(BaseModel):
     id: str = Field(...,example=1)
     name: str = Field(... , example="彭彭彭")
     email: str = Field(... , example="ply@ply.com")				
 
-
 class UserBase(BaseModel):
     email: str = Field(... , example="ply@ply.com")
     password: str = Field(... , example="12345678")	
-
 
 class UserCreate(BaseModel):
     name: str = Field(... , example="彭彭彭")
     email: str = Field(... , example="ply@ply.com")
     password: str = Field(... , example="12345678")	
-
 
 class SuccessfulResponseForMemberRegister(BaseModel):
     ok : bool = Field(..., description = "註冊成功")
@@ -58,6 +57,8 @@ class ErrorResponse(BaseModel):
     error : bool = Field(True, description = "指示是否為錯誤響應")
     message : str = Field(..., description = "錯誤訊息描述" , example="請按照情境提供對應的錯誤訊息")
 
+
+#...
 class BookingAttraction(BaseModel):
     id: int = Field(... , example=10)
     name: str = Field(... , example="平安鐘")
@@ -70,18 +71,45 @@ class Booking(BaseModel):
     time : str = Field(... , example = "afternoon")
     price : int = Field(... , example = 2500)
     
-
 class BookingDatails(BaseModel):
     attraction : BookingAttraction
     date : str = Field(... , example = "2024-06-24")
     time : str = Field(... , example = "afternoon")
     price : int = Field(... , example = 2500)
     
-
-
-
 class BookingResponse(BaseModel):
     data : BookingDatails
 
 class SuccessfulResponseForBookingDelete(BaseModel):
     ok : bool = Field(..., description = "刪除成功")
+
+
+
+class Contact(BaseModel):
+    name: str = Field(..., example="彭彭彭")
+    email: str = Field(..., example="ply@ply.com")
+    phone: str = Field(..., example="0912345678")
+
+class Trip(BaseModel):
+    attraction: BookingAttraction
+    date: str = Field(..., example="2022-01-31")
+    time: str = Field(..., example="afternoon")
+
+class Order(BaseModel):
+    price: int = Field(..., example=2000)
+    trip: Trip
+    contact: Contact
+
+class PaymentOrderSummary(BaseModel):
+    prime: str = Field(..., example="前端從第三方金流 TapPay 取得的交易碼")
+    order: Order
+
+class PaymentInfo(BaseModel):
+    status: int = Field(..., example=0)
+    message: str = Field(..., example="付款成功")
+
+class PaymentOrderResponse(BaseModel):
+    number: str = Field(..., example="20210425121135")
+    payment: PaymentInfo
+
+
