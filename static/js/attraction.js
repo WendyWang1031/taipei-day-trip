@@ -1,7 +1,7 @@
-import { checkUserState } from "./controller/auth.js";
+import { checkUserState } from "./controller/controller_auth.js";
 import * as View from "./view/view.js";
-import * as ViewAttraction from "./view/attraction.js";
-import { fetchPostBooking } from "./controller/booking.js";
+import * as ViewAttraction from "./view/view_attraction.js";
+import { fetchPostBooking } from "./model/model_booking.js";
 
 // 圖片往左往右轉換
 const imagesLeftBtn = document.querySelector(".left-btn");

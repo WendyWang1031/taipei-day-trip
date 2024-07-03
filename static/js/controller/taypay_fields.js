@@ -1,4 +1,4 @@
-import { fetchGetBooking, fetchDeleteBooking } from "../controller/booking.js";
+import { fetchGetBooking, fetchDeleteBooking } from "./controller_booking.js";
 
 const orderURL = "/api/orders";
 let prime;

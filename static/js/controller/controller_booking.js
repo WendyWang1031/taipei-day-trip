@@ -1,7 +1,7 @@
 import * as View from "../view/view.js";
-import * as BookingView from "../view/booking.js";
-import { checkUserState, initialize } from "./auth.js";
-import { tappayGetPrime } from "../controller/taypay_fields.js";
+import * as BookingView from "../view/view_booking.js";
+import { checkUserState, initialize } from "./controller_auth.js";
+import { tappayGetPrime } from "./taypay_fields.js";
 
 const bookingURL = "/api/booking";
 const signinMask = document.querySelector(".signin-mask");
@@ -91,28 +91,28 @@ export async function fetchDeleteBooking() {
   }
 }
 
-export async function fetchPostBooking(bookingData) {
-  try {
-    const token = localStorage.getItem("userToken");
-    const response = await fetch(bookingURL, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(bookingData),
-    });
+// export async function fetchPostBooking(bookingData) {
+//   try {
+//     const token = localStorage.getItem("userToken");
+//     const response = await fetch(bookingURL, {
+//       method: "POST",
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify(bookingData),
+//     });
 
-    if (!response.ok) {
-      window.location = "/";
-    }
+//     if (!response.ok) {
+//       window.location = "/";
+//     }
 
-    const data = await response.json();
-    if (!data || !data.data || bookingData.attractionId != data.data.id) {
-      window.location = "/";
-    }
-    window.location.href = "/booking";
-  } catch (error) {
-    console.error("Error fetching post booking:", error);
-  }
-}
+//     const data = await response.json();
+//     if (!data || !data.data || bookingData.attractionId != data.data.id) {
+//       window.location = "/";
+//     }
+//     window.location.href = "/booking";
+//   } catch (error) {
+//     console.error("Error fetching post booking:", error);
+//   }
+// }

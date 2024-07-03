@@ -1,7 +1,6 @@
-import { checkUserState } from "./controller/auth.js";
+import { checkUserState } from "./controller/controller_auth.js";
 
 import * as View from "./view/view.js";
-// import { fetchGetBooking } from "./controller/booking.js";
 
 const reservBtn = document.querySelector(".reservation");
 
