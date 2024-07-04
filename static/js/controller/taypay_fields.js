@@ -131,7 +131,7 @@ export function tappayGetPrime() {
         alert("get prime error " + result.msg);
         return;
       }
-      alert("get prime 成功，prime: " + result.card.prime);
+      // alert("get prime 成功，prime: " + result.card.prime);
 
       return new Promise((resolve, reject) => {
         TPDirect.card.getPrime(function (result) {
