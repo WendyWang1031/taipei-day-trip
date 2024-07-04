@@ -50,7 +50,8 @@ async def get_user_details(user: dict):
             content={"data": user_model.dict()}
         )
     except Exception as e:
+        print("get_user_details e:" ,  e)
         return JSONResponse(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            status_code=status.HTTP_403_FORBIDDEN,
             content={"error": True, "message": str(e)}
         )

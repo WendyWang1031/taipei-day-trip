@@ -100,6 +100,11 @@ export async function checkUserState() {
   } else {
     console.error("驗證用戶狀態失敗：", result.data.data);
     View.displayUserInterface(false);
+    if (result.status == 403) {
+      localStorage.clear();
+      window.location.href = "/";
+    }
+    localStorage.clear();
     window.location.href = "/";
     return false;
   }
@@ -115,6 +120,7 @@ function logOut() {
 
   window.location.reload();
   window.location.href = "/";
+  localStorage.clear();
 }
 
 export function initialize() {
