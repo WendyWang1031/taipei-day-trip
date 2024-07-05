@@ -4,17 +4,12 @@ import { checkUserState, initialize } from "./controller_auth.js";
 import { tappayGetPrime } from "./taypay_fields.js";
 
 const bookingURL = "/api/booking";
-const signinMask = document.querySelector(".signin-mask");
-const signupMask = document.querySelector(".signup-mask");
-
-signinMask.style.display = "none";
-signupMask.style.display = "none";
 
 document.addEventListener("DOMContentLoaded", async function () {
-  const trashBtn = document.querySelector(".trash");
-
+  View.signUpSignInDisplayNone();
   tappayGetPrime(event);
 
+  const trashBtn = document.querySelector(".trash");
   if (trashBtn) {
     trashBtn.addEventListener("click", fetchDeleteBooking);
   } else {
