@@ -589,6 +589,16 @@ div.seperate hr {
   margin: 40px 0;
 }
 
+div.seperate-card {
+  width: 100%;
+  justify-content: center;
+}
+div.seperate-card hr {
+  width: 100%;
+  border: 1px solid #e8e8e8;
+  margin: 40px 0;
+}
+
 section.description-area {
   width: 100%;
   display: flex;
@@ -800,28 +810,50 @@ section.card-area .card-group div {
   text-align: left;
   color: #666666;
 }
-section.no-booking-area .no-booking-group form,
-section.no-booking-area .contact-group form,
-section.no-booking-area .card-group form,
-section.contact-area .no-booking-group form,
-section.contact-area .contact-group form,
-section.contact-area .card-group form,
-section.card-area .no-booking-group form,
-section.card-area .contact-group form,
-section.card-area .card-group form {
+section.no-booking-area .no-booking-group form.card-user,
+section.no-booking-area .contact-group form.card-user,
+section.no-booking-area .card-group form.card-user,
+section.contact-area .no-booking-group form.card-user,
+section.contact-area .contact-group form.card-user,
+section.contact-area .card-group form.card-user,
+section.card-area .no-booking-group form.card-user,
+section.card-area .contact-group form.card-user,
+section.card-area .card-group form.card-user {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-section.no-booking-area .no-booking-group form input,
-section.no-booking-area .contact-group form input,
-section.no-booking-area .card-group form input,
-section.contact-area .no-booking-group form input,
-section.contact-area .contact-group form input,
-section.contact-area .card-group form input,
-section.card-area .no-booking-group form input,
-section.card-area .contact-group form input,
-section.card-area .card-group form input {
+section.no-booking-area .no-booking-group form.card-user div,
+section.no-booking-area .contact-group form.card-user div,
+section.no-booking-area .card-group form.card-user div,
+section.contact-area .no-booking-group form.card-user div,
+section.contact-area .contact-group form.card-user div,
+section.contact-area .card-group form.card-user div,
+section.card-area .no-booking-group form.card-user div,
+section.card-area .contact-group form.card-user div,
+section.card-area .card-group form.card-user div {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+section.no-booking-area .no-booking-group form.card-user div input,
+section.no-booking-area .no-booking-group form.card-user div div.tpfield,
+section.no-booking-area .contact-group form.card-user div input,
+section.no-booking-area .contact-group form.card-user div div.tpfield,
+section.no-booking-area .card-group form.card-user div input,
+section.no-booking-area .card-group form.card-user div div.tpfield,
+section.contact-area .no-booking-group form.card-user div input,
+section.contact-area .no-booking-group form.card-user div div.tpfield,
+section.contact-area .contact-group form.card-user div input,
+section.contact-area .contact-group form.card-user div div.tpfield,
+section.contact-area .card-group form.card-user div input,
+section.contact-area .card-group form.card-user div div.tpfield,
+section.card-area .no-booking-group form.card-user div input,
+section.card-area .no-booking-group form.card-user div div.tpfield,
+section.card-area .contact-group form.card-user div input,
+section.card-area .contact-group form.card-user div div.tpfield,
+section.card-area .card-group form.card-user div input,
+section.card-area .card-group form.card-user div div.tpfield {
   border: 1px solid #e8e8e8;
   height: 38px;
   border-radius: 5px;
@@ -837,7 +869,7 @@ section.total-submit {
 section.total-submit div.totla-area {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-end !important;
   gap: 20px;
   width: 1200px;
 }
@@ -861,6 +893,58 @@ section.total-submit div.totla-area .submit-booking-payment:hover {
 }
 section.total-submit div.totla-area .submit-booking-payment:active {
   transform: scale(1.2);
+}
+
+section.thankyou-area {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 50px;
+}
+section.thankyou-area div div h1 {
+  font-family: Noto Sans TC;
+  font-size: 19px;
+  font-weight: 700;
+  text-align: left;
+  color: #666666;
+}
+section.thankyou-area div div p {
+  font-family: Noto Sans TC;
+  font-size: 25px;
+  font-weight: 300;
+  text-align: left;
+  color: #666666;
+  padding: 10px;
+}
+section.thankyou-area div div div {
+  font-family: Noto Sans TC;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: left;
+  color: #666666;
+}
+section.thankyou-area div div a {
+  text-decoration: none;
+  color: inherit;
+  text-align: left;
+  padding: 5px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+section.thankyou-area div div a h2 {
+  font-family: Noto Sans TC;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 34px;
+  text-align: left;
+  color: #448899;
+}
+section.thankyou-area div div a:hover {
+  color: #356672;
+}
+section.thankyou-area div div a:active {
+  color: #356672;
 }
 
 .signin-mask {
@@ -1189,6 +1273,9 @@ section.total-submit div.totla-area .submit-booking-payment:active {
   section.total-submit div.totla-area {
     width: 90%;
   }
+  div.seperate hr {
+    width: 90%;
+  }
 }
 @media (min-width: 360px) and (max-width: 600px) {
   header.navigation {
@@ -1298,6 +1385,9 @@ section.total-submit div.totla-area .submit-booking-payment:active {
     width: 100%;
   }
   section.total-submit div.totla-area {
+    width: 95%;
+  }
+  div.seperate hr {
     width: 95%;
   }
 }

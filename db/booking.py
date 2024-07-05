@@ -1,4 +1,4 @@
-import bcrypt
+from model.model import BookingAttraction , BookingDatails , BookingResponse 
 import pymysql.cursors
 from .connection import get_db_connection_pool
 
@@ -63,18 +63,22 @@ def check_booking_detail(member_id):
         user_booking = cursor.fetchone()
         
         if user_booking:
-            return {
-                "attraction": {
-                        "id": user_booking['id'],
-                        "name": user_booking['name'],
-                        "address": user_booking['address'],
-                        "image": user_booking['image']
-                    },
-                    "date": user_booking['formatted_date'],  
-                    "time": user_booking['time'],
-                    "price": user_booking['price']
-            }
-            
+                attraction = BookingAttraction(
+                                id= user_booking['id'],
+                                name= user_booking['name'],
+                                address= user_booking['address'],
+                                images= user_booking['image'],
+                )
+
+                details = BookingDatails(
+                            attraction = attraction,
+                            date =  user_booking['formatted_date'],  
+                            time= user_booking['time'],
+                            price= user_booking['price']
+                )
+                return details
+        else:
+            return None
 
     except Exception as e:
         print(f"Error retrieving booking details: {e}")

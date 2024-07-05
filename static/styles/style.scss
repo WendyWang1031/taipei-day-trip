@@ -659,6 +659,16 @@ div.seperate {
     margin: 40px 0;
   }
 }
+div.seperate-card {
+  width: 100%;
+
+  justify-content: center;
+  hr {
+    width: 100%;
+    border: 1px solid #e8e8e8;
+    margin: 40px 0;
+  }
+}
 
 section.description-area {
   width: 100%;
@@ -844,16 +854,23 @@ section.card-area {
       text-align: left;
       color: #666666;
     }
-    form {
+    form.card-user {
       display: flex;
       flex-direction: column;
       gap: 10px;
 
-      input {
-        border: 1px solid #e8e8e8;
-        height: 38px;
-        border-radius: 5px;
-        padding: 8px;
+      div {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+
+        input,
+        div.tpfield {
+          border: 1px solid #e8e8e8;
+          height: 38px;
+          border-radius: 5px;
+          padding: 8px;
+        }
       }
     }
   }
@@ -868,7 +885,7 @@ section.total-submit {
   div.totla-area {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: flex-end !important;
     gap: 20px;
     width: 1200px;
     div {
@@ -899,6 +916,78 @@ section.total-submit {
     }
   }
 }
+
+section.thankyou-area {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 50px;
+  div {
+    div {
+      h1 {
+        font-family: Noto Sans TC;
+        font-size: 19px;
+        font-weight: 700;
+        text-align: left;
+        color: #666666;
+      }
+      p {
+        font-family: Noto Sans TC;
+        font-size: 25px;
+        font-weight: 300;
+        text-align: left;
+        color: #666666;
+        padding: 10px;
+      }
+      div {
+        font-family: Noto Sans TC;
+        font-size: 16px;
+        font-weight: 700;
+        text-align: left;
+        color: #666666;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+        text-align: left;
+        padding: 5px;
+        h2 {
+          font-family: Noto Sans TC;
+          font-size: 15px;
+          font-weight: 700;
+          line-height: 34px;
+          text-align: left;
+          color: #448899;
+        }
+        cursor: pointer;
+        transition: transform 0.3s ease;
+        &:hover {
+          color: #356672;
+        }
+        &:active {
+          color: #356672;
+        }
+      }
+    }
+  }
+}
+
+// .card-detail {
+//   display: flex;
+//   flex-direction: column;
+// }
+// .tpfield {
+//   display: flex;
+//   flex-direction: column;
+//   height: 38px;
+//   width: 250px;
+//   border: 1px solid #e8e8e8;
+//   border-radius: 5px;
+//   // margin: 5px 0;
+//   padding: 8px;
+// }
 
 .signin-mask {
   display: none;
@@ -1265,6 +1354,12 @@ section.total-submit {
       width: 90%;
     }
   }
+
+  div.seperate {
+    hr {
+      width: 90%;
+    }
+  }
 }
 
 @media (min-width: 360px) and (max-width: 600px) {
@@ -1386,6 +1481,11 @@ section.total-submit {
   section.total-submit {
     width: 100%;
     div.totla-area {
+      width: 95%;
+    }
+  }
+  div.seperate {
+    hr {
       width: 95%;
     }
   }

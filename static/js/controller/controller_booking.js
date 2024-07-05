@@ -1,15 +1,30 @@
 import * as View from "../view/view.js";
-import * as BookingView from "../view/booking.js";
-import { checkUserState } from "./auth.js";
+import * as BookingView from "../view/view_booking.js";
+import { checkUserState, initialize } from "./controller_auth.js";
+import { tappayGetPrime } from "./taypay_fields.js";
 
 const bookingURL = "/api/booking";
+const signinMask = document.querySelector(".signin-mask");
+const signupMask = document.querySelector(".signup-mask");
+
+signinMask.style.display = "none";
+signupMask.style.display = "none";
 
 document.addEventListener("DOMContentLoaded", async function () {
   const trashBtn = document.querySelector(".trash");
-  trashBtn.addEventListener("click", fetchDeleteBooking);
+
+  tappayGetPrime(event);
+
+  if (trashBtn) {
+    trashBtn.addEventListener("click", fetchDeleteBooking);
+  } else {
+    console.log("Trash button not found");
+  }
 
   if (window.location.pathname === "/booking") {
+    initialize();
     const isLoggedIn = await checkUserState();
+
     if (isLoggedIn) {
       await fetchGetBooking();
     } else {
@@ -34,7 +49,7 @@ export async function fetchGetBooking() {
       View.setElementDisplay(".result", "flex");
       BookingView.displayUserName(userName);
       console.log("Failed to fetch booking details:", response.status);
-      return;
+      return null;
     }
 
     const data = await response.json();
@@ -43,17 +58,18 @@ export async function fetchGetBooking() {
       View.setElementDisplay(".result", "flex");
       BookingView.displayUserName(userName);
       console.error("No booking data available");
-      return;
+      return null;
     }
     console.log(data.data);
-    BookingView.updateBookingDetails(data.data, userName);
+    BookingView.updateBookingDetails(data.data);
     BookingView.displayUserName(userName);
+    return data.data;
   } catch (error) {
     console.error("Error fetching attraction:", error);
   }
 }
 
-async function fetchDeleteBooking() {
+export async function fetchDeleteBooking() {
   const token = localStorage.getItem("userToken");
   try {
     const response = await fetch(bookingURL, {
@@ -74,3 +90,29 @@ async function fetchDeleteBooking() {
     console.error("Error deleting attraction:", error);
   }
 }
+
+// export async function fetchPostBooking(bookingData) {
+//   try {
+//     const token = localStorage.getItem("userToken");
+//     const response = await fetch(bookingURL, {
+//       method: "POST",
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify(bookingData),
+//     });
+
+//     if (!response.ok) {
+//       window.location = "/";
+//     }
+
+//     const data = await response.json();
+//     if (!data || !data.data || bookingData.attractionId != data.data.id) {
+//       window.location = "/";
+//     }
+//     window.location.href = "/booking";
+//   } catch (error) {
+//     console.error("Error fetching post booking:", error);
+//   }
+// }

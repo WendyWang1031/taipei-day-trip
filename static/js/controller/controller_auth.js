@@ -100,37 +100,15 @@ export async function checkUserState() {
   } else {
     console.error("驗證用戶狀態失敗：", result.data.data);
     View.displayUserInterface(false);
+    if (result.status == 403) {
+      localStorage.clear();
+      window.location.href = "/";
+    }
+    localStorage.clear();
+    window.location.href = "/";
     return false;
   }
 }
-
-// export async function fetchGetUserName() {
-//   const token = localStorage.getItem("userToken");
-//   try {
-//     const response = await fetch(userSignInUrl, {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     });
-
-//     if (!response.ok) {
-//       console.error("Failed to fetch booking details:", response.status);
-//       return;
-//     }
-
-//     const data = await response.json();
-
-//     if (!data || !data.data) {
-//       console.error("No booking data available");
-//       return;
-//     }
-//     console.log(data.data.name);
-//     localStorage.setItem("userName", data.data.name);
-//     return data.data.name;
-//   } catch (error) {
-//     console.error("Error fetching attraction:", error);
-//   }
-// }
 
 export function setupLogoutListener() {
   const logout = document.querySelector(".logout");
@@ -142,10 +120,10 @@ function logOut() {
 
   window.location.reload();
   window.location.href = "/";
+  localStorage.clear();
 }
 
 export function initialize() {
   setupEventListeners();
   setupLogoutListener();
-  // fetchGetUserName();
 }

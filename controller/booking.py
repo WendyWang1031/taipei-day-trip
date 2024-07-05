@@ -2,7 +2,7 @@ from model.model import *
 from service.security import get_current_user
 from db.booking import *
 from fastapi import *
-from fastapi import HTTPException, Depends
+from fastapi import  Depends
 from fastapi.responses import JSONResponse
 
 async def create_booking(booking: Booking , current_user : dict = Depends(get_current_user)):
@@ -19,17 +19,23 @@ async def create_booking(booking: Booking , current_user : dict = Depends(get_cu
                 })
                 return response
             else:
-                raise HTTPException(status_code=400, detail="Booking creation failed")
+                error_response = ErrorResponse(error=True, message="Failed to create booking")
+                response = JSONResponse (
+                    status_code=status.HTTP_400_BAD_REQUEST, 
+                    content=error_response.dict())
+                return response
         else:
-            raise HTTPException(status_code=403, detail="User not authenticated")
+                error_response = ErrorResponse(error=True, message="User not authenticated")
+                response = JSONResponse (
+                    status_code=status.HTTP_403_FORBIDDEN, 
+                    content=error_response.dict())
+                return response
     
     except Exception as e :
-        response = JSONResponse(
-            status_code = status.HTTP_500_INTERNAL_SERVER_ERROR,
-            content={
-                "error":True,
-                "message":str(e)
-            })
+        error_response = ErrorResponse(error=True, message=str(e))
+        response = JSONResponse (
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
+            content=error_response.dict())
         return response
     
     
@@ -43,13 +49,23 @@ async def get_booking_details( current_user : dict = Depends(get_current_user)):
                 response = JSONResponse(
                 status_code = status.HTTP_200_OK,
                 content={
-                    "data" : booking_details
+                    "data" : booking_details.model_dump()
                 })
                 return response
             else:
-                raise HTTPException(status_code=400, detail="資料庫沒有該用戶的預約行程")
+                response = JSONResponse(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                content={
+                    "error": True,
+                    "message": str(e)
+                })
+                return response
         else:
-            raise HTTPException(status_code=403, detail="User not authenticated")
+                error_response = ErrorResponse(error=True, message="User not authenticated")
+                response = JSONResponse (
+                    status_code=status.HTTP_403_FORBIDDEN, 
+                    content=error_response.dict())
+                return response
         
     except Exception as e :
         response = JSONResponse(
@@ -74,9 +90,20 @@ async def delete_booking( current_user : dict = Depends(get_current_user)):
                 })
                 return response
             else:
-                raise HTTPException(status_code=400, detail="Delete booking details failed")
+                response = JSONResponse(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    content={
+                        "error": True,
+                        "message": str(e)
+                    })
+                return response
         else:
-            raise HTTPException(status_code=403, detail="User not authenticated")
+            error_response = ErrorResponse(error=True, message="User not authenticated")
+            response = JSONResponse (
+                status_code=status.HTTP_403_FORBIDDEN, 
+                content=error_response.dict())
+            return response
+            
         
     except Exception as e :
         response = JSONResponse(

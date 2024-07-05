@@ -81,15 +81,10 @@
     <section class="contact-area">
       <div class="contact-group">
         <h3 class="contact-title">您的連絡資訊</h3>
-        <form class="contact-user">
+        <form class="card-user">
           <div class="name">
             <label for="contact-name">連絡姓名：</label>
-            <input
-              type="email"
-              id="contact-name"
-              name="contact-name"
-              required
-            />
+            <input type="text" id="contact-name" name="contact-name" required />
           </div>
           <div class="email">
             <label for="contact-email">連絡信箱：</label>
@@ -110,6 +105,7 @@
             />
           </div>
         </form>
+
         <p>
           請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。
         </p>
@@ -126,48 +122,60 @@
         <form class="card-user">
           <div class="card-detail">
             <label>卡片號碼：</label>
-            <input
+            <div
               type="text"
-              id="card-number"
+              class="tpfield"
               name="card-number"
+              id="card-number"
               placeholder="**** **** **** ****"
               required
-            />
+            ></div>
           </div>
           <div class="expire">
             <label for="card-expiration">過期時間：</label>
-            <input
+            <div
               type="text"
-              id="card-expiration"
-              name="card-expiration"
+              class="tpfield"
+              name="card-expiration-date"
+              id="card-expiration-date"
               placeholder="MM/YY"
               required
-            />
+            ></div>
           </div>
           <div class="code">
             <label for="card-cvc">驗證密碼：</label>
-            <input
+            <div
               type="text"
-              id="card-cvc"
+              class="tpfield"
               name="card-cvc"
+              id="card-cvc"
               placeholder="CVC"
               required
-            />
+            ></div>
           </div>
+          <div class="seperate-card">
+            <hr />
+          </div>
+
+          <section class="total-submit">
+            <div class="totla-area">
+              <div class="booking-price">總價：新台幣2000元</div>
+              <button type="submit" class="submit-booking-payment">
+                確認訂購並付款
+              </button>
+            </div>
+          </section>
         </form>
       </div>
     </section>
 
-    <div class="seperate">
-      <hr />
-    </div>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+      crossorigin="anonymous"
+    ></script>
 
-    <section class="total-submit">
-      <div class="totla-area">
-        <div class="booking-price">總價：新台幣2000元</div>
-        <button class="submit-booking-payment">確認訂購並付款</button>
-      </div>
-    </section>
+    <script src="https://js.tappaysdk.com/sdk/tpdirect/v5.18.0"></script>
 
     <div class="signin-mask">
       <form class="signin">
@@ -263,7 +271,10 @@
       <p>COPYRIGHT © 2024 台北一日遊</p>
     </footer>
   </body>
-  <script type="module" src="/static/js/auth.js"></script>
+  <!-- <script type="module" src="/static/js/auth.js"></script> -->
   <script type="module" src="/static/js/booking.js"></script>
-  <script type="module" src="/static/js/controller/booking.js"></script>
+  <script
+    type="module"
+    src="/static/js/controller/controller_booking.js"
+  ></script>
 </html>
