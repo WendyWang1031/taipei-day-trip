@@ -1,4 +1,3 @@
-from model.model import *
 from service.security import get_current_user
 from db.payment import *
 from model.model import *
@@ -16,7 +15,7 @@ partner_KEY = os.getenv("PARTNER_KEY")
 
 async def create_order(
           current_user : dict = Depends(get_current_user) ,
-          order_request : PaymentOrderSummary = Body(...)):
+          order_request : PaymentOrderRequest = Body(...)):
     try:
         if current_user :
             member_id = current_user["id"]
@@ -25,10 +24,8 @@ async def create_order(
             
             if payment_result and payment_result["status"] == 0:
                 result = save_order(member_id , order_request)
-                print("result:",result)
                 if result:
                     order_details = get_order_detail(member_id)
-                    print("order_details:",order_details)
                     if order_details:
 
                         response_data = PaymentOrderResponse(
@@ -37,14 +34,12 @@ async def create_order(
                                     status = 0,
                                     message = "付款成功"
                             )
-                        ) 
-                        print("response_data:",response_data)                      
+                        )                     
 
                     response = JSONResponse(
                     status_code = status.HTTP_200_OK,
                     content = {"data" : response_data.dict()}
                     )
-                    print("response_data:",response_data)
                     return response
                 else:
                     error_response = ErrorResponse(error=True, message="Failed to create order")
@@ -72,7 +67,7 @@ async def create_order(
         return response
     
 
-async def process_payment(payment_request: PaymentOrderSummary):
+async def process_payment(payment_request: PaymentOrderRequest):
     print("payment_request:" ,  payment_request)
     url = "https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime"
     headers = {

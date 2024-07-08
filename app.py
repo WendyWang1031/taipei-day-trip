@@ -241,7 +241,7 @@ async def fetch_get_mrts():
 			}
 		 }
 		 )
-async def fetch_post_orders(current_user : dict = Depends(get_current_user) , order_request : PaymentOrderSummary = Body(...)):
+async def fetch_post_orders(current_user : dict = Depends(get_current_user) , order_request : PaymentOrderRequest = Body(...)):
 	return await create_order(current_user , order_request)
 
 

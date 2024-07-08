@@ -100,7 +100,7 @@ class Order(BaseModel):
     trip: Trip
     contact: Contact
 
-class PaymentOrderSummary(BaseModel):
+class PaymentOrderRequest(BaseModel):
     prime: str = Field(..., example="前端從第三方金流 TapPay 取得的交易碼")
     order: Order
 
