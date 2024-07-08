@@ -1,15 +1,13 @@
-from fastapi import Depends, HTTPException
-from model.model import UserCreate, UserRead
+from model.model import UserRead
 from fastapi.responses import JSONResponse
-from fastapi.security import HTTPAuthorizationCredentials
 from starlette import status
 import bcrypt
 
-from db.user import insert_new_user, check_user_email_exists, check_email_password
-from service.security import create_access_token , get_current_user
+from db.user import *
+from service.security import create_access_token 
 
 async def register_user(name: str, email: str, password: str):
-    if check_user_email_exists(email):
+    if db_check_user_email_exists(email):
         return JSONResponse(
             status_code=status.HTTP_400_BAD_REQUEST,
             content={"error": True, "message": "Email already exists"}
@@ -27,7 +25,7 @@ async def register_user(name: str, email: str, password: str):
         )
 
 async def authenticate_user(email: str, password: str):
-    user_info = check_email_password(email, password)
+    user_info = db_check_email_password(email, password)
     if user_info:
         access_token = create_access_token(
             data={"id": user_info['id'], "name": user_info['name'], "email": user_info['email']}

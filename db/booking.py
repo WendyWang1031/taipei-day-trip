@@ -18,7 +18,7 @@ def get_existing_booking(member_id):
         connection.close()
     
 
-def save_or_update_booking(member_id , booking_data):
+def db_save_or_update_booking(member_id , booking_data):
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     booking_existing = get_existing_booking(member_id)
@@ -46,7 +46,7 @@ def save_or_update_booking(member_id , booking_data):
 
 
 
-def check_booking_detail(member_id):
+def db_check_booking_detail(member_id):
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:
@@ -88,7 +88,7 @@ def check_booking_detail(member_id):
         connection.close()
     
 
-def delete_booking_details(member_id):
+def db_delete_booking_details(member_id):
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:

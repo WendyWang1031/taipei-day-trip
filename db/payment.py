@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from model.model import BookingAttraction , BookingDatails , BookingResponse 
+from model.model import BookingAttraction , BookingDatails , BookingResponse, PaymentOrderSummary 
 from db.booking import get_existing_booking 
 
 import pymysql.cursors
@@ -10,7 +10,7 @@ def generate_order_number():
     current_time = datetime.now()
     return current_time.strftime("%Y%m%d%H%M%S")
 
-def save_order(member_id , order_request):
+def save_order(member_id: str, order_request: PaymentOrderSummary) -> bool:
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     order_number = generate_order_number()

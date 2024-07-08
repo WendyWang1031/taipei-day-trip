@@ -32,7 +32,7 @@ def decode_access_token(token: str):
             return response
 
 
-def get_current_user(token: HTTPAuthorizationCredentials = Security(security)):
+def get_current_user(token: HTTPAuthorizationCredentials = Security(security)) :
     if token is None :
             error_response = ErrorResponse(error=True, message="User not authenticated")
             response = JSONResponse (

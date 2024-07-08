@@ -25,7 +25,7 @@ def insert_new_user(name , email , hashed_password):
         cursor.close()
         connection.close()
 
-def check_user_email_exists(email):
+def db_check_user_email_exists(email):
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:
@@ -41,7 +41,7 @@ def check_user_email_exists(email):
     
     return user_email is not None   
 
-def check_email_password(email , password):
+def db_check_email_password(email , password):
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:

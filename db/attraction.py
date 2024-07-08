@@ -2,7 +2,7 @@ import math
 import pymysql
 from .connection import get_db_connection_pool
 
-def get_attractions_for_pages(page , keyword = None):
+def db_get_attractions_for_pages(page , keyword = None):
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:
@@ -98,7 +98,7 @@ def get_attractions_for_pages(page , keyword = None):
         connection.close()
 
 
-def get_attractions_for_id(id):
+def db_get_attractions_for_id(id):
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:
@@ -117,7 +117,7 @@ def get_attractions_for_id(id):
             return result
         
         else:
-            raise ValueError("No valid ID provided")
+            return ValueError("No valid ID provided")
     
     except Exception as err:
         print(f'Error retrieving attractions : {err}')
@@ -126,7 +126,7 @@ def get_attractions_for_id(id):
         cursor.close()
         connection.close()
 
-def get_mrts():
+def db_get_mrts():
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:

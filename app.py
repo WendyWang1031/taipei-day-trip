@@ -21,6 +21,7 @@ app.add_middleware(LoggingMiddleware)
 redis_connection = get_redis_connection()
 cache_service = CacheService(redis_connection)
 
+# 預定行程 - 類似購物車
 @app.post("/api/booking",
 		tags= ["Booking"],
 		response_model = Booking , 
@@ -44,7 +45,7 @@ cache_service = CacheService(redis_connection)
 			}
 		 }
 		 )
-async def booking(booking: Booking , current_user : dict = Depends(get_current_user)):
+async def fetch_post_booking(booking: Booking , current_user : dict = Depends(get_current_user)):
 	return await create_booking(booking , current_user)
 
 @app.get("/api/booking",
@@ -70,7 +71,7 @@ async def booking(booking: Booking , current_user : dict = Depends(get_current_u
 			}
 		 }
 		 )
-async def get_booking( current_user : dict = Depends(get_current_user) ):
+async def fetch_get_booking( current_user : dict = Depends(get_current_user) ):
 	return await get_booking_details( current_user)	
 
 @app.delete("/api/booking",
@@ -92,10 +93,12 @@ async def get_booking( current_user : dict = Depends(get_current_user) ):
 			}
 		 }
 		 )
-async def delete_booking_api( current_user : dict = Depends(get_current_user) ):
+async def fetch_delete_booking_api( current_user : dict = Depends(get_current_user) ):
 	return await delete_booking(current_user)		
 		
 
+
+# 會員登入、註冊、確認用戶登入狀況
 @app.post("/api/user" , 
 		 tags= ["User"],
 		 response_model = UserCreate ,
@@ -115,7 +118,7 @@ async def delete_booking_api( current_user : dict = Depends(get_current_user) ):
 				"description" : "伺服器內部錯誤"
 			}
 		 })
-async def user_register(name: str = Form(...), email: str = Form(...), password: str = Form(...)):
+async def fetch_post_user_signup(name: str = Form(...), email: str = Form(...), password: str = Form(...)):
     return await register_user(name, email, password)
 
 @app.get("/api/user/auth" , 
@@ -129,7 +132,7 @@ async def user_register(name: str = Form(...), email: str = Form(...), password:
 				"description" : "已登入的會員資料，null 表示未登入"
 			}
 		 })
-async def get_user(user: dict = Depends(get_current_user)):
+async def fetch_get_user(user: dict = Depends(get_current_user)):
     return await get_user_details(user)
 
 @app.put("/api/user/auth" , 
@@ -151,12 +154,11 @@ async def get_user(user: dict = Depends(get_current_user)):
 				"description" : "伺服器內部錯誤"
 			}
 		 })
-async def user_signin(email: str = Form(...), password: str = Form(...)):
+async def fetch_put_user_signin(email: str = Form(...), password: str = Form(...)):
     return await authenticate_user(email, password)
 
 
-
-
+# 景點頁面
 @app.get("/api/attractions" , 
 		 tags= ["Attraction"],
 		 response_model = Attraction , 
@@ -175,7 +177,7 @@ async def user_signin(email: str = Form(...), password: str = Form(...)):
 async def fetch_get_attraction( 
 	page: int = Query(ge=0 , description = "要取得的分頁，每頁 12 筆資料" ) , 
 	keyword: str = Query(None, description = "用來完全比對捷運站名稱、或模糊比對景點名稱的關鍵字，沒有給定則不做篩選")):
-	return await attractions_for_all(page , keyword)
+	return await get_attractions_for_all(page , keyword)
 
 @app.get("/api/attraction/{attractionId}" ,
 		 tags= ["Attraction"],
@@ -196,8 +198,7 @@ async def fetch_get_attraction(
 			}
 		 })
 async def fetch_get_attraction_id( attractionId: int = Path(..., description = "景點編號")):
-	return await attraction_for_id(attractionId)
-
+	return await get_attraction_for_id(attractionId)
 
 @app.get("/api/mrts" , 
 		 tags= ["MRT Station"],
@@ -214,7 +215,7 @@ async def fetch_get_attraction_id( attractionId: int = Path(..., description = "
 			}
 		 })
 async def fetch_get_mrts():
-	return await fetch_mrts()
+	return await get_mrts()
 
 @app.post("/api/orders",
 		tags= ["Order"],
@@ -244,7 +245,7 @@ async def fetch_post_orders(current_user : dict = Depends(get_current_user) , or
 
 
 
-
+# ----------------------------------------------------------
 
 
 # Static Pages (Never Modify Code in this Block)

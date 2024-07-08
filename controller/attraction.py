@@ -4,16 +4,16 @@ from fastapi import *
 from fastapi.responses import JSONResponse
 
 from service.cache_service import *
-from db.attraction import get_attractions_for_pages , get_attractions_for_id , get_mrts
+from db.attraction import db_get_attractions_for_pages , db_get_attractions_for_id , db_get_mrts
 
 redis_connection = get_redis_connection()
 cache_service = CacheService(redis_connection)
 
 
-async def attractions_for_all(page , keyword):
+async def get_attractions_for_all(page , keyword):
 	
 	try:
-		data = get_attractions_for_pages(page , keyword)
+		data = db_get_attractions_for_pages(page , keyword)
 
 		if not data:
 			print("No data found , returing empty list.")
@@ -39,7 +39,7 @@ async def attractions_for_all(page , keyword):
 		return response
 
 
-async def attraction_for_id(attractionId):
+async def get_attraction_for_id(attractionId):
 	cache_key = f'attraction:{attractionId}'
 	try:
 		
@@ -55,7 +55,7 @@ async def attraction_for_id(attractionId):
 			
 			return response
 
-		data = get_attractions_for_id( attractionId )
+		data = db_get_attractions_for_id( attractionId )
 		
 
 		if not data:
@@ -99,9 +99,9 @@ async def attraction_for_id(attractionId):
 		return response
 
 
-async def fetch_mrts():
+async def get_mrts():
 	try:
-		data = get_mrts()
+		data = db_get_mrts()
 		response = JSONResponse(
 			status_code = status.HTTP_200_OK,
 			content={

@@ -9,7 +9,7 @@ async def create_booking(booking: Booking , current_user : dict = Depends(get_cu
     try:
         if current_user :
             member_id = current_user["id"]
-            result = save_or_update_booking(member_id , booking)
+            result = db_save_or_update_booking(member_id , booking)
             print(result)
             if result:
                 response = JSONResponse(
@@ -43,7 +43,7 @@ async def get_booking_details( current_user : dict = Depends(get_current_user)):
     try:
         if current_user :
             member_id = current_user["id"]
-            booking_details = check_booking_detail(member_id)
+            booking_details = db_check_booking_detail(member_id)
             print(booking_details)
             if booking_details:
                 response = JSONResponse(
@@ -80,7 +80,7 @@ async def delete_booking( current_user : dict = Depends(get_current_user)):
     try:
         if current_user :
             member_id = current_user["id"]
-            delete_booking_result = delete_booking_details(member_id)
+            delete_booking_result = db_delete_booking_details(member_id)
             
             if delete_booking_result:
                 response = JSONResponse(
