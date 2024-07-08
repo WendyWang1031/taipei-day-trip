@@ -1,8 +1,8 @@
 from pydantic import BaseModel, Field
 from typing import List , Optional 
-from datetime import date as date_use
 
-#...
+
+# 景點
 class Image(BaseModel):
     url:str
     
@@ -29,7 +29,7 @@ class SuccessfulResponseForID(BaseModel):
 	data : Attraction = Field(..., description = "景點數據列表")
 
 
-#....
+# 用戶
 class UserRead(BaseModel):
     id: str = Field(...,example=1)
     name: str = Field(... , example="彭彭彭")
@@ -58,7 +58,7 @@ class ErrorResponse(BaseModel):
     message : str = Field(..., description = "錯誤訊息描述" , example="請按照情境提供對應的錯誤訊息")
 
 
-#...
+# 購物車
 class BookingAttraction(BaseModel):
     id: int = Field(... , example=10)
     name: str = Field(... , example="平安鐘")
@@ -84,7 +84,7 @@ class SuccessfulResponseForBookingDelete(BaseModel):
     ok : bool = Field(..., description = "刪除成功")
 
 
-
+# 訂單與聯絡資訊
 class Contact(BaseModel):
     name: str = Field(..., example="彭彭彭")
     email: str = Field(..., example="ply@ply.com")

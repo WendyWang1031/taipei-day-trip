@@ -230,6 +230,7 @@ export async function fetchPostOrder(prime) {
     }
 
     const data = await response.json();
+    console.log("data:", data);
     if (data && data.data) {
       await fetchDeleteBooking();
       window.location.href = `/thankyou?number=${data.data.number}`;

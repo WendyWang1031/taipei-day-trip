@@ -217,6 +217,7 @@ async def fetch_get_attraction_id( attractionId: int = Path(..., description = "
 async def fetch_get_mrts():
 	return await get_mrts()
 
+# 訂單處理
 @app.post("/api/orders",
 		tags= ["Order"],
 		response_model = Booking , 

@@ -25,25 +25,26 @@ async def create_order(
             
             if payment_result and payment_result["status"] == 0:
                 result = save_order(member_id , order_request)
-                print(result)
+                print("result:",result)
                 if result:
                     order_details = get_order_detail(member_id)
+                    print("order_details:",order_details)
                     if order_details:
-                        response_data = {
-                            "data":{
-                                "number" : order_details["number"],
-                                "payment" : {
-                                        "status" : 0,
-                                        "message" : "付款成功"
-                                }
-                            }
-                        }
+
+                        response_data = PaymentOrderResponse(
+                            number = order_details["number"],
+                            payment = PaymentInfo(
+                                    status = 0,
+                                    message = "付款成功"
+                            )
+                        ) 
+                        print("response_data:",response_data)                      
 
                     response = JSONResponse(
                     status_code = status.HTTP_200_OK,
-                    content = response_data
+                    content = {"data" : response_data.dict()}
                     )
-                    print(response_data)
+                    print("response_data:",response_data)
                     return response
                 else:
                     error_response = ErrorResponse(error=True, message="Failed to create order")
