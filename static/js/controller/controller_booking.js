@@ -7,7 +7,7 @@ const bookingURL = "/api/booking";
 
 document.addEventListener("DOMContentLoaded", async function () {
   View.signUpSignInDisplayNone();
-  tappayGetPrime(event);
+  tappayGetPrime();
 
   const trashBtn = document.querySelector(".trash");
   if (trashBtn) {
