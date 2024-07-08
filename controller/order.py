@@ -8,6 +8,7 @@ import httpx
 import json
 from dotenv import load_dotenv
 import os
+from typing import Any
 
 load_dotenv()
 api_key = os.getenv("API_KEY")
@@ -15,7 +16,7 @@ partner_KEY = os.getenv("PARTNER_KEY")
 
 async def create_order(
           current_user : dict = Depends(get_current_user) ,
-          order_request : PaymentOrderRequest = Body(...)):
+          order_request : PaymentOrderRequest = Body(...)) -> JSONResponse :
     try:
         if current_user :
             member_id = current_user["id"]
@@ -67,8 +68,8 @@ async def create_order(
         return response
     
 
-async def process_payment(payment_request: PaymentOrderRequest):
-    print("payment_request:" ,  payment_request)
+async def process_payment(payment_request: PaymentOrderRequest) ->  dict [str, Any] | JSONResponse:
+    
     url = "https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime"
     headers = {
         "Content-Type" : "application/json",
@@ -95,13 +96,12 @@ async def process_payment(payment_request: PaymentOrderRequest):
                   "email" :  payment_request.order.contact.email, 
         }
     }
-    print("body:" ,  body)
+    
     async with httpx.AsyncClient() as client :
         response = await client.post(url , json = body , headers = headers)
-        print("status_code:" ,  response.status_code)
+        
         if response.status_code == 200:
             data = response.json()
-            print(data)
             return data
         else:
             error_response = ErrorResponse(error=True, message="Payment failed")

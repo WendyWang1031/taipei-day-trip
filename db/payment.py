@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Any
 
 from model.model import BookingAttraction , BookingDatails , PaymentOrderRequest 
 from db.booking import get_existing_booking 
@@ -50,7 +51,7 @@ def save_order(member_id: str, order_request: PaymentOrderRequest) -> bool:
         cursor.close()
         connection.close()
 
-def get_order_detail(member_id):
+def get_order_detail(member_id) -> (dict [str, Any] | None):
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:
