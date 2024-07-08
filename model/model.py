@@ -71,14 +71,14 @@ class Booking(BaseModel):
     time : str = Field(... , example = "afternoon")
     price : int = Field(... , example = 2500)
     
-class BookingDatails(BaseModel):
+class BookingDetails(BaseModel):
     attraction : BookingAttraction
     date : str = Field(... , example = "2024-06-24")
     time : str = Field(... , example = "afternoon")
     price : int = Field(... , example = 2500)
     
 class BookingResponse(BaseModel):
-    data : BookingDatails
+    data : BookingDetails
 
 class SuccessfulResponseForBookingDelete(BaseModel):
     ok : bool = Field(..., description = "刪除成功")
@@ -111,5 +111,13 @@ class PaymentInfo(BaseModel):
 class PaymentOrderResponse(BaseModel):
     number: str = Field(..., example="20210425121135")
     payment: PaymentInfo
+
+
+class PaymentOrderDetailsResponse(BaseModel):
+    number: str
+    price: int
+    trip: BookingDetails
+    contact: Contact
+    status: int
 
 

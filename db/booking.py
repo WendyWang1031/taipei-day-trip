@@ -1,4 +1,4 @@
-from model.model import BookingAttraction , BookingDatails , BookingResponse 
+from model.model import BookingAttraction , BookingDetails , BookingResponse 
 import pymysql.cursors
 from .connection import get_db_connection_pool
 
@@ -70,7 +70,7 @@ def db_check_booking_detail(member_id):
                                 images= user_booking['image'],
                 )
 
-                details = BookingDatails(
+                details = BookingDetails(
                             attraction = attraction,
                             date =  user_booking['formatted_date'],  
                             time= user_booking['time'],
