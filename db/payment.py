@@ -54,7 +54,7 @@ def save_order(member_id: str, order_request: PaymentOrderRequest) -> bool:
         cursor.close()
         connection.close()
 
-def get_order_detail(member_id) -> (dict [str, Any] | None):
+def get_order_detail(member_id) -> dict [str, Any] | None:
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:

@@ -1,14 +1,16 @@
-from model.model import BookingAttraction , BookingDetails , BookingResponse 
+from model.model import BookingAttraction , BookingDetails 
 import pymysql.cursors
+from typing import Any
 from .connection import get_db_connection_pool
 
-def get_existing_booking(member_id):
+def get_existing_booking( member_id : int) -> dict [str, Any] | None:
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:
         sql = "select * from booking where member_id = %s"
         cursor.execute( sql , (member_id ,))
         user_booking = cursor.fetchone()
+        print("user_booking:" , user_booking)
         return user_booking
     except Exception as e:
         print(f"Error getting booking details: {e}")
@@ -18,7 +20,7 @@ def get_existing_booking(member_id):
         connection.close()
     
 
-def db_save_or_update_booking(member_id , booking_data):
+def db_save_or_update_booking(member_id , booking_data) -> bool :
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     booking_existing = get_existing_booking(member_id)
@@ -46,7 +48,7 @@ def db_save_or_update_booking(member_id , booking_data):
 
 
 
-def db_check_booking_detail(member_id):
+def db_check_booking_detail(member_id) -> BookingDetails | None :
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:
@@ -88,7 +90,7 @@ def db_check_booking_detail(member_id):
         connection.close()
     
 
-def db_delete_booking_details(member_id):
+def db_delete_booking_details(member_id) -> bool :
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:

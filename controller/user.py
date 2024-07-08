@@ -1,4 +1,4 @@
-from model.model import UserRead
+from model.model import UserRead , ErrorResponse
 from fastapi.responses import JSONResponse
 from starlette import status
 import bcrypt
@@ -40,16 +40,25 @@ async def authenticate_user(email: str, password: str):
             content={"error": True, "message": "Invalid email or password"}
         )
 
-async def get_user_details(user: dict):
+async def get_user_details(user: dict) -> JSONResponse :
     try:
-        user_model = UserRead(**user)
-        return JSONResponse(
-            status_code=status.HTTP_200_OK,
-            content={"data": user_model.dict()}
-        )
-    except Exception as e:
-        print("get_user_details e:" ,  e)
-        return JSONResponse(
-            status_code=status.HTTP_403_FORBIDDEN,
-            content={"error": True, "message": str(e)}
-        )
+        if user :
+            user_model = UserRead(**user)
+            response = JSONResponse (
+                status_code=status.HTTP_200_OK,
+                content={"data": user_model.dict()}
+            )           
+            return response
+        else:
+            error_response = ErrorResponse(error=True, message="Failed to get user's data")
+            response = JSONResponse (
+                status_code=status.HTTP_400_BAD_REQUEST, 
+                content=error_response.dict())
+            return response
+    
+    except Exception :
+        error_response = ErrorResponse(error=True, message="User not authenticated")
+        response = JSONResponse (
+            status_code=status.HTTP_403_FORBIDDEN, 
+            content=error_response.dict())
+        return response

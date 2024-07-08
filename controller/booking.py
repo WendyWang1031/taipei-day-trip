@@ -5,7 +5,7 @@ from fastapi import *
 from fastapi import  Depends
 from fastapi.responses import JSONResponse
 
-async def create_booking(booking: Booking , current_user : dict = Depends(get_current_user)):
+async def create_booking(booking: Booking , current_user : dict = Depends(get_current_user)) -> JSONResponse :
     try:
         if current_user :
             member_id = current_user["id"]
@@ -39,7 +39,7 @@ async def create_booking(booking: Booking , current_user : dict = Depends(get_cu
         return response
     
     
-async def get_booking_details( current_user : dict = Depends(get_current_user)):
+async def get_booking_details( current_user : dict = Depends(get_current_user)) -> JSONResponse :
     try:
         if current_user :
             member_id = current_user["id"]
@@ -76,7 +76,7 @@ async def get_booking_details( current_user : dict = Depends(get_current_user)):
             })
         return response
     
-async def delete_booking( current_user : dict = Depends(get_current_user)):
+async def delete_booking( current_user : dict = Depends(get_current_user)) -> JSONResponse :
     try:
         if current_user :
             member_id = current_user["id"]
