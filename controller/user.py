@@ -6,39 +6,47 @@ import bcrypt
 from db.user import *
 from service.security import create_access_token 
 
-async def register_user(name: str, email: str, password: str) -> JSONResponse :
+async def register_user(name: str, email: str, password: str) -> JSONResponse | ErrorResponse:
     if db_check_user_email_exists(email):
-        return JSONResponse(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            content={"error": True, "message": "Email already exists"}
-        )
+        error_response = ErrorResponse(error=True, message="Email already exists")
+        response = JSONResponse (
+            status_code=status.HTTP_400_BAD_REQUEST, 
+            content=error_response.dict())
+        return response
+
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+    
     if db_insert_new_user(name, email, hashed_password):
         return JSONResponse(
             status_code=status.HTTP_200_OK,
             content={"ok": True}
         )
     else:
-        return JSONResponse(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            content={"error": True, "message": "Failed to create user due to a server error"}
-        )
+        error_response = ErrorResponse(error=True, message="Failed to create user due to a server error")
+        response = JSONResponse (
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
+            content=error_response.dict())
+        return response
 
-async def authenticate_user(email: str, password: str) -> JSONResponse :
+async def authenticate_user(email: str, password: str) -> JSONResponse | ErrorResponse:
     user_info = db_check_email_password(email, password)
     if user_info:
-        access_token = create_access_token(
-            data={"id": user_info['id'], "name": user_info['name'], "email": user_info['email']}
-        )
+        access_token = create_access_token(UserRead(
+            id = user_info['id'],
+            name = user_info['name'],
+            email = user_info['email']
+        ).dict())
         return JSONResponse(
             status_code=status.HTTP_200_OK,
             content={"token": access_token}
         )
     else:
-        return JSONResponse(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            content={"error": True, "message": "Invalid email or password"}
-        )
+        error_response = ErrorResponse(error=True, message="Invalid email or password")
+        response = JSONResponse (
+            status_code=status.HTTP_400_BAD_REQUEST, 
+            content=error_response.dict())
+        return response
+
 
 async def get_user_details(user: dict) -> JSONResponse :
     try:
