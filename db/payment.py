@@ -25,7 +25,7 @@ def save_order(member_id : str, order_request : PaymentOrderRequest) -> bool:
     try:
 
         if user_booking : 
-            sql = """insert into payment 
+            sql = """insert into trip_order 
             ( order_number , member_id , attraction_id , date , time ,  price , payment_time ,  status ) 
             values ( %s , %s , %s , %s , %s , %s , NOW() , %s)
             """
@@ -38,17 +38,16 @@ def save_order(member_id : str, order_request : PaymentOrderRequest) -> bool:
                             user_booking["price"] ,
                             0))
 
-            sql_contact = """insert into contact 
-            (  member_id , phone_number ) 
-            values ( %s , %s  )
-            on DUPLICATE KEY UPDATE phone_number = VALUES (phone_number)
+            sql_memeber_phone = """update member 
+            set  phone_number =  %s 
+            where id = %s 
             """
-            cursor.execute(sql_contact ,( member_id , contact_phone))
+            cursor.execute(sql_memeber_phone , ( contact_phone , member_id ))
             
         connection.commit()
         return True
     except Exception as e:
-        print(f"Error inserting new payment: {e}") 
+        print(f"Error inserting new order: {e}") 
         return False
     finally:
         cursor.close()
@@ -59,27 +58,30 @@ def get_order_detail(member_id : str) -> dict [str, Any] | None:
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:
         sql = """
+        
         select 
-        payment.order_number AS number , 
-        payment.price,
+        trip_order.order_number AS number , 
+        trip_order.price,
         location.id AS attraction_id ,
         location.name AS attraction_name ,
         location.address AS address ,
         URL_file.images AS image ,
-        payment.date , 
-        payment.time , 
+        trip_order.date , 
+        trip_order.time , 
         member.name AS contact_name , 
         member.email AS contact_email , 
-        contact.phone_number AS contact_phone , 
-        payment.status
+        member.phone_number AS contact_phone , 
+        trip_order.status
 
-        FROM payment
-        JOIN location on payment.attraction_id = location.id
+        FROM trip_order
+        JOIN location on trip_order.attraction_id = location.id
         JOIN URL_file on location.id = URL_file.location_id
-        JOIN contact on payment.member_id = contact.member_id
-        JOIN member on member.id = contact.member_id
+        JOIN member on trip_order.member_id = member.id
         
-        where payment.member_id = %s
+        where trip_order.member_id = %s
+        Order By trip_order.payment_time DESC 
+        limit 1 ;
+
         """
         cursor.execute( sql , (member_id ,))
         order_details = cursor.fetchone()
