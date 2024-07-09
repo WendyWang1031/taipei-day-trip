@@ -8,13 +8,13 @@ from db.booking import get_existing_booking
 import pymysql.cursors
 from .connection import get_db_connection_pool
 
-def generate_order_number(member_id):
+def generate_order_number(member_id : str):
     current_time = datetime.now()
     random_number = random.randint(100,999)
     order_number = f"{current_time.strftime("%Y%m%d%H%M%S")}{random_number}{member_id}"
     return order_number
 
-def save_order(member_id: str, order_request: PaymentOrderRequest) -> bool:
+def save_order(member_id : str, order_request : PaymentOrderRequest) -> bool:
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     order_number = generate_order_number(member_id)
@@ -54,7 +54,7 @@ def save_order(member_id: str, order_request: PaymentOrderRequest) -> bool:
         cursor.close()
         connection.close()
 
-def get_order_detail(member_id) -> dict [str, Any] | None:
+def get_order_detail(member_id : str) -> dict [str, Any] | None:
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:

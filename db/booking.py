@@ -1,9 +1,9 @@
-from model.model import BookingAttraction , BookingDetails 
+from model.model import BookingAttraction , BookingDetails , Booking
 import pymysql.cursors
 from typing import Any
 from .connection import get_db_connection_pool
 
-def get_existing_booking( member_id : int) -> dict [str, Any] | None:
+def get_existing_booking( member_id : str ) -> dict [str, Any] | None:
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:
@@ -20,7 +20,7 @@ def get_existing_booking( member_id : int) -> dict [str, Any] | None:
         connection.close()
     
 
-def db_save_or_update_booking(member_id , booking_data) -> bool :
+def db_save_or_update_booking(member_id : str  , booking_data : Booking) -> bool :
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     booking_existing = get_existing_booking(member_id)
@@ -48,7 +48,7 @@ def db_save_or_update_booking(member_id , booking_data) -> bool :
 
 
 
-def db_check_booking_detail(member_id) -> BookingDetails | None :
+def db_check_booking_detail(member_id : str ) -> BookingDetails | None :
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:
@@ -90,7 +90,7 @@ def db_check_booking_detail(member_id) -> BookingDetails | None :
         connection.close()
     
 
-def db_delete_booking_details(member_id) -> bool :
+def db_delete_booking_details(member_id : str ) -> bool :
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:

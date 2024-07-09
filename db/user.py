@@ -1,10 +1,11 @@
 import bcrypt
 import uuid
 import pymysql.cursors
+from typing import Any
 from .connection import get_db_connection_pool
 
 
-def db_insert_new_user(name , email , hashed_password):
+def db_insert_new_user(name : str  , email : str  , hashed_password : str) -> bool :
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:
@@ -25,7 +26,7 @@ def db_insert_new_user(name , email , hashed_password):
         cursor.close()
         connection.close()
 
-def db_check_user_email_exists(email):
+def db_check_user_email_exists(email : str) -> bool :
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:
@@ -41,7 +42,7 @@ def db_check_user_email_exists(email):
     
     return user_email is not None   
 
-def db_check_email_password(email , password):
+def db_check_email_password(email : str  , password : str ) -> dict [str, Any] | bool :
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:
