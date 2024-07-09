@@ -120,4 +120,15 @@ class PaymentOrderDetailsResponse(BaseModel):
     contact: Contact
     status: int
 
+# 登入相關Error Response
+class ServiceError(BaseModel):
+     error : bool
+     status : int 
+     error_code : str
+     error_message :str
 
+class ForbiddenError(ServiceError):
+     error : bool = Field(True , description="錯誤")
+     status : int = Field(403 , description = "403-禁止訪問")
+     error_code : str = Field("403-001" , description = "403-禁止訪問")
+     error_message : str = Field("無權限" , description = "該用戶並無權限")

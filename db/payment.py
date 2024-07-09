@@ -110,8 +110,8 @@ def get_order_detail(member_id) -> dict [str, Any] | None:
                 response = PaymentOrderDetailsResponse(
                     number = order_details['number'] ,
                     price = order_details['price'] ,
-                    trip = trip_details.dict() ,
-                    contact = contact_details.dict() ,
+                    trip = trip_details,
+                    contact = contact_details ,
                     status = order_details['status']
                 )
 
