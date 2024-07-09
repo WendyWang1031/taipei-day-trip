@@ -39,6 +39,7 @@ function setupEventListeners() {
   );
 
   bookingBtn.addEventListener("click", checkBooking);
+  document.getElementById("start").min = new Date().toISOString().split("T")[0];
 }
 
 async function checkBooking(event) {
