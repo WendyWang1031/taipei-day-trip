@@ -13,7 +13,7 @@ async def register_user(name: str, email: str, password: str) -> JSONResponse :
             content={"error": True, "message": "Email already exists"}
         )
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-    if insert_new_user(name, email, hashed_password):
+    if db_insert_new_user(name, email, hashed_password):
         return JSONResponse(
             status_code=status.HTTP_200_OK,
             content={"ok": True}

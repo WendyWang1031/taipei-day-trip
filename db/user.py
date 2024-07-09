@@ -4,7 +4,7 @@ import pymysql.cursors
 from .connection import get_db_connection_pool
 
 
-def insert_new_user(name , email , hashed_password):
+def db_insert_new_user(name , email , hashed_password):
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:
