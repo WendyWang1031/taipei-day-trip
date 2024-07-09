@@ -102,9 +102,17 @@ async def process_payment(payment_request: PaymentOrderRequest) ->  dict [str, A
         
         if response.status_code == 200:
             data = response.json()
-            return data
+            print("process_payment_data:" , data)
+            if data.get("status") == 0 :
+                return data
+            else:
+                error_response = ErrorResponse(error=True, message="Payment processing failed")
+                response = JSONResponse (
+                    status_code=status.HTTP_400_BAD_REQUEST, 
+                    content=error_response.dict())
+                return response
         else:
-            error_response = ErrorResponse(error=True, message="Payment failed")
+            error_response = ErrorResponse(error=True, message="HTTP error during payment processing")
             response = JSONResponse (
                 status_code=status.HTTP_400_BAD_REQUEST, 
                 content=error_response.dict())
