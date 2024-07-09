@@ -7,6 +7,8 @@ def db_get_attractions_for_pages(page : int , keyword = None) -> List [dict [str
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:
+        connection.begin()
+        
         if keyword:
             count_sql = """SELECT COUNT(*) as total from location 
                         where name LIKE %s OR MRT = %s 
@@ -93,6 +95,7 @@ def db_get_attractions_for_pages(page : int , keyword = None) -> List [dict [str
     
     except Exception as err:
         print(f'Error retrieving attractions : {err}')
+        connection.rollback()
         raise
     finally:
         cursor.close()
@@ -103,6 +106,8 @@ def db_get_attractions_for_id(id : int) -> dict [str, Any] | None:
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:
+        connection.begin()
+
         if id is not None:
             sql = "select id , name , category , description , address , transport ,  mrt ,  CAST(lat AS DOUBLE) AS lat, CAST(lng AS DOUBLE) AS lng  from location where id = %s"
             cursor.execute(sql ,(id, ))
@@ -122,6 +127,7 @@ def db_get_attractions_for_id(id : int) -> dict [str, Any] | None:
     
     except Exception as err:
         print(f'Error retrieving attractions : {err}')
+        connection.rollback()
         raise
     finally:
         cursor.close()
@@ -131,6 +137,7 @@ def db_get_mrts() -> List[str] :
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:
+        connection.begin()
 
         sql = """select mrt
                     from location
@@ -146,6 +153,7 @@ def db_get_mrts() -> List[str] :
         
     except Exception as err:
         print(f'Error retrieving mrts : {err}')
+        connection.rollback()
         raise
     finally:
         cursor.close()

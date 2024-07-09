@@ -7,6 +7,8 @@ def get_existing_booking( member_id : str ) -> dict [str, Any] | None:
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:
+        connection.begin()
+        
         sql = "select * from booking where member_id = %s"
         cursor.execute( sql , (member_id ,))
         user_booking = cursor.fetchone()
@@ -14,6 +16,7 @@ def get_existing_booking( member_id : str ) -> dict [str, Any] | None:
         return user_booking
     except Exception as e:
         print(f"Error getting booking details: {e}")
+        connection.rollback()
         return None
     finally:
         cursor.close()
@@ -25,6 +28,8 @@ def db_save_or_update_booking(member_id : str  , booking_data : Booking) -> bool
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     booking_existing = get_existing_booking(member_id)
     try:
+        connection.begin()
+
         if booking_existing : 
             sql = """update booking 
                 SET date = %s , time = %s , price = %s , attraction_id = %s 
@@ -39,7 +44,8 @@ def db_save_or_update_booking(member_id : str  , booking_data : Booking) -> bool
         connection.commit()
         return True
     except Exception as e:
-        print(f"Error inserting new booking: {e}") 
+        print(f"Error inserting new booking: {e}")
+        connection.rollback() 
         return False
     finally:
         cursor.close()
@@ -52,6 +58,8 @@ def db_check_booking_detail(member_id : str ) -> BookingDetails | None :
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:
+        connection.begin()
+
         sql = """select location.id , location.name , location.address ,
                 DATE_FORMAT(booking.date, '%%Y-%%m-%%d') AS formatted_date,
                 booking.date , booking.time , booking.price ,
@@ -84,6 +92,7 @@ def db_check_booking_detail(member_id : str ) -> BookingDetails | None :
 
     except Exception as e:
         print(f"Error retrieving booking details: {e}")
+        connection.rollback()
         return None
     finally:
         cursor.close()
@@ -105,6 +114,7 @@ def db_delete_booking_details(member_id : str ) -> bool :
     
     except Exception as e:
         print(f"Error deleting user's booking: {e}")
+        connection.rollback()
         return False
 
     finally:

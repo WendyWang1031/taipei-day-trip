@@ -23,6 +23,7 @@ def save_order(member_id : str, order_request : PaymentOrderRequest) -> bool:
     contact_phone = order_request.order.contact.phone
     
     try:
+        connection.begin()
 
         if user_booking : 
             sql = """insert into trip_order 
@@ -48,6 +49,7 @@ def save_order(member_id : str, order_request : PaymentOrderRequest) -> bool:
         return True
     except Exception as e:
         print(f"Error inserting new order: {e}") 
+        connection.rollback()
         return False
     finally:
         cursor.close()
@@ -57,6 +59,7 @@ def get_order_detail(member_id : str) -> dict [str, Any] | None:
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:
+        connection.begin()
         sql = """
         
         select 
@@ -125,6 +128,7 @@ def get_order_detail(member_id : str) -> dict [str, Any] | None:
 
     except Exception as e:
         print(f"Error retrieving order details: {e}")
+        connection.rollback()
         return None
     finally:
         cursor.close()
