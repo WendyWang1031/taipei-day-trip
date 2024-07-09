@@ -65,7 +65,7 @@ class BookingAttraction(BaseModel):
     address: str = Field(... , example="臺北市大安區忠孝東路 4 段 1 號")
     images: str = Field(..., example="http://140.112.3.4/images/92-0.jpg")
 
-class Booking(BaseModel):
+class BookingRequest(BaseModel):
     attraction_id : int = Field(... , example = 1)
     date : str = Field(... , example = "2024-06-24")
     time : str = Field(... , example = "afternoon")

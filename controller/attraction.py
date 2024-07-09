@@ -10,7 +10,7 @@ redis_connection = get_redis_connection()
 cache_service = CacheService(redis_connection)
 
 
-async def get_attractions_for_all(page , keyword):
+async def get_attractions_for_all(page : int , keyword : str) -> JSONResponse | ErrorResponse:
 	
 	try:
 		data = db_get_attractions_for_pages(page , keyword)
@@ -30,16 +30,15 @@ async def get_attractions_for_all(page , keyword):
 		return response
 	
 	except Exception as e :
-		response = JSONResponse(
-		status_code = status.HTTP_500_INTERNAL_SERVER_ERROR,
-		content={
-			"error":True,
-			"message":str(e)
-		})
+		error_response = ErrorResponse(error=True, message=str(e))
+		response = JSONResponse (
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
+            content=error_response.dict())
 		return response
+		
 
 
-async def get_attraction_for_id(attractionId):
+async def get_attraction_for_id(attractionId : int) -> JSONResponse | ErrorResponse:
 	cache_key = f'attraction:{attractionId}'
 	try:
 		
@@ -59,15 +58,10 @@ async def get_attraction_for_id(attractionId):
 		
 
 		if not data:
-			response = JSONResponse(
-			status_code = status.HTTP_404_NOT_FOUND,
-			content={
-			"error":True,
-			"message":"沒有找到指定的景點"
-			
-			},
-			headers={"X-Cache":"Miss from Redis"})
-			
+			error_response = ErrorResponse(error=True, message="Not founded the Attraction")
+			response = JSONResponse (
+            	status_code=status.HTTP_404_NOT_FOUND, 
+            	content=error_response.dict())
 			return response
 		
 		cache_service.set_value(cache_key, json.dumps(data), expiry=3600)
@@ -81,25 +75,21 @@ async def get_attraction_for_id(attractionId):
 		return response
 		
 	except ValueError as ve :
-		response = JSONResponse(
-		status_code = status.HTTP_400_BAD_REQUEST,
-		content={
-			"error":True,
-			"message":str(ve)
-		})
+		error_response = ErrorResponse(error=True, message=str(ve))
+		response = JSONResponse (
+            status_code=status.HTTP_400_BAD_REQUEST, 
+            content=error_response.dict())
 		return response
 	
 	except Exception as e :
-		response = JSONResponse(
-		status_code = status.HTTP_500_INTERNAL_SERVER_ERROR,
-		content={
-			"error":True,
-			"message":str(e)
-		})
+		error_response = ErrorResponse(error=True, message=str(e))
+		response = JSONResponse (
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
+            content=error_response.dict())
 		return response
 
 
-async def get_mrts():
+async def get_mrts() -> JSONResponse | ErrorResponse:
 	try:
 		data = db_get_mrts()
 		response = JSONResponse(
@@ -110,10 +100,8 @@ async def get_mrts():
 		return response
 	
 	except Exception as e :
-		response = JSONResponse(
-		status_code = status.HTTP_500_INTERNAL_SERVER_ERROR,
-		content={
-			"error":True,
-			"message":str(e)
-		})
+		error_response = ErrorResponse(error=True, message=str(e))
+		response = JSONResponse (
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
+            content=error_response.dict())
 		return response

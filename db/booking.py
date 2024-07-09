@@ -1,4 +1,4 @@
-from model.model import BookingAttraction , BookingDetails , Booking
+from model.model import BookingAttraction , BookingDetails , BookingRequest
 import pymysql.cursors
 from typing import Any
 from .connection import get_db_connection_pool
@@ -23,7 +23,7 @@ def get_existing_booking( member_id : str ) -> dict [str, Any] | None:
         connection.close()
     
 
-def db_save_or_update_booking(member_id : str  , booking_data : Booking) -> bool :
+def db_save_or_update_booking(member_id : str  , booking_data : BookingRequest) -> bool :
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     booking_existing = get_existing_booking(member_id)

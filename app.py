@@ -24,11 +24,11 @@ cache_service = CacheService(redis_connection)
 # 預定行程 - 類似購物車
 @app.post("/api/booking",
 		tags= ["Booking"],
-		response_model = Booking , 
+		response_model = BookingRequest , 
 		summary = "建立新的預定行程",
 		responses = {
 			200:{
-				"model" : Booking,
+				"model" : BookingRequest,
 				"description" : "建立成功"
 			},
 			400:{
@@ -45,7 +45,7 @@ cache_service = CacheService(redis_connection)
 			}
 		 }
 		 )
-async def fetch_post_booking(booking: Booking , current_user : dict = Depends(get_current_user)):
+async def fetch_post_booking(booking: BookingRequest , current_user : dict = Depends(get_current_user)):
 	return await create_booking(booking , current_user)
 
 @app.get("/api/booking",
@@ -220,7 +220,7 @@ async def fetch_get_mrts():
 # 訂單處理
 @app.post("/api/orders",
 		tags= ["Order"],
-		response_model = Booking , 
+		response_model = PaymentOrderResponse , 
 		summary = "建立新的訂單，並完成付款程序",
 		responses = {
 			200:{
