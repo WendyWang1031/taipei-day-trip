@@ -2,11 +2,14 @@ from jose import jwt , JOSEError
 from datetime import datetime, timedelta 
 from fastapi import  Security , HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from dotenv import load_dotenv
+import os
 from fastapi import *
 from model.model import *
 
-SECRET_KEY = "YOUR_SECRET_KEY"
-ALGORITHM = "HS256"
+load_dotenv()
+SECRET_KEY = os.getenv("SECRET_KEY")
+ALGORITHM = os.getenv("ALGORITHM")
 security = HTTPBearer()
 
 def create_access_token(data: dict , expires_delta: timedelta = timedelta(days = 7)):
@@ -21,7 +24,7 @@ def create_access_token(data: dict , expires_delta: timedelta = timedelta(days =
 
 def decode_access_token(token: str):
     try:
-        payload = jwt.decode(token , SECRET_KEY , algorithms=[ALGORITHM])
+        payload = jwt.decode(token , SECRET_KEY , algorithms=ALGORITHM)
         return payload
     
     except jwt.ExpiredSignatureError:

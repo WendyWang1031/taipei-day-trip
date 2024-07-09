@@ -1,12 +1,19 @@
 import pymysql
 from dbutils.pooled_db import PooledDB
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+user = os.getenv("connection_db_user")
+password = os.getenv("connection_db_password")
+
 
 pool = PooledDB(
     creator = pymysql,
     maxconnections = 3,
     database = "taipei_day_trip",
-    user = "test",
-    password = "test",
+    user = user,
+    password = password,
     host = "localhost",
     port = 3306
 )
