@@ -1,8 +1,9 @@
 import math
 import pymysql
+from typing import Any , List
 from .connection import get_db_connection_pool
 
-def db_get_attractions_for_pages(page , keyword = None):
+def db_get_attractions_for_pages(page : int , keyword = None) -> List [dict [str, Any]]:
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:
@@ -98,7 +99,7 @@ def db_get_attractions_for_pages(page , keyword = None):
         connection.close()
 
 
-def db_get_attractions_for_id(id):
+def db_get_attractions_for_id(id : int) -> dict [str, Any] | None:
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:
@@ -126,7 +127,7 @@ def db_get_attractions_for_id(id):
         cursor.close()
         connection.close()
 
-def db_get_mrts():
+def db_get_mrts() -> List[str] :
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:
