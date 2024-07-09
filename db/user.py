@@ -60,7 +60,7 @@ def db_check_email_password(email , password):
         
     
     except Exception as e:
-        print(f"Error checking new user: {e}")
+        print(f"Error checking user , wrong email or password : {e}")
         return False
 
     finally:

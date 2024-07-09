@@ -6,7 +6,7 @@ import bcrypt
 from db.user import *
 from service.security import create_access_token 
 
-async def register_user(name: str, email: str, password: str):
+async def register_user(name: str, email: str, password: str) -> JSONResponse :
     if db_check_user_email_exists(email):
         return JSONResponse(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -24,7 +24,7 @@ async def register_user(name: str, email: str, password: str):
             content={"error": True, "message": "Failed to create user due to a server error"}
         )
 
-async def authenticate_user(email: str, password: str):
+async def authenticate_user(email: str, password: str) -> JSONResponse :
     user_info = db_check_email_password(email, password)
     if user_info:
         access_token = create_access_token(
@@ -43,6 +43,15 @@ async def authenticate_user(email: str, password: str):
 async def get_user_details(user: dict) -> JSONResponse :
     try:
         if user :
+
+            if "id" not in user or user["id"] is None :
+                error_response = ErrorResponse(error=True, message="User bot found")
+                response = JSONResponse (
+                status_code=status.HTTP_404,
+                content={"data": user_model.dict()}
+            )           
+                return response
+
             user_model = UserRead(**user)
             response = JSONResponse (
                 status_code=status.HTTP_200_OK,
