@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field , field_validator
 from typing import List , Optional 
 
 
@@ -90,6 +90,12 @@ class Contact(BaseModel):
     email: str = Field(..., example="ply@ply.com")
     phone: str = Field(..., example="0912345678")
 
+    @field_validator("phone")
+    def validate_phone(cls , v):
+         if not v.startswith("09"):
+              raise ValueError("Phone number must start with 09")
+         return v
+
 class Trip(BaseModel):
     attraction: BookingAttraction
     date: str = Field(..., example="2022-01-31")
@@ -99,6 +105,12 @@ class Order(BaseModel):
     price: int = Field(..., example=2000)
     trip: Trip
     contact: Contact
+
+    @field_validator("price")
+    def validate_price(cls , v):
+         if v <= 0:
+              raise ValueError("Price must be greater than 0")
+         return v
 
 class PaymentOrderRequest(BaseModel):
     prime: str = Field(..., example="前端從第三方金流 TapPay 取得的交易碼")
