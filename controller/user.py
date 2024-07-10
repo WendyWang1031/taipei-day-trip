@@ -1,4 +1,4 @@
-from model.model import UserRead , ErrorResponse
+from model.model import UserRead , ErrorResponse , UserCreateRequest
 from fastapi.responses import JSONResponse
 from starlette import status
 import bcrypt
@@ -6,17 +6,17 @@ import bcrypt
 from db.user import *
 from service.security import create_access_token 
 
-async def register_user(name: str, email: str, password: str) -> JSONResponse | ErrorResponse:
-    if db_check_user_email_exists(email):
+async def register_user(user_request : UserCreateRequest) -> JSONResponse | ErrorResponse:
+    if db_check_user_email_exists(user_request.email):
         error_response = ErrorResponse(error=True, message="Email already exists")
         response = JSONResponse (
             status_code=status.HTTP_400_BAD_REQUEST, 
             content=error_response.dict())
         return response
 
-    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+    hashed_password = bcrypt.hashpw(user_request.password.encode('utf-8'), bcrypt.gensalt())
     
-    if db_insert_new_user(name, email, hashed_password):
+    if db_insert_new_user(user_request.name, user_request.email, hashed_password):
         return JSONResponse(
             status_code=status.HTTP_200_OK,
             content={"ok": True}

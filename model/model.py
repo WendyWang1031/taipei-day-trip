@@ -39,7 +39,7 @@ class UserBase(BaseModel):
     email: str = Field(... , example="ply@ply.com")
     password: str = Field(... , example="12345678")	
 
-class UserCreate(BaseModel):
+class UserCreateRequest(BaseModel):
     name: str = Field(... , example="彭彭彭")
     email: str = Field(... , example="ply@ply.com")
     password: str = Field(... , example="12345678")	
