@@ -27,6 +27,7 @@ async def create_order(
                 result = save_order(member_id , order_request)
                 if result:
                     order_details = get_order_detail(member_id)
+                    print("order_details:" , order_details)
                     if order_details:
 
                         response_data = PaymentOrderResponse(
@@ -117,3 +118,39 @@ async def process_payment(payment_request: PaymentOrderRequest) ->  dict [str, A
                 status_code=status.HTTP_400_BAD_REQUEST, 
                 content=error_response.dict())
             return response
+        
+async def get_order_detail_on_thankyou(order_number : str , current_user : dict = Depends(get_current_user)) -> JSONResponse :
+
+    try:
+        if current_user :
+            member_id = current_user["id"]
+            order_details = get_order_detail_for_thankyou(order_number , member_id)
+                
+            if order_details:
+
+                response_data = PaymentOrderDetailsResponse(
+                    number = order_details["number"],
+                    price = order_details["price"],
+                    trip = order_details["trip"],
+                    contact = order_details["contact"],
+                    status = order_details["status"]
+                )                     
+
+                response = JSONResponse(
+                status_code = status.HTTP_200_OK,
+                content = {"data" : response_data.dict()}
+                )
+                return response
+            else:
+                error_response = ErrorResponse(error=True, message="No order found with the provided order number")
+                response = JSONResponse (
+                    status_code=status.HTTP_404_NOT_FOUND, 
+                    content=error_response.dict())
+                return response
+        
+    except Exception as e :
+        error_response = ErrorResponse(error=True, message=str(e))
+        response = JSONResponse (
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
+            content=error_response.dict())
+        return response

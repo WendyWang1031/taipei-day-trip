@@ -118,7 +118,7 @@ async def fetch_delete_booking_api( current_user : dict = Depends(get_current_us
                 "description" : "伺服器內部錯誤"
             }
          })
-async def fetch_post_user_signup(user_request : UserCreateRequest):
+async def fetch_post_user_signup(user_request : UserCreateRequest) -> JSONResponse :
     return await register_user(user_request)
  
 @app.get("/api/user/auth" , 
@@ -132,7 +132,7 @@ async def fetch_post_user_signup(user_request : UserCreateRequest):
                 "description" : "已登入的會員資料，null 表示未登入"
             }
          })
-async def fetch_get_user(user: dict = Depends(get_current_user)):
+async def fetch_get_user(user: dict = Depends(get_current_user))-> JSONResponse :
     return await get_user_details(user)
 
 @app.put("/api/user/auth" , 
@@ -154,7 +154,7 @@ async def fetch_get_user(user: dict = Depends(get_current_user)):
                 "description" : "伺服器內部錯誤"
             }
          })
-async def fetch_put_user_signin(user_login_request : UserLoginRequest):
+async def fetch_put_user_signin(user_login_request : UserLoginRequest) -> JSONResponse :
     return await authenticate_user(user_login_request)
 
 
@@ -176,7 +176,7 @@ async def fetch_put_user_signin(user_login_request : UserLoginRequest):
          })
 async def fetch_get_attraction( 
     page: int = Query(ge=0 , description = "要取得的分頁，每頁 12 筆資料" ) , 
-    keyword: str = Query(None, description = "用來完全比對捷運站名稱、或模糊比對景點名稱的關鍵字，沒有給定則不做篩選")):
+    keyword: str = Query(None, description = "用來完全比對捷運站名稱、或模糊比對景點名稱的關鍵字，沒有給定則不做篩選")) -> JSONResponse:
     return await get_attractions_for_all(page , keyword)
 
 @app.get("/api/attraction/{attractionId}" ,
@@ -197,7 +197,7 @@ async def fetch_get_attraction(
                 "description" : "伺服器內部錯誤"
             }
          })
-async def fetch_get_attraction_id( attractionId: int = Path(..., description = "景點編號")):
+async def fetch_get_attraction_id( attractionId: int = Path(..., description = "景點編號")) -> JSONResponse :
     return await get_attraction_for_id(attractionId)
 
 @app.get("/api/mrts" , 
@@ -214,7 +214,7 @@ async def fetch_get_attraction_id( attractionId: int = Path(..., description = "
                 "description" : "伺服器內部錯誤"
             }
          })
-async def fetch_get_mrts():
+async def fetch_get_mrts() -> JSONResponse :
     return await get_mrts()
 
 # 訂單處理
@@ -246,7 +246,26 @@ async def fetch_post_orders(
     order_request : PaymentOrderRequest = Body(...)) -> JSONResponse :
     return await create_order(current_user , order_request)
 
-
+@app.get("/api/orders/{orderNumber}",
+        tags= ["Order"],
+        response_model = PaymentOrderDetailsResponse , 
+        summary = "根據訂單編號取得資訊",
+        responses = {
+            200:{
+                "model" : PaymentOrderDetailsResponse,
+                "description" : "根據訂單編號取得訂單資訊，null 表示沒有資料"
+            },
+            403:{
+                "model" : ErrorResponse,
+                "description" : "未登入系統，拒絕存取"
+            },
+            500:{
+                "model" : ErrorResponse,
+                "description" : "伺服器內部錯誤"
+            }
+         })
+async def fetch_get_order(orderNumber: str = Path(..., description = "訂單編號") , current_user : dict = Depends(get_current_user)) -> JSONResponse :
+    return await get_order_detail_on_thankyou(orderNumber , current_user)
 
 # ----------------------------------------------------------
 
