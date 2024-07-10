@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field , field_validator
 from typing import List , Optional 
+from datetime import datetime
 
 
 # 景點
@@ -70,6 +71,14 @@ class BookingRequest(BaseModel):
     date : str = Field(... , example = "2024-06-24")
     time : str = Field(... , example = "afternoon")
     price : int = Field(... , example = 2500)
+    
+    @field_validator("date")
+    def validate_date(cls , v):
+        input_date = datetime.strptime(v,"%Y-%m-%d")
+        current_date = datetime.now().date()
+        if input_date.date() < current_date :
+             raise ValueError("The date must be today or in the future.")
+        return v
     
 class BookingDetails(BaseModel):
     attraction : BookingAttraction

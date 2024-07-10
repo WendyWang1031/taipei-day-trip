@@ -46,13 +46,21 @@ export function mobileTextValidate() {
   let errorMessage = document.querySelector("#phone-error");
   let successMessage = document.querySelector("#phone-success");
 
+  if (!mobileText.trim()) {
+    errorMessage.textContent = "手機號碼不能空白";
+    errorMessage.style.display = "inline";
+    successMessage.style.display = "none";
+    return false;
+  }
+
   if (!mobileRe.test(mobileText)) {
     errorMessage.style.display = "inline";
     successMessage.style.display = "none";
-    return;
+    return false;
   } else {
     errorMessage.style.display = "none";
     successMessage.style.display = "inline";
+    return true;
   }
 }
 

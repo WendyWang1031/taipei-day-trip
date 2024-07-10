@@ -207,8 +207,13 @@ export function tappayGetPrime() {
 
 export async function fetchPostOrder(prime) {
   try {
-    console.log("test1");
     const token = localStorage.getItem("userToken");
+
+    const contactPhone = document.querySelector("#contact-phone").value;
+    if (!contactPhone.trim()) {
+      alert("請填寫手機號碼");
+      return;
+    }
 
     const bookingData = await fetchGetBooking();
     console.log("fetchGet:", bookingData);
