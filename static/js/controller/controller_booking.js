@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   if (window.location.pathname === "/booking") {
     initialize();
-    const isLoggedIn = await checkUserState();
+    const isLoggedIn = await checkUserState(BookingView.handleUserDataDisplay);
 
     if (isLoggedIn) {
       await fetchGetBooking();

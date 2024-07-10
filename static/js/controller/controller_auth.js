@@ -83,11 +83,14 @@ export function setupEventListeners() {
     });
 }
 
-export async function checkUserState() {
+export async function checkUserState(callback) {
   const token = localStorage.getItem("userToken");
 
   if (!token) {
     View.displayUserInterface(false);
+    if (typeof callback === "function") {
+      callback(null);
+    }
     return false;
   }
 
@@ -96,6 +99,9 @@ export async function checkUserState() {
   if (result.ok && result.data.data) {
     View.displayUserInterface(true);
     localStorage.setItem("userName", result.data.data.name);
+    if (typeof callback === "function") {
+      callback(result.data.data);
+    }
     return true;
   } else {
     console.error("驗證用戶狀態失敗：", result.data.data);

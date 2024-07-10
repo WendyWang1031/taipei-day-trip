@@ -55,3 +55,14 @@ export function mobileTextValidate() {
     successMessage.style.display = "inline";
   }
 }
+
+export function handleUserDataDisplay(data) {
+  const contactNameInput = document.getElementById("contact-name");
+  const contactEmailInput = document.getElementById("contact-email");
+  if (contactNameInput && contactEmailInput) {
+    contactNameInput.value = data.name;
+    contactEmailInput.value = data.email;
+    contactNameInput.readOnly = true;
+    contactEmailInput.readOnly = true;
+  }
+}
