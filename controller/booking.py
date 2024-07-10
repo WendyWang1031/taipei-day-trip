@@ -53,19 +53,17 @@ async def get_booking_details( current_user : dict = Depends(get_current_user)) 
                 })
                 return response
             else:
-                response = JSONResponse(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                content={
-                    "error": True,
-                    "message": str(e)
-                })
-                return response
-        else:
-                error_response = ErrorResponse(error=True, message="User not authenticated")
+                error_response = ErrorResponse(error=True, message="No Booking details found for user")
                 response = JSONResponse (
-                    status_code=status.HTTP_403_FORBIDDEN, 
+                    status_code=status.HTTP_404_NOT_FOUND, 
                     content=error_response.dict())
                 return response
+        else:
+            error_response = ErrorResponse(error=True, message="User not authenticated")
+            response = JSONResponse (
+                status_code=status.HTTP_403_FORBIDDEN, 
+                content=error_response.dict())
+            return response
         
     except Exception as e :
         error_response = ErrorResponse(error=True, message=str(e))

@@ -31,11 +31,11 @@ export function removeDisplayBooking() {
   const cardArea = document.querySelector(".card-area");
   const totalSubmit = document.querySelector(".total-submit");
 
-  bookingDetail.remove();
-  contactArea.remove();
-  cardArea.remove();
-  totalSubmit.remove();
+  bookingDetail.style.display = "none";
+  contactArea.style.display = "none";
+  cardArea.style.display = "none";
+  totalSubmit.style.display = "none";
   seperates.forEach((seperate) => {
-    if (seperate) seperate.remove();
+    if (seperate) seperate.style.display = "none";
   });
 }
