@@ -30,12 +30,12 @@ class SuccessfulResponseForID(BaseModel):
 
 
 # 用戶
-class UserRead(BaseModel):
+class UserReadDetail(BaseModel):
     id: str = Field(...,example=1)
     name: str = Field(... , example="彭彭彭")
     email: str = Field(... , example="ply@ply.com")				
 
-class UserBase(BaseModel):
+class UserLoginRequest(BaseModel):
     email: str = Field(... , example="ply@ply.com")
     password: str = Field(... , example="12345678")	
 
@@ -48,7 +48,7 @@ class SuccessfulResponseForMemberRegister(BaseModel):
     ok : bool = Field(..., description = "註冊成功")
 
 class SuccessfulResponseForMember(BaseModel):
-    data : UserRead = Field(..., description = "取得當前登入資訊")
+    data : UserReadDetail = Field(..., description = "取得當前登入資訊")
 
 class SuccessfulResponseForMemberBase(BaseModel):
     token : str = Field(..., description = "FHSTHSGHFtrhsthfghs")

@@ -1,4 +1,4 @@
-from model.model import UserRead , ErrorResponse , UserCreateRequest
+from model.model import UserReadDetail , ErrorResponse , UserCreateRequest , UserLoginRequest
 from fastapi.responses import JSONResponse
 from starlette import status
 import bcrypt
@@ -28,10 +28,10 @@ async def register_user(user_request : UserCreateRequest) -> JSONResponse | Erro
             content=error_response.dict())
         return response
 
-async def authenticate_user(email: str, password: str) -> JSONResponse | ErrorResponse:
-    user_info = db_check_email_password(email, password)
+async def authenticate_user(user_login_req : UserLoginRequest) -> JSONResponse | ErrorResponse:
+    user_info = db_check_email_password(user_login_req.email, user_login_req.password)
     if user_info:
-        access_token = create_access_token(UserRead(
+        access_token = create_access_token(UserReadDetail(
             id = user_info['id'],
             name = user_info['name'],
             email = user_info['email']
@@ -60,7 +60,7 @@ async def get_user_details(user: dict) -> JSONResponse :
             )           
                 return response
 
-            user_model = UserRead(**user)
+            user_model = UserReadDetail(**user)
             response = JSONResponse (
                 status_code=status.HTTP_200_OK,
                 content={"data": user_model.dict()}

@@ -121,10 +121,10 @@ async def fetch_delete_booking_api( current_user : dict = Depends(get_current_us
 async def fetch_post_user_signup(name: str = Form(...), email: str = Form(...), password: str = Form(...)):
     user_request = UserCreateRequest(name=name, email=email, password=password)
     return await register_user(user_request)
-
+ 
 @app.get("/api/user/auth" , 
          tags= ["User"],
-         response_model = UserRead ,
+         response_model = UserReadDetail ,
          summary = "取得當前的登入資訊",
         
          responses = {
@@ -138,7 +138,7 @@ async def fetch_get_user(user: dict = Depends(get_current_user)):
 
 @app.put("/api/user/auth" , 
          tags= ["User"],
-         response_model = UserBase ,
+         response_model = UserLoginRequest ,
          summary = "登入會員帳戶",
         
          responses = {
@@ -156,7 +156,8 @@ async def fetch_get_user(user: dict = Depends(get_current_user)):
             }
          })
 async def fetch_put_user_signin(email: str = Form(...), password: str = Form(...)):
-    return await authenticate_user(email, password)
+    user_login_request = UserLoginRequest(email=email, password=password)
+    return await authenticate_user(user_login_request)
 
 
 # 景點頁面
