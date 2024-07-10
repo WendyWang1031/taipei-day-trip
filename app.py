@@ -118,8 +118,7 @@ async def fetch_delete_booking_api( current_user : dict = Depends(get_current_us
                 "description" : "伺服器內部錯誤"
             }
          })
-async def fetch_post_user_signup(name: str = Form(...), email: str = Form(...), password: str = Form(...)):
-    user_request = UserCreateRequest(name=name, email=email, password=password)
+async def fetch_post_user_signup(user_request : UserCreateRequest):
     return await register_user(user_request)
  
 @app.get("/api/user/auth" , 
@@ -155,8 +154,7 @@ async def fetch_get_user(user: dict = Depends(get_current_user)):
                 "description" : "伺服器內部錯誤"
             }
          })
-async def fetch_put_user_signin(email: str = Form(...), password: str = Form(...)):
-    user_login_request = UserLoginRequest(email=email, password=password)
+async def fetch_put_user_signin(user_login_request : UserLoginRequest):
     return await authenticate_user(user_login_request)
 
 

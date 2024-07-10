@@ -16,17 +16,23 @@ export async function fetchUserState(token) {
   }
 }
 
-export async function fetchApi(url, method, formData) {
-  const options = {
-    method: method,
-    headers: {},
-    body: formData,
+export async function fetchApi(url, method, data) {
+  const headers = {
+    "Content-Type": "application/json",
   };
 
   if (method == "GET" && localStorage.getItem("userToken")) {
-    options.headers["Authorization"] = `Bearer ${localStorage.getItem(
-      "userToken"
-    )}`;
+    headers["Authorization"] = `Bearer ${localStorage.getItem("userToken")}`;
+  }
+
+  const options = {
+    method: method,
+    headers: headers,
+    body: JSON.stringify(data),
+  };
+
+  if (method === "GET") {
+    delete options.body;
   }
 
   try {
