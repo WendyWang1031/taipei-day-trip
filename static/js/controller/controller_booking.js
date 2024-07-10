@@ -16,6 +16,10 @@ document.addEventListener("DOMContentLoaded", async function () {
     console.log("Trash button not found");
   }
 
+  document
+    .querySelector("#contact-phone")
+    .addEventListener("input", BookingView.mobileTextValidate);
+
   if (window.location.pathname === "/booking") {
     initialize();
     const isLoggedIn = await checkUserState();

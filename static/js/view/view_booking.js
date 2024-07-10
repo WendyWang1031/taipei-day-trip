@@ -39,3 +39,19 @@ export function removeDisplayBooking() {
     if (seperate) seperate.style.display = "none";
   });
 }
+
+export function mobileTextValidate() {
+  let mobileText = document.querySelector("#contact-phone").value;
+  let mobileRe = /^09[0-9]{8}$/;
+  let errorMessage = document.querySelector("#phone-error");
+  let successMessage = document.querySelector("#phone-success");
+
+  if (!mobileRe.test(mobileText)) {
+    errorMessage.style.display = "inline";
+    successMessage.style.display = "none";
+    return;
+  } else {
+    errorMessage.style.display = "none";
+    successMessage.style.display = "inline";
+  }
+}

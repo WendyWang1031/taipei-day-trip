@@ -860,6 +860,12 @@ section.card-area .card-group form.card-user div div.tpfield {
   padding: 8px;
 }
 
+#phone-success {
+  font-weight: bold;
+  font-size: 16px;
+  padding: 5px;
+}
+
 section.total-submit {
   display: flex;
   justify-content: center;
