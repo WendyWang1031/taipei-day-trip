@@ -206,6 +206,7 @@ export function tappayGetPrime() {
 }
 
 export async function fetchPostOrder(prime) {
+  document.getElementById("loading").classList.remove("hidden");
   try {
     const token = localStorage.getItem("userToken");
 
@@ -244,6 +245,8 @@ export async function fetchPostOrder(prime) {
     }
   } catch (error) {
     console.error("Error fetching post booking:", error);
+  } finally {
+    document.getElementById("loading").classList.add("hidden");
   }
 }
 

@@ -28,8 +28,10 @@ window.onload = function () {
 const orderURL = "/api/orders";
 
 async function fetchGetOrderDetails() {
+  document.getElementById("loading").classList.remove("hidden");
   let { number } = getQueryParams();
   const token = localStorage.getItem("userToken");
+
   try {
     const response = await fetch(`${orderURL}/${number}`, {
       method: "GET",
@@ -51,6 +53,8 @@ async function fetchGetOrderDetails() {
     displayOrder(data.data);
   } catch (error) {
     console.error("Error fetching attraction:", error);
+  } finally {
+    document.getElementById("loading").classList.add("hidden");
   }
 }
 function displayOrder(orderDetails) {
