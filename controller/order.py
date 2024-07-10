@@ -24,9 +24,9 @@ async def create_order(
             
             
             if payment_result and payment_result["status"] == 0:
-                result = save_order(member_id , order_request)
+                result = db_save_order(member_id , order_request)
                 if result:
-                    order_details = get_order_detail(member_id)
+                    order_details = db_get_order_detail(member_id)
                     print("order_details:" , order_details)
                     if order_details:
 
@@ -124,7 +124,7 @@ async def get_order_detail_on_thankyou(order_number : str , current_user : dict 
     try:
         if current_user :
             member_id = current_user["id"]
-            order_details = get_order_detail_for_thankyou(order_number , member_id)
+            order_details = db_get_order_detail_for_thankyou(order_number , member_id)
                 
             if order_details:
 
