@@ -866,6 +866,47 @@ section.card-area .card-group form.card-user div div.tpfield {
   padding: 5px;
 }
 
+section.order-area {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+section.order-area #order-details-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+section.order-area #order-details-container .order-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px;
+  background-color: #f9f9f9;
+}
+section.order-area #order-details-container .order-card .trip-info {
+  margin: 10px;
+}
+section.order-area #order-details-container .order-card .trip-area {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+section.order-area #order-details-container .order-card .trip-area .attraction-image {
+  width: 70%;
+  height: auto;
+  border-radius: 8px;
+  margin-left: 20px;
+}
+section.order-area #order-details-container .order-card h2 {
+  color: #356672;
+}
+section.order-area #order-details-container .order-card p {
+  font-size: 16px;
+  color: #666;
+}
+
 section.total-submit {
   display: flex;
   justify-content: center;
@@ -906,7 +947,9 @@ section.thankyou-area {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 50px;
+  margin-top: 50px;
+  margin-right: 50px;
+  margin-left: 50px;
 }
 section.thankyou-area div div h1 {
   font-family: Noto Sans TC;

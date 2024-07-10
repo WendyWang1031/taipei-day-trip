@@ -881,6 +881,54 @@ section.card-area {
   padding: 5px;
 }
 
+$primary-color: #356672;
+$secondary-color: #666;
+$base-font-size: 16px;
+section.order-area {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  #order-details-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .order-card {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px;
+      background-color: #f9f9f9;
+      .trip-info {
+        margin: 10px;
+      }
+
+      .trip-area {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .attraction-image {
+          width: 70%;
+          height: auto;
+          border-radius: 8px;
+          margin-left: 20px;
+        }
+      }
+
+      h2 {
+        color: $primary-color;
+      }
+
+      p {
+        font-size: $base-font-size;
+        color: $secondary-color;
+      }
+    }
+  }
+}
+
 section.total-submit {
   display: flex;
   justify-content: center;
@@ -928,7 +976,9 @@ section.thankyou-area {
   align-items: center;
   justify-content: center;
 
-  margin: 50px;
+  margin-top: 50px;
+  margin-right: 50px;
+  margin-left: 50px;
   div {
     div {
       h1 {
