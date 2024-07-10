@@ -10,18 +10,15 @@ const imagesRightBtn = document.querySelector(".right-btn");
 // 預約行程
 const moringOption = document.getElementById("inlineRadio1");
 const AfternoonOption = document.getElementById("inlineRadio2");
-
 const bookingBtn = document.querySelector(".go-booking");
 
 // 其餘
 const attractionIdURL = "/api/attraction";
-
 document.addEventListener("DOMContentLoaded", initializePage);
 
 // 頁面載入初始化
 function initializePage() {
   setupEventListeners();
-
   const attractionId = ViewAttraction.getAttractionIdFromPath();
   fetchGetAttractionID(attractionId);
 }
