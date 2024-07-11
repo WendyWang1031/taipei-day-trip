@@ -55,7 +55,7 @@ def db_get_attractions_for_pages(page : int , keyword = None) -> List [dict [str
         for location in locations:
             location_ids.append(location['id'])
         
-        print(f"location_ids:{location_ids}")
+        # print(f"location_ids:{location_ids}")
         if not location_ids:
             return []
         
@@ -83,6 +83,8 @@ def db_get_attractions_for_pages(page : int , keyword = None) -> List [dict [str
             else:
                 images_dict[image_result["location_id"]] = []
         # print(f"images_dict:{images_dict}")
+
+    
         # 把images分配給對應的locations
         for location in locations:
             if location["id"] in images_dict:

@@ -14,19 +14,19 @@ async def get_attractions_for_all(page : int , keyword : str) -> JSONResponse | 
 	
 	try:
 		data = db_get_attractions_for_pages(page , keyword)
+		# print("get_attractions data:" , data)
 
 		if not data:
 			print("No data found , returing empty list.")
 			data = []
 
-		nextPage = None if len(data) < 12 else page + 1
+		next_page = None if len(data) < 12 else page + 1
 		
+		success_response = SuccessfulResponseForAttraction(nextPage=next_page, data=data)
 		response = JSONResponse(
 		status_code = status.HTTP_200_OK,
-		content={
-			"nextPage":nextPage,
-			"data":data
-		})
+		content=success_response.dict()
+		)
 		return response
 	
 	except Exception as e :

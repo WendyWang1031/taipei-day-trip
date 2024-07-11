@@ -4,9 +4,7 @@ from datetime import datetime
 
 
 # 景點
-class Image(BaseModel):
-    url:str
-    
+
 class Attraction(BaseModel):
     id: int = Field(... , example=10)
     name: str = Field(... , example="平安鐘")
@@ -17,7 +15,7 @@ class Attraction(BaseModel):
     mrt: str = Field(... , example="忠孝復興")
     lat: float = Field(... , example=25.04181)
     lng: float = Field(... , example=121.544814)
-    images: List[Image] = Field(..., example=["http://140.112.3.4/images/92-0.jpg"])
+    image: List[str] = Field(..., example=["http://140.112.3.4/images/92-0.jpg"])
 
 class MRTList(BaseModel):
 	data: str = Field(..., description="捷運站名稱列表")
