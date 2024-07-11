@@ -1,4 +1,4 @@
-from model.model import UserReadDetail , ErrorResponse , UserCreateRequest , UserLoginRequest
+from model.model import *
 from fastapi.responses import JSONResponse
 from starlette import status
 import bcrypt
@@ -17,10 +17,12 @@ async def register_user(user_request : UserCreateRequest) -> JSONResponse | Erro
     hashed_password = bcrypt.hashpw(user_request.password.encode('utf-8'), bcrypt.gensalt())
     
     if db_insert_new_user(user_request.name, user_request.email, hashed_password):
-        return JSONResponse(
+        success_response = SuccessfulResponseForMemberRegister(ok=True)
+        response = JSONResponse(
             status_code=status.HTTP_200_OK,
-            content={"ok": True}
+            content=success_response.dict()
         )
+        return response
     else:
         error_response = ErrorResponse(error=True, message="Failed to create user due to a server error")
         response = JSONResponse (
@@ -36,10 +38,12 @@ async def authenticate_user(user_login_req : UserLoginRequest) -> JSONResponse |
             name = user_info['name'],
             email = user_info['email']
         ).dict())
-        return JSONResponse(
+        success_response = SuccessfulResponseForMemberBase(token = access_token)
+        response = JSONResponse(
             status_code=status.HTTP_200_OK,
-            content={"token": access_token}
+            content=success_response.dict()
         )
+        return response
     else:
         error_response = ErrorResponse(error=True, message="Invalid email or password")
         response = JSONResponse (

@@ -38,12 +38,30 @@ class UserReadDetail(BaseModel):
 
 class UserLoginRequest(BaseModel):
     email: str = Field(... , example="ply@ply.com")
-    password: str = Field(... , example="12345678")	
+    password: str = Field(... , example="12345678")
+    
+    @field_validator("*")
+    def validate_login_space(cls , v):
+        if not v or v.isspace():
+             raise ValueError("The Login Input Value can not be blank.")
+        return v
 
 class UserCreateRequest(BaseModel):
     name: str = Field(... , example="彭彭彭")
     email: str = Field(... , example="ply@ply.com")
     password: str = Field(... , example="12345678")	
+    
+    @field_validator("*")
+    def validate_register_space(cls , v):
+        if not v or v.isspace():
+             raise ValueError("The Register Input Value can not be blank.")
+        return v
+    
+    @field_validator("email")
+    def validate_email(cls , v):
+        if "@" not in v :
+             raise ValueError("Email must included '@'")
+        return v
 
 class SuccessfulResponseForMemberRegister(BaseModel):
     ok : bool = Field(..., description = "註冊成功")
@@ -71,13 +89,21 @@ class BookingRequest(BaseModel):
     date : str = Field(... , example = "2024-06-24")
     time : str = Field(... , example = "afternoon")
     price : int = Field(... , example = 2500)
+
+    @field_validator("*")
+    def validate_booking_requset_space(cls , v ,field):
+        if isinstance(v,str) and (not v or v.isspace()):
+            raise ValueError("f{field.name} Input Value can not be blank or just spaces.")
+        if v is None:
+            raise ValueError("f{field.name} Input Value can not be null.")
+        return v
     
     @field_validator("date")
     def validate_date(cls , v):
         input_date = datetime.strptime(v,"%Y-%m-%d")
         current_date = datetime.now().date()
         if input_date.date() < current_date :
-             raise ValueError("The date must be today or in the future.")
+            raise ValueError("The date must be today or in the future.")
         return v
     
 class BookingDetails(BaseModel):
@@ -124,6 +150,14 @@ class Order(BaseModel):
 class PaymentOrderRequest(BaseModel):
     prime: str = Field(..., example="前端從第三方金流 TapPay 取得的交易碼")
     order: Order
+
+    @field_validator("*")
+    def validate_order_request_space(cls , v, field):
+        if isinstance(v,str) and (not v or v.isspace()):
+            raise ValueError("f{field.name} Input Value can not be blank or just spaces.")
+        if v is None:
+            raise ValueError("f{field.name} Input Value can not be null.")
+        return v
 
 class PaymentInfo(BaseModel):
     status: int = Field(..., example=0)
