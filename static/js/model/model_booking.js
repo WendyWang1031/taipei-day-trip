@@ -1,5 +1,6 @@
 const bookingURL = "/api/booking";
 export async function fetchPostBooking(bookingData) {
+  document.getElementById("loading").classList.remove("hidden");
   try {
     const token = localStorage.getItem("userToken");
     const response = await fetch(bookingURL, {
@@ -22,5 +23,7 @@ export async function fetchPostBooking(bookingData) {
     window.location.href = "/booking";
   } catch (error) {
     console.error("Error fetching post booking:", error);
+  } finally {
+    document.getElementById("loading").classList.add("hidden");
   }
 }

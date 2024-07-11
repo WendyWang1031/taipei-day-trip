@@ -34,6 +34,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 });
 
 export async function fetchGetBooking() {
+  document.getElementById("loading").classList.remove("hidden");
   const token = localStorage.getItem("userToken");
   const userName = localStorage.getItem("userName");
   try {
@@ -65,10 +66,13 @@ export async function fetchGetBooking() {
     return data.data;
   } catch (error) {
     console.error("Error fetching attraction:", error);
+  } finally {
+    document.getElementById("loading").classList.add("hidden");
   }
 }
 
 export async function fetchDeleteBooking() {
+  document.getElementById("loading").classList.remove("hidden");
   const token = localStorage.getItem("userToken");
   try {
     const response = await fetch(bookingURL, {
@@ -87,6 +91,8 @@ export async function fetchDeleteBooking() {
     window.location.reload();
   } catch (error) {
     console.error("Error deleting attraction:", error);
+  } finally {
+    document.getElementById("loading").classList.add("hidden");
   }
 }
 
