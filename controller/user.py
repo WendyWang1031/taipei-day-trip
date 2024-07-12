@@ -4,7 +4,7 @@ from starlette import status
 import bcrypt
 
 from db.user import *
-from service.security import create_access_token 
+from service.security import security_create_access_token 
 
 async def register_user(user_request : UserCreateRequest) -> JSONResponse :
     if db_check_user_email_exists(user_request.email):
@@ -33,7 +33,7 @@ async def register_user(user_request : UserCreateRequest) -> JSONResponse :
 async def authenticate_user(user_login_req : UserLoginRequest) -> JSONResponse :
     user_info = db_check_email_password(user_login_req.email, user_login_req.password)
     if user_info:
-        access_token = create_access_token(UserReadDetail(
+        access_token = security_create_access_token(UserReadDetail(
             id = user_info['id'],
             name = user_info['name'],
             email = user_info['email']

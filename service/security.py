@@ -12,7 +12,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = os.getenv("ALGORITHM")
 security = HTTPBearer()
 
-def create_access_token(data: dict , expires_delta: timedelta = timedelta(days = 7)):
+def security_create_access_token(data: dict , expires_delta: timedelta = timedelta(days = 7)):
     to_encode = data.copy()
     if expires_delta:
         expire = datetime.utcnow() + expires_delta
@@ -22,7 +22,7 @@ def create_access_token(data: dict , expires_delta: timedelta = timedelta(days =
     encoded_jwt = jwt.encode(to_encode , SECRET_KEY , algorithm=ALGORITHM)
     return encoded_jwt
 
-def decode_access_token(token: str):
+def security_decode_access_token(token: str):
     try:
         payload = jwt.decode(token , SECRET_KEY , algorithms=ALGORITHM)
         return payload
@@ -33,7 +33,7 @@ def decode_access_token(token: str):
             raise HTTPException(status_code=403 , detail="Token 失效")
 
 
-def get_current_user(token: HTTPAuthorizationCredentials = Security(security)) :
+def security_get_current_user(token: HTTPAuthorizationCredentials = Security(security)) :
     if token is None :
             error_response = ForbiddenError(
                  error = True ,
@@ -42,7 +42,7 @@ def get_current_user(token: HTTPAuthorizationCredentials = Security(security)) :
                  error_message = "User not authenticated")
             return error_response   
     
-    user_info = decode_access_token(token.credentials)
+    user_info = security_decode_access_token(token.credentials)
     
     if not user_info:
             error_response = ServiceError(

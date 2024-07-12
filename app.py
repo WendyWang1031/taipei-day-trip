@@ -6,7 +6,7 @@ from fastapi.staticfiles import StaticFiles
 from controller.attraction import *
 from controller.user import register_user, authenticate_user, get_user_details
 from model.model import *
-from service.security import get_current_user
+from service.security import security_get_current_user
 from db.booking import *
 from controller.booking import *
 from controller.order import *
@@ -45,7 +45,7 @@ cache_service = CacheService(redis_connection)
             }
          }
          )
-async def fetch_post_booking(booking: BookingRequest , current_user : dict = Depends(get_current_user)):
+async def fetch_post_booking(booking: BookingRequest , current_user : dict = Depends(security_get_current_user)):
     return await create_booking(booking , current_user)
 
 @app.get("/api/booking",
@@ -71,7 +71,7 @@ async def fetch_post_booking(booking: BookingRequest , current_user : dict = Dep
             }
          }
          )
-async def fetch_get_booking( current_user : dict = Depends(get_current_user) ):
+async def fetch_get_booking( current_user : dict = Depends(security_get_current_user) ):
     return await get_booking_details( current_user)	
 
 @app.delete("/api/booking",
@@ -93,7 +93,7 @@ async def fetch_get_booking( current_user : dict = Depends(get_current_user) ):
             }
          }
          )
-async def fetch_delete_booking_api( current_user : dict = Depends(get_current_user) ):
+async def fetch_delete_booking_api( current_user : dict = Depends(security_get_current_user) ):
     return await delete_booking(current_user)		
         
 
@@ -132,7 +132,7 @@ async def fetch_post_user_signup(user_request : UserCreateRequest) -> JSONRespon
                 "description" : "已登入的會員資料，null 表示未登入"
             }
          })
-async def fetch_get_user(user: dict = Depends(get_current_user))-> JSONResponse :
+async def fetch_get_user(user: dict = Depends(security_get_current_user))-> JSONResponse :
     return await get_user_details(user)
 
 @app.put("/api/user/auth" , 
@@ -242,7 +242,7 @@ async def fetch_get_mrts() -> JSONResponse :
          }
          )
 async def fetch_post_orders(
-    current_user : dict = Depends(get_current_user) , 
+    current_user : dict = Depends(security_get_current_user) , 
     order_request : PaymentOrderRequest = Body(...)) -> JSONResponse :
     return await create_order(current_user , order_request)
 
@@ -264,7 +264,7 @@ async def fetch_post_orders(
                 "description" : "伺服器內部錯誤"
             }
          })
-async def fetch_get_order(orderNumber: str = Path(..., description = "訂單編號") , current_user : dict = Depends(get_current_user)) -> JSONResponse :
+async def fetch_get_order(orderNumber: str = Path(..., description = "訂單編號") , current_user : dict = Depends(security_get_current_user)) -> JSONResponse :
     return await get_order_detail_on_thankyou(orderNumber , current_user)
 
 # ----------------------------------------------------------

@@ -1,4 +1,4 @@
-from service.security import get_current_user
+from service.security import security_get_current_user
 from db.payment import *
 from model.model import *
 from fastapi import *
@@ -15,7 +15,7 @@ api_key = os.getenv("API_KEY")
 partner_KEY = os.getenv("PARTNER_KEY")
 
 async def create_order(
-          current_user : dict = Depends(get_current_user) ,
+          current_user : dict = Depends(security_get_current_user) ,
           order_request : PaymentOrderRequest = Body(...)) -> JSONResponse :
     try:
         if current_user is None:
@@ -120,7 +120,7 @@ async def process_payment(payment_request: PaymentOrderRequest) ->  dict [str, A
                 content=error_response.dict())
             return response
         
-async def get_order_detail_on_thankyou(order_number : str , current_user : dict = Depends(get_current_user)) -> JSONResponse :
+async def get_order_detail_on_thankyou(order_number : str , current_user : dict = Depends(security_get_current_user)) -> JSONResponse :
 
     try:
         if current_user :
