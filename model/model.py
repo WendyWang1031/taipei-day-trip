@@ -194,3 +194,40 @@ class ForbiddenError(ServiceError):
      status : int = Field(403 , description = "403-禁止訪問")
      error_code : str = Field("403-001" , description = "403-禁止訪問")
      error_message : str = Field("無權限" , description = "該用戶並無權限")
+
+
+# 會員頁面
+class MemberDataRequest(BaseModel):
+    name: str = Field(..., example="彭彭彭")
+    email: str = Field(..., example="ply@ply.com")
+    phone: str = Field(..., example="0912345678")
+    avatar: str = Field(..., example="http://123456789/images/92-0.jpg")
+
+    @field_validator("*")
+    def validate_member_data_space(cls , v):
+        if not v or v.isspace():
+             raise ValueError("The Register Input Value can not be blank.")
+        return v
+    
+    @field_validator("email")
+    def validate_member_data_email(cls , v):
+        if "@" not in v :
+             raise ValueError("Email must included '@'")
+        return v
+
+    @field_validator("phone")
+    def validate_member_data_phone(cls , v):
+         if not v.startswith("09"):
+              raise ValueError("Phone number must start with 09")
+         return v
+
+
+class MemberData(BaseModel):
+    name: str = Field(..., example="彭彭彭")
+    email: str = Field(..., example="ply@ply.com")
+    phone: Optional[str] = Field(None, example="0912345678")
+    avatar: Optional[str]= Field(None, example="http://123456789/images/92-0.jpg")
+
+class MemberUpdateResponse(BaseModel):
+    ok: bool
+    data: MemberData

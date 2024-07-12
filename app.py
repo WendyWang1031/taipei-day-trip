@@ -10,6 +10,8 @@ from service.security import security_get_current_user
 from db.booking import *
 from controller.booking import *
 from controller.order import *
+from controller.member import *
+
 
 from service.cache_service import *
 from middlewares.logging_middleware import LoggingMiddleware
@@ -267,6 +269,58 @@ async def fetch_post_orders(
 async def fetch_get_order(orderNumber: str = Path(..., description = "訂單編號") , current_user : dict = Depends(security_get_current_user)) -> JSONResponse :
     return await get_order_detail_on_thankyou(orderNumber , current_user)
 
+# 會員頁面
+@app.post("/api/member",
+        tags= ["Member"],
+        response_model = MemberUpdateResponse , 
+        summary = "修改會員資料",
+        responses = {
+            200:{
+                "model" : MemberUpdateResponse,
+                "description" : "修改成功"
+            },
+            400:{
+                "model" : ErrorResponse,
+                "description" : "修改失敗，輸入不正確或其他原因"
+            },
+            403:{
+                "model" : ErrorResponse,
+                "description" : "未登入系統，拒絕存取"
+            },
+            500:{
+                "model" : ErrorResponse,
+                "description" : "伺服器內部錯誤"
+            }
+         }
+         )
+async def fetch_post_member( 
+    member_data : MemberDataRequest = Body(...) ,
+    current_user : dict = Depends(security_get_current_user)) -> JSONResponse :
+    return await update_member_data(member_data , current_user)
+
+@app.get("/api/member",
+        tags= ["Member"],
+        response_model = MemberUpdateResponse , 
+        summary = "根據當前用戶取得會員資訊",
+        responses = {
+            200:{
+                "model" : MemberUpdateResponse,
+                "description" : "成功取得會員資料"
+            },
+            403:{
+                "model" : ErrorResponse,
+                "description" : "未登入系統，拒絕存取"
+            },
+            500:{
+                "model" : ErrorResponse,
+                "description" : "伺服器內部錯誤"
+            }
+         })
+async def fetch_get_member(current_user : dict = Depends(security_get_current_user)) -> JSONResponse :
+    return await get_member_data( current_user )
+
+
+
 # ----------------------------------------------------------
 
 
@@ -286,3 +340,7 @@ async def booking(request: Request):
 @app.get("/thankyou", include_in_schema=False)
 async def thankyou(request: Request):
     return FileResponse("./static/thankyou.html", media_type="text/html")
+
+@app.get("/member", include_in_schema=False)
+async def thankyou(request: Request):
+    return FileResponse("./static/member.html", media_type="text/html")
