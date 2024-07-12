@@ -3,7 +3,7 @@ import pymysql.cursors
 from typing import Any
 from .connection import get_db_connection_pool
 
-def get_existing_booking( member_id : str ) -> dict [str, Any] | None:
+def db_get_existing_booking( member_id : str ) -> dict [str, Any] | None:
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:
@@ -28,7 +28,7 @@ def get_existing_booking( member_id : str ) -> dict [str, Any] | None:
 def db_save_or_update_booking(member_id : str  , booking_data : BookingRequest) -> bool :
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
-    booking_existing = get_existing_booking(member_id)
+    booking_existing = db_get_existing_booking(member_id)
     try:
         connection.begin()
 

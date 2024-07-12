@@ -3,7 +3,7 @@ from typing import Any
 import random
 
 from model.model import BookingAttraction , BookingDetails , PaymentOrderRequest , Contact , PaymentOrderDetailsResponse
-from db.booking import get_existing_booking 
+from db.booking import db_get_existing_booking 
 
 import pymysql.cursors
 from .connection import get_db_connection_pool
@@ -28,7 +28,7 @@ def db_save_order(member_id : str, order_request : PaymentOrderRequest) -> bool:
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     order_number = db_generate_order_number(member_id)
-    user_booking = get_existing_booking(member_id)
+    user_booking = db_get_existing_booking(member_id)
     
     contact_phone = order_request.order.contact.phone
     
