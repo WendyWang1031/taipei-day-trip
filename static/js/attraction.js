@@ -44,7 +44,7 @@ async function checkBooking(event) {
   console.log("click!!");
   const isLoggedIn = await checkUserState();
   if (isLoggedIn) {
-    const bookingData = await ViewAttraction.AttractionsBooking(event);
+    const bookingData = await ViewAttraction.AttractionsBooking();
     console.log(bookingData);
     await fetchPostBooking(bookingData);
   } else {

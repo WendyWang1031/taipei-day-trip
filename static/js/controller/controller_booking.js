@@ -6,9 +6,17 @@ import { tappayGetPrime } from "./taypay_fields.js";
 const bookingURL = "/api/booking";
 
 document.addEventListener("DOMContentLoaded", async function () {
+  //init controller_auth
+  //get data controller_auth
+  //set view controller_auth
   View.signUpSignInDisplayNone();
+  initialize();
+  const isLoggedIn = await checkUserState(BookingView.handleUserDataDisplay);
+
+  //
   tappayGetPrime();
 
+  //init booking
   const trashBtn = document.querySelector(".trash");
   if (trashBtn) {
     trashBtn.addEventListener("click", fetchDeleteBooking);
@@ -20,12 +28,14 @@ document.addEventListener("DOMContentLoaded", async function () {
     .querySelector("#contact-phone")
     .addEventListener("input", BookingView.mobileTextValidate);
 
+  //get data booking
+  //set view booking(booking, controller_auth)
   if (window.location.pathname === "/booking") {
-    initialize();
-    const isLoggedIn = await checkUserState(BookingView.handleUserDataDisplay);
-
     if (isLoggedIn) {
       await fetchGetBooking();
+      //data = fetchGetBooking
+      //if data == null, set error
+      //else , set view
     } else {
       window.location.href = "/";
       View.setElementDisplay(".signin-mask", "flex");
