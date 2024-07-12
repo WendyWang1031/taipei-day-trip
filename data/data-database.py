@@ -1,12 +1,18 @@
 
 import pymysql
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+user = os.getenv("connection_db_user")
+password = os.getenv("connection_db_password")
 
 
 db =  pymysql.connect(
     host = "localhost",
     port = 3306,
-    user = "test",
-    password = "test",
+    user = user,
+    password = password,
     db = "taipei_day_trip"
 )
 
@@ -22,8 +28,13 @@ create_member_table_sql = """
 """
 
 alter_member_table_sql = """
-        alter table member
+        alter table member IF NOT EXISTS
         add column phone_number varchar(255);
+"""
+
+alter_member_table_add_avatar_sql = """
+        alter table member 
+        add column avatar varchar(255);
 """
 
 create_booking_table_sql = """
@@ -62,7 +73,9 @@ try:
     cursor.execute("BEGIN;")
 
     cursor.execute(create_member_table_sql)
+    
     cursor.execute(alter_member_table_sql)
+    cursor.execute(alter_member_table_add_avatar_sql)
 
     cursor.execute(create_booking_table_sql)
     cursor.execute(create_order_table_sql)
