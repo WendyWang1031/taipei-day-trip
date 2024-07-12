@@ -50,6 +50,6 @@ def security_get_current_user(token: HTTPAuthorizationCredentials = Security(sec
                  status =  404 ,
                  error_code = "404-001" ,
                  error_message = "User not found")
-            return error_response 
+            return None 
     else:
         return user_info

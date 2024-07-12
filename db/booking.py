@@ -30,9 +30,11 @@ def db_get_existing_booking( member_id : str ) -> BookingAttractionAndUser | Non
 def db_save_or_update_booking(member_id : str  , booking_data : BookingRequest) -> bool :
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
-    booking_existing = db_get_existing_booking(member_id)
+    
     try:
         connection.begin()
+        
+        booking_existing = db_get_existing_booking(member_id)
 
         if booking_existing : 
             sql = """update booking 
