@@ -12,7 +12,9 @@ def get_existing_booking( member_id : str ) -> dict [str, Any] | None:
         sql = "select * from booking where member_id = %s"
         cursor.execute( sql , (member_id ,))
         user_booking = cursor.fetchone()
-        print("user_booking:" , user_booking)
+        
+        connection.commit()
+        
         return user_booking
     except Exception as e:
         print(f"Error getting booking details: {e}")
@@ -42,7 +44,9 @@ def db_save_or_update_booking(member_id : str  , booking_data : BookingRequest) 
             cursor.execute(sql ,( booking_data.attraction_id , booking_data.date , booking_data.time , booking_data.price , member_id))
         
         connection.commit()
+        
         return True
+    
     except Exception as e:
         print(f"Error inserting new booking: {e}")
         connection.rollback() 
@@ -71,6 +75,8 @@ def db_check_booking_detail(member_id : str ) -> BookingDetails | None :
         """
         cursor.execute( sql , (member_id ,))
         user_booking = cursor.fetchone()
+        
+        connection.commit()
         
         if user_booking:
                 attraction = BookingAttraction(

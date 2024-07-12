@@ -74,6 +74,7 @@ def db_get_attractions_for_pages(page : int , keyword = None) -> List [dict [str
         cursor.execute(images_sql , tuple(location_ids))
         images_results = cursor.fetchall()
         
+        connection.commit()
 
         # 創建字典來映射locaion_id到images
         images_dict ={}
@@ -121,6 +122,7 @@ def db_get_attractions_for_id(id : int) -> dict [str, Any] | None:
                 images = cursor.fetchall()
                 result["images"] = [img["images"] for img in images]
             
+            connection.commit()
             
             return result
         
@@ -149,6 +151,8 @@ def db_get_mrts() -> List[str] :
             """
         cursor.execute(sql ,)
         results = cursor.fetchall()
+
+        connection.commit()
     
         mrt_list = [result["mrt"] for result in results]
         return mrt_list

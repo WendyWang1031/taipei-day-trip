@@ -8,6 +8,16 @@ from db.booking import get_existing_booking
 import pymysql.cursors
 from .connection import get_db_connection_pool
 
+## insert 4
+
+## select 1.3.5
+## select 1.3.4.5 = 13
+
+## connection.begin()
+## select 1.3.5
+## select 1.3.5 = 9
+## connection.commit()
+
 def db_generate_order_number(member_id : str):
     current_time = datetime.now()
     random_number = random.randint(100,999)
@@ -88,6 +98,8 @@ def db_get_order_detail(member_id : str) -> dict [str, Any] | None:
         """
         cursor.execute( sql , (member_id ,))
         order_details = cursor.fetchone()
+
+        connection.commit()
         
         if order_details:
                 
@@ -139,6 +151,7 @@ def db_get_order_detail_for_thankyou(order_number: str , member_id : str) -> dic
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:
         connection.begin()
+        
         sql = """
         
         select 
@@ -167,6 +180,8 @@ def db_get_order_detail_for_thankyou(order_number: str , member_id : str) -> dic
         """
         cursor.execute( sql , (member_id , order_number))
         order_details = cursor.fetchone()
+
+        connection.commit()
         
         if order_details:
                 
