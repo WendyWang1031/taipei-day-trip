@@ -1,9 +1,9 @@
-from model.model import BookingAttraction , BookingDetails , BookingRequest
+from model.model import BookingAttraction , BookingDetails , BookingRequest , BookingAttractionAndUser
 import pymysql.cursors
 from typing import Any
 from .connection import get_db_connection_pool
 
-def db_get_existing_booking( member_id : str ) -> dict [str, Any] | None:
+def db_get_existing_booking( member_id : str ) -> BookingAttractionAndUser | None:
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:
@@ -12,10 +12,12 @@ def db_get_existing_booking( member_id : str ) -> dict [str, Any] | None:
         sql = "select * from booking where member_id = %s"
         cursor.execute( sql , (member_id ,))
         user_booking = cursor.fetchone()
+        print("user_booking:" , user_booking)
         
         connection.commit()
         
         return user_booking
+    
     except Exception as e:
         print(f"Error getting booking details: {e}")
         connection.rollback()

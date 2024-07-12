@@ -76,6 +76,15 @@ class ErrorResponse(BaseModel):
 
 
 # 購物車
+class BookingAttractionAndUser(BaseModel):
+    id: int = Field(... , example=10)
+    attraction_id : int = Field(... , example=1)
+    date : str = Field(... , example = "2024-06-24")
+    time : str = Field(... , example = "afternoon")
+    price : int = Field(... , example = 2500)
+    member_id : str = Field(... , example = "4gdr-u545-638-5sdf")
+    status: int = Field(..., example=0)
+
 class BookingAttraction(BaseModel):
     id: int = Field(... , example=10)
     name: str = Field(... , example="平安鐘")
