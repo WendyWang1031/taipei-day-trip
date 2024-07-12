@@ -10,7 +10,7 @@ redis_connection = get_redis_connection()
 cache_service = CacheService(redis_connection)
 
 
-async def get_attractions_for_all(page : int , keyword : str) -> JSONResponse | ErrorResponse:
+async def get_attractions_for_all(page : int , keyword : str) -> JSONResponse :
 	
 	try:
 		data = db_get_attractions_for_pages(page , keyword)
@@ -38,7 +38,7 @@ async def get_attractions_for_all(page : int , keyword : str) -> JSONResponse | 
 		
 
 
-async def get_attraction_for_id(attractionId : int) -> JSONResponse | ErrorResponse:
+async def get_attraction_for_id(attractionId : int) -> JSONResponse :
 	cache_key = f'attraction:{attractionId}'
 	try:
 		

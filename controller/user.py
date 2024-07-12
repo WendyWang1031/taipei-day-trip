@@ -6,7 +6,7 @@ import bcrypt
 from db.user import *
 from service.security import create_access_token 
 
-async def register_user(user_request : UserCreateRequest) -> JSONResponse | ErrorResponse:
+async def register_user(user_request : UserCreateRequest) -> JSONResponse :
     if db_check_user_email_exists(user_request.email):
         error_response = ErrorResponse(error=True, message="Email already exists")
         response = JSONResponse (
@@ -30,7 +30,7 @@ async def register_user(user_request : UserCreateRequest) -> JSONResponse | Erro
             content=error_response.dict())
         return response
 
-async def authenticate_user(user_login_req : UserLoginRequest) -> JSONResponse | ErrorResponse:
+async def authenticate_user(user_login_req : UserLoginRequest) -> JSONResponse :
     user_info = db_check_email_password(user_login_req.email, user_login_req.password)
     if user_info:
         access_token = create_access_token(UserReadDetail(

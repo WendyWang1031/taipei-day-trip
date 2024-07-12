@@ -18,49 +18,54 @@ async def create_order(
           current_user : dict = Depends(get_current_user) ,
           order_request : PaymentOrderRequest = Body(...)) -> JSONResponse :
     try:
-        if current_user :
-            member_id = current_user["id"]
-            payment_result = await process_payment(order_request)
+        if current_user is None:
+            error_response = ErrorResponse(error=True, message="User not authenticated")
+            response = JSONResponse (
+            status_code=status.HTTP_403_FORBIDDEN, 
+            content=error_response.dict())
+            return response
+        
+        member_id = current_user["id"]
+        payment_result = await process_payment(order_request)
+        if payment_result is None or payment_result["status"] != 0:
+            error_response = ErrorResponse(error=True, message="status error")
+            response = JSONResponse (
+                status_code=status.HTTP_400_BAD_REQUEST, 
+                content=error_response.dict())
+            return response
+
+        result = db_save_order(member_id , order_request)
+        if result is None:
+            error_response = ErrorResponse(error=True, message="Failed to create order")
+            response = JSONResponse (
+                status_code=status.HTTP_400_BAD_REQUEST, 
+                content=error_response.dict())
+            return response
+    
+        order_details = db_get_order_detail(member_id)
+        print("order_details:" , order_details)
+        if order_details is None:
+            error_response = ErrorResponse(error=True, message="Failed to create order")
+            response = JSONResponse (
+                status_code=status.HTTP_400_BAD_REQUEST, 
+                content=error_response.dict())
+            return response
+
+        response_data = PaymentOrderResponse(
+            number = order_details["number"],
+            payment = PaymentInfo(
+                    status = 0,
+                    message = "付款成功"
+            )
+        )                     
+
+        response = JSONResponse(
+        status_code = status.HTTP_200_OK,
+        content = {"data" : response_data.dict()}
+        )
+        return response
             
             
-            if payment_result and payment_result["status"] == 0:
-                result = db_save_order(member_id , order_request)
-                if result:
-                    order_details = db_get_order_detail(member_id)
-                    print("order_details:" , order_details)
-                    if order_details:
-
-                        response_data = PaymentOrderResponse(
-                            number = order_details["number"],
-                            payment = PaymentInfo(
-                                    status = 0,
-                                    message = "付款成功"
-                            )
-                        )                     
-
-                    response = JSONResponse(
-                    status_code = status.HTTP_200_OK,
-                    content = {"data" : response_data.dict()}
-                    )
-                    return response
-                else:
-                    error_response = ErrorResponse(error=True, message="Failed to create order")
-                    response = JSONResponse (
-                        status_code=status.HTTP_400_BAD_REQUEST, 
-                        content=error_response.dict())
-                    return response
-            else:
-                error_response = ErrorResponse(error=True, message="status error")
-                response = JSONResponse (
-                    status_code=status.HTTP_400_BAD_REQUEST, 
-                    content=error_response.dict())
-                return response
-        else:
-                error_response = ErrorResponse(error=True, message="User not authenticated")
-                response = JSONResponse (
-                    status_code=status.HTTP_403_FORBIDDEN, 
-                    content=error_response.dict())
-                return response
     except Exception as e :
         error_response = ErrorResponse(error=True, message=str(e))
         response = JSONResponse (
