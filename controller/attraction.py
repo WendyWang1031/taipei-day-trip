@@ -16,10 +16,6 @@ async def get_attractions_for_all(page : int , keyword : str) -> JSONResponse :
 		data = db_get_attractions_for_pages(page , keyword)
 		# print("get_attractions data:" , data)
 
-		if not data:
-			print("No data found , returing empty list.")
-			data = []
-
 		next_page = None if len(data) < 12 else page + 1
 		
 		success_response = SuccessfulResponseForAttraction(nextPage=next_page, data=data)
