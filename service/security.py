@@ -45,7 +45,7 @@ def get_current_user(token: HTTPAuthorizationCredentials = Security(security)) :
     user_info = decode_access_token(token.credentials)
     
     if not user_info:
-            error_response = ForbiddenError(
+            error_response = ServiceError(
                  error = True ,
                  status =  404 ,
                  error_code = "404-001" ,
