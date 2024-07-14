@@ -294,17 +294,21 @@ async def fetch_get_order(orderNumber: str = Path(..., description = "訂單編�
          }
          )
 async def fetch_post_member( 
-    member_data : MemberDataRequest = Body(...) ,
+    name: str = Form(...),
+    email: str = Form(...),
+    phone: str = Form(...),
+    avatar: UploadFile = File(...),
     current_user : dict = Depends(security_get_current_user)) -> JSONResponse :
-    return await update_member_data(member_data , current_user)
+    member_data = MemberDataRequest(name=name, email=email, phone=phone)
+    return await update_member_data(member_data , avatar, current_user)
 
 @app.get("/api/member",
         tags= ["Member"],
-        response_model = MemberUpdateResponse , 
+        response_model = MemberGetResponse , 
         summary = "根據當前用戶取得會員資訊",
         responses = {
             200:{
-                "model" : MemberUpdateResponse,
+                "model" : MemberGetResponse,
                 "description" : "成功取得會員資料"
             },
             403:{

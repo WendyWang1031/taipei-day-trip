@@ -1,16 +1,42 @@
 from model.model import *
 from service.security import security_get_current_user
 from db.member import *
+
 from fastapi import *
 from fastapi import  Depends
 from fastapi.responses import JSONResponse
+import boto3
 
-async def update_member_data(member_data: MemberDataRequest , current_user : dict = Depends(security_get_current_user)) -> JSONResponse :
+
+def upload_file_to_s3(file: UploadFile , user_id: str):
+    s3_client = boto3.client('s3')
+    bucket_name = "taipei-day-trip-images"
+
+    file_key = f"avatars/{user_id}-avatar.jpg"
+    content_type = file.content_type
+    try:
+        s3_client.upload_fileobj(
+            file.file,
+            bucket_name,
+            file_key,
+            ExtraArgs={
+                'ContentType': content_type  
+            }
+        )
+        return f"https://{bucket_name}.s3.amazonaws.com/{file_key}"
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+
+async def update_member_data(
+        member_data: MemberDataRequest ,
+        avatar: UploadFile = File(...), 
+        current_user : dict = Depends(security_get_current_user)) -> JSONResponse :
     try:
         
         if current_user :
             member_id = current_user["id"]
-            result = db_save_or_update_member_data(member_id , member_data)
+            avatar_url = upload_file_to_s3(avatar , member_id)
+            result = db_save_or_update_member_data(member_id , member_data , avatar_url)
             
             if result is True:
 

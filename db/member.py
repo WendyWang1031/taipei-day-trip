@@ -26,22 +26,19 @@ def db_get_member_data( member_id : str ) -> MemberData | None:
         cursor.close()
         connection.close()
 
-def db_save_or_update_member_data(member_id : str  , member_data : MemberDataRequest) -> bool :
+def db_save_or_update_member_data(member_id : str  , member_data : MemberDataRequest , avatar_url : str) -> bool :
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     
     try:
         connection.begin()
         
-        user_existing = db_get_member_data(member_id)
-
-        if user_existing :
-            sql = """update member 
-                SET name = %s , email = %s , phone_number = %s , avatar = %s 
-                where id = %s
-            """
-            cursor.execute(sql ,( member_data.name , member_data.email , member_data.phone , member_data.avatar , member_id))
-        
+        sql = """update member 
+            SET name = %s , email = %s , phone_number = %s , avatar = %s 
+            where id = %s
+        """
+        cursor.execute(sql ,( member_data.name , member_data.email , member_data.phone , avatar_url , member_id))
+    
         connection.commit()
         
         return True

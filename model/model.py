@@ -201,7 +201,7 @@ class MemberDataRequest(BaseModel):
     name: str = Field(..., example="彭彭彭")
     email: str = Field(..., example="ply@ply.com")
     phone: str = Field(..., example="0912345678")
-    avatar: str = Field(..., example="http://123456789/images/92-0.jpg")
+    
 
     @field_validator("*")
     def validate_member_data_space(cls , v):
@@ -228,6 +228,9 @@ class MemberData(BaseModel):
     phone: Optional[str] = Field(None, example="0912345678")
     avatar: Optional[str]= Field(None, example="http://123456789/images/92-0.jpg")
 
-class MemberUpdateResponse(BaseModel):
+class MemberGetResponse(BaseModel):
     ok: bool
     data: MemberData
+
+class MemberUpdateResponse(BaseModel):
+    ok: bool = Field(..., example="會員更新成功")

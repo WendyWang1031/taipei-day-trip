@@ -49,6 +49,12 @@ create_booking_table_sql = """
         FOREIGN KEY (member_id) REFERENCES member(id)
 );
 """
+alter_booking_table_unique_sql = """
+        ALTER TABLE booking
+        ADD CONSTRAINT unique_member_id UNIQUE (member_id);
+
+"""
+
 
 
 create_order_table_sql = """
@@ -78,6 +84,7 @@ try:
     cursor.execute(alter_member_table_add_avatar_sql)
 
     cursor.execute(create_booking_table_sql)
+    cursor.execute(alter_booking_table_unique_sql)
     cursor.execute(create_order_table_sql)
 
     db.commit()
