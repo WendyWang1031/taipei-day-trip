@@ -2,9 +2,11 @@ import * as View from "./view/view.js";
 
 document.addEventListener("DOMContentLoaded", async function () {
   const token = localStorage.getItem("userToken");
+  const pathname = window.location.pathname;
   if (!token) {
-    window.location.href = "/";
-    View.setElementDisplay(".signin-mask", "flex");
+    if (pathname !== "/") {
+      window.location.href = "/";
+    }
   } else {
     View.setElementDisplay(".member-setting", "flex");
     const memberBtn = document.querySelector(".member-setting");

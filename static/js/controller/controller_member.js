@@ -60,7 +60,7 @@ async function fetchUserProfile() {
       document.getElementById("userPhone").textContent =
         result.data.phone_number || "未提供手機號碼";
       const defaultAvatar =
-        "../images/image/blank-profile-picture-973460_960_720_2583405935a02dfab699c6.jpeg";
+        "../static/images/image/blank-profile-picture-973460_960_720_2583405935a02dfab699c6.jpeg";
       document.getElementById("userAvatar").src =
         result.data.avatar || defaultAvatar;
       document.getElementById("userAvatar").alt = result.data.avatar
