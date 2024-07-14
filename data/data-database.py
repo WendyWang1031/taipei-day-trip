@@ -28,7 +28,7 @@ create_member_table_sql = """
 """
 
 alter_member_table_sql = """
-        alter table member IF NOT EXISTS
+        alter table member 
         add column phone_number varchar(255);
 """
 
