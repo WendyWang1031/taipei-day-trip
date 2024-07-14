@@ -75,7 +75,8 @@ async def get_member_data( current_user : dict = Depends(security_get_current_us
             print("member_data_details:" , member_data_details)
             
             if member_data_details:
-                success_response = MemberUpdateResponse(ok=True, data=member_data_details)
+                success_response = MemberGetResponse(ok=True, data=member_data_details)
+                print("success_response:" , success_response)
                 response = JSONResponse(
                 status_code = status.HTTP_200_OK,
                 content=success_response.dict()

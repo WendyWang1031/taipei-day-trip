@@ -225,7 +225,7 @@ class MemberDataRequest(BaseModel):
 class MemberData(BaseModel):
     name: str = Field(..., example="彭彭彭")
     email: str = Field(..., example="ply@ply.com")
-    phone: Optional[str] = Field(None, example="0912345678")
+    phone_number: Optional[str] = Field(None, example="0912345678")
     avatar: Optional[str]= Field(None, example="http://123456789/images/92-0.jpg")
 
 class MemberGetResponse(BaseModel):
