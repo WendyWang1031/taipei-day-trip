@@ -12,7 +12,7 @@ class Attraction(BaseModel):
     description: str = Field(... , example="平安鐘祈求大家的平安，這是為了紀念 921 地震週年的設計")
     address: str = Field(... , example="臺北市大安區忠孝東路 4 段 1 號")
     transport: str = Field(... , example="公車：204、212、212直")
-    mrt: str = Field(... , example="忠孝復興")
+    mrt: Optional[str] = Field(... , example="忠孝復興")
     lat: float = Field(... , example=25.04181)
     lng: float = Field(... , example=121.544814)
     image: List[str] = Field(..., example=["http://140.112.3.4/images/92-0.jpg"])
@@ -40,7 +40,7 @@ class UserLoginRequest(BaseModel):
     
     @field_validator("*")
     def validate_login_space(cls , v):
-        if not v or v.isspace():
+        if isinstance(v,str) and (not v or v.isspace()):
              raise ValueError("The Login Input Value can not be blank.")
         return v
 
@@ -51,7 +51,7 @@ class UserCreateRequest(BaseModel):
     
     @field_validator("*")
     def validate_register_space(cls , v):
-        if not v or v.isspace():
+        if isinstance(v,str) and (not v or v.isspace()):
              raise ValueError("The Register Input Value can not be blank.")
         return v
     
