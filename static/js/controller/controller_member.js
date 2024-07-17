@@ -1,14 +1,25 @@
+import * as MemberView from "../view/view_member.js";
+
 document.addEventListener("DOMContentLoaded", function () {
-  fetchUserProfile();
+  fetchGetUserProfile();
+
+  const updateButton = document.querySelector('button[type="button"]');
+  updateButton.addEventListener("click", updateProfile);
 });
 
 const memberURL = "/api/member";
 
 async function updateProfile() {
   document.getElementById("loading").classList.remove("hidden");
+
   const token = localStorage.getItem("userToken");
   const form = document.getElementById("updateProfileForm");
   const formData = new FormData(form);
+
+  if (!checkFormValue()) {
+    document.getElementById("loading").classList.add("hidden");
+    return;
+  }
 
   try {
     const response = await fetch(memberURL, {
@@ -20,21 +31,22 @@ async function updateProfile() {
     });
 
     if (!response.ok) {
-      let errorMessage = "重複的信箱，請重新輸入";
-      console.log(
-        "Failed to post member details:",
-        response.status,
-        errorMessage
-      );
-      const errorMessageDiv = document.getElementById("errorMessage");
-      errorMessageDiv.textContent = errorMessage;
-      errorMessageDiv.style.display = "block";
-      throw new Error(errorMessage);
+      console.log("Failed to post member details:", response.status);
+      if (response.status === 400) {
+        MemberView.updateMessage(
+          "errorMessage",
+          "該電子郵件已被註冊，請使用其他郵件地址。"
+        );
+      } else {
+        MemberView.updateMessage(
+          "errorMessage",
+          "提交表單回應有誤，請聯繫客服人員。"
+        );
+      }
+
+      throw new Error(response.status);
     } else {
-      let errorMessage = "會員資料更新成功";
-      const errorMessageDiv = document.getElementById("errorMessage");
-      errorMessageDiv.textContent = errorMessage;
-      errorMessageDiv.style.display = "block";
+      MemberView.updateMessage("errorMessage", "會員資料更新成功");
       window.location.reload();
     }
   } catch (error) {
@@ -44,7 +56,7 @@ async function updateProfile() {
   }
 }
 
-async function fetchUserProfile() {
+async function fetchGetUserProfile() {
   const token = localStorage.getItem("userToken");
   try {
     const response = await fetch(memberURL, {
@@ -72,4 +84,41 @@ async function fetchUserProfile() {
   } catch (error) {
     console.error("Error fetching user profile:", error);
   }
+}
+
+function checkFormValue() {
+  const form = document.getElementById("updateProfileForm");
+  const email = form.querySelector('[name="email"]').value;
+  const name = form.querySelector('[name="name"]').value;
+  const phone = form.querySelector('[name="phone"]').value;
+  const avatar = form.querySelector('[name="avatar"]');
+
+  const hasAvatar = avatar.files.length > 0;
+
+  // 驗證電子郵件
+  if (email && !email.includes("@")) {
+    MemberView.updateMessage("errorMessage", "電子郵件地址必須包含 '@'。");
+    return false;
+  }
+
+  // 驗證手機號碼
+  if (phone && !(phone.startsWith("09") && phone.length === 10)) {
+    MemberView.updateMessage(
+      "errorMessage",
+      "手機號碼必須以 '09' 開頭且為 10 位數字。"
+    );
+    return false;
+  }
+
+  // 驗證是否所有欄位都為空
+  if (!email.trim() && !name.trim() && !phone.trim() && !hasAvatar) {
+    MemberView.updateMessage(
+      "errorMessage",
+      "請至少更新一項資料（姓名、電子郵件、電話或頭像）。"
+    );
+    document.getElementById("loading").classList.add("hidden");
+    return false;
+  }
+
+  return true;
 }
