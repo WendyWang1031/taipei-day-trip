@@ -32,9 +32,7 @@ async def update_member_data(
         avatar: UploadFile = File(None), 
         current_user : dict = Depends(security_get_current_user)) -> JSONResponse :
     try:
-        print("member_data:" , member_data)
-        print("avatar:",avatar)
-
+        
         if not current_user:
             error_response = ErrorResponse(error=True, message="User not authenticated")
             response = JSONResponse (
