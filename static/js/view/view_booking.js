@@ -31,11 +31,46 @@ export function removeDisplayBooking() {
   const cardArea = document.querySelector(".card-area");
   const totalSubmit = document.querySelector(".total-submit");
 
-  bookingDetail.remove();
-  contactArea.remove();
-  cardArea.remove();
-  totalSubmit.remove();
+  bookingDetail.style.display = "none";
+  contactArea.style.display = "none";
+  cardArea.style.display = "none";
+  totalSubmit.style.display = "none";
   seperates.forEach((seperate) => {
-    if (seperate) seperate.remove();
+    if (seperate) seperate.style.display = "none";
   });
+}
+
+export function mobileTextValidate() {
+  let mobileText = document.querySelector("#contact-phone").value;
+  let mobileRe = /^09[0-9]{8}$/;
+  let errorMessage = document.querySelector("#phone-error");
+  let successMessage = document.querySelector("#phone-success");
+
+  if (!mobileText.trim()) {
+    errorMessage.textContent = "手機號碼不能空白";
+    errorMessage.style.display = "inline";
+    successMessage.style.display = "none";
+    return false;
+  }
+
+  if (!mobileRe.test(mobileText)) {
+    errorMessage.style.display = "inline";
+    successMessage.style.display = "none";
+    return false;
+  } else {
+    errorMessage.style.display = "none";
+    successMessage.style.display = "inline";
+    return true;
+  }
+}
+
+export function handleUserDataDisplay(data) {
+  const contactNameInput = document.getElementById("contact-name");
+  const contactEmailInput = document.getElementById("contact-email");
+  if (contactNameInput && contactEmailInput) {
+    contactNameInput.value = data.name;
+    contactEmailInput.value = data.email;
+    contactNameInput.readOnly = true;
+    contactEmailInput.readOnly = true;
+  }
 }

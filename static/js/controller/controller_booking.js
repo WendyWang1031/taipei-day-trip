@@ -4,29 +4,38 @@ import { checkUserState, initialize } from "./controller_auth.js";
 import { tappayGetPrime } from "./taypay_fields.js";
 
 const bookingURL = "/api/booking";
-const signinMask = document.querySelector(".signin-mask");
-const signupMask = document.querySelector(".signup-mask");
-
-signinMask.style.display = "none";
-signupMask.style.display = "none";
 
 document.addEventListener("DOMContentLoaded", async function () {
+  //init controller_auth
+  //get data controller_auth
+  //set view controller_auth
+  View.signUpSignInDisplayNone();
+  initialize();
+  const isLoggedIn = await checkUserState(BookingView.handleUserDataDisplay);
+
+  //
+  tappayGetPrime();
+
+  //init booking
   const trashBtn = document.querySelector(".trash");
-
-  tappayGetPrime(event);
-
   if (trashBtn) {
     trashBtn.addEventListener("click", fetchDeleteBooking);
   } else {
     console.log("Trash button not found");
   }
 
-  if (window.location.pathname === "/booking") {
-    initialize();
-    const isLoggedIn = await checkUserState();
+  document
+    .querySelector("#contact-phone")
+    .addEventListener("input", BookingView.mobileTextValidate);
 
+  //get data booking
+  //set view booking(booking, controller_auth)
+  if (window.location.pathname === "/booking") {
     if (isLoggedIn) {
       await fetchGetBooking();
+      //data = fetchGetBooking
+      //if data == null, set error
+      //else , set view
     } else {
       window.location.href = "/";
       View.setElementDisplay(".signin-mask", "flex");
@@ -35,6 +44,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 });
 
 export async function fetchGetBooking() {
+  document.getElementById("loading").classList.remove("hidden");
   const token = localStorage.getItem("userToken");
   const userName = localStorage.getItem("userName");
   try {
@@ -66,10 +76,13 @@ export async function fetchGetBooking() {
     return data.data;
   } catch (error) {
     console.error("Error fetching attraction:", error);
+  } finally {
+    document.getElementById("loading").classList.add("hidden");
   }
 }
 
 export async function fetchDeleteBooking() {
+  document.getElementById("loading").classList.remove("hidden");
   const token = localStorage.getItem("userToken");
   try {
     const response = await fetch(bookingURL, {
@@ -88,6 +101,8 @@ export async function fetchDeleteBooking() {
     window.location.reload();
   } catch (error) {
     console.error("Error deleting attraction:", error);
+  } finally {
+    document.getElementById("loading").classList.add("hidden");
   }
 }
 

@@ -9,9 +9,7 @@ export function getAttractionIdFromPath() {
   return pathSegments[pathSegments.length - 1];
 }
 
-export async function AttractionsBooking(event) {
-  event.preventDefault();
-
+export async function AttractionsBooking() {
   const attractionId = getAttractionIdFromPath();
   const form = document.querySelector(".booking");
   const date = form.querySelector("#start").value;

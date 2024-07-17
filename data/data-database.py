@@ -1,12 +1,18 @@
 
 import pymysql
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+user = os.getenv("connection_db_user")
+password = os.getenv("connection_db_password")
 
 
 db =  pymysql.connect(
     host = "localhost",
     port = 3306,
-    user = "test",
-    password = "test",
+    user = user,
+    password = password,
     db = "taipei_day_trip"
 )
 
@@ -17,8 +23,18 @@ create_member_table_sql = """
         id char(36) primary key,
         name varchar(255) not null,
         password varchar(255) not null,
-        email varchar(255) unique not null
+        email varchar(255) unique not null     
 );
+"""
+
+alter_member_table_sql = """
+        alter table member 
+        add column phone_number varchar(255);
+"""
+
+alter_member_table_add_avatar_sql = """
+        alter table member 
+        add column avatar varchar(255);
 """
 
 create_booking_table_sql = """
@@ -34,9 +50,16 @@ create_booking_table_sql = """
 );
 """
 
+alter_booking_table_unique_sql = """
+        ALTER TABLE booking
+        ADD CONSTRAINT unique_member_id UNIQUE (member_id);
+
+"""
+
+
 
 create_order_table_sql = """
-        CREATE TABLE IF NOT EXISTS payment (
+        CREATE TABLE IF NOT EXISTS trip_order (
         id int AUTO_INCREMENT primary key,
         order_number varchar(255) not null,
         member_id varchar(255) not null,
@@ -50,23 +73,27 @@ create_order_table_sql = """
         FOREIGN KEY (attraction_id) REFERENCES location(id)
 );
 """
+alter_order_table_unique_sql = """
+        ALTER TABLE order
+        ADD CONSTRAINT unique_order_number UNIQUE (order_number);
 
-create_contact_table_sql = """
-        CREATE TABLE IF NOT EXISTS contact (
-        id int AUTO_INCREMENT primary key,
-        member_id varchar(255) not null,
-        phone_number varchar(255) not null,
-        FOREIGN KEY (member_id) REFERENCES member(id)
-);
 """
 
 
 try:
     cursor.execute("BEGIN;")
+
     cursor.execute(create_member_table_sql)
+    
+    cursor.execute(alter_member_table_sql)
+    cursor.execute(alter_member_table_add_avatar_sql)
+
     cursor.execute(create_booking_table_sql)
+    cursor.execute(alter_booking_table_unique_sql)
+    
     cursor.execute(create_order_table_sql)
-    cursor.execute(create_contact_table_sql)
+    cursor.execute(alter_order_table_unique_sql)
+
     db.commit()
 except Exception as e :
     print("Error creating tables:" , e)

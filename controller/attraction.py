@@ -4,42 +4,37 @@ from fastapi import *
 from fastapi.responses import JSONResponse
 
 from service.cache_service import *
-from db.attraction import get_attractions_for_pages , get_attractions_for_id , get_mrts
+from db.attraction import db_get_attractions_for_pages , db_get_attractions_for_id , db_get_mrts
 
 redis_connection = get_redis_connection()
 cache_service = CacheService(redis_connection)
 
 
-async def attractions_for_all(page , keyword):
+async def get_attractions_for_all(page : int , keyword : str) -> JSONResponse :
 	
 	try:
-		data = get_attractions_for_pages(page , keyword)
+		data = db_get_attractions_for_pages(page , keyword)
+		# print("get_attractions data:" , data)
 
-		if not data:
-			print("No data found , returing empty list.")
-			data = []
-
-		nextPage = None if len(data) < 12 else page + 1
+		next_page = None if len(data) < 12 else page + 1
 		
+		success_response = SuccessfulResponseForAttraction(nextPage=next_page, data=data)
 		response = JSONResponse(
 		status_code = status.HTTP_200_OK,
-		content={
-			"nextPage":nextPage,
-			"data":data
-		})
+		content=success_response.dict()
+		)
 		return response
 	
 	except Exception as e :
-		response = JSONResponse(
-		status_code = status.HTTP_500_INTERNAL_SERVER_ERROR,
-		content={
-			"error":True,
-			"message":str(e)
-		})
+		error_response = ErrorResponse(error=True, message=str(e))
+		response = JSONResponse (
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
+            content=error_response.dict())
 		return response
+		
 
 
-async def attraction_for_id(attractionId):
+async def get_attraction_for_id(attractionId : int) -> JSONResponse :
 	cache_key = f'attraction:{attractionId}'
 	try:
 		
@@ -55,19 +50,14 @@ async def attraction_for_id(attractionId):
 			
 			return response
 
-		data = get_attractions_for_id( attractionId )
+		data = db_get_attractions_for_id( attractionId )
 		
 
 		if not data:
-			response = JSONResponse(
-			status_code = status.HTTP_404_NOT_FOUND,
-			content={
-			"error":True,
-			"message":"沒有找到指定的景點"
-			
-			},
-			headers={"X-Cache":"Miss from Redis"})
-			
+			error_response = ErrorResponse(error=True, message="Not founded the Attraction")
+			response = JSONResponse (
+            	status_code=status.HTTP_404_NOT_FOUND, 
+            	content=error_response.dict())
 			return response
 		
 		cache_service.set_value(cache_key, json.dumps(data), expiry=3600)
@@ -81,27 +71,23 @@ async def attraction_for_id(attractionId):
 		return response
 		
 	except ValueError as ve :
-		response = JSONResponse(
-		status_code = status.HTTP_400_BAD_REQUEST,
-		content={
-			"error":True,
-			"message":str(ve)
-		})
+		error_response = ErrorResponse(error=True, message=str(ve))
+		response = JSONResponse (
+            status_code=status.HTTP_400_BAD_REQUEST, 
+            content=error_response.dict())
 		return response
 	
 	except Exception as e :
-		response = JSONResponse(
-		status_code = status.HTTP_500_INTERNAL_SERVER_ERROR,
-		content={
-			"error":True,
-			"message":str(e)
-		})
+		error_response = ErrorResponse(error=True, message=str(e))
+		response = JSONResponse (
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
+            content=error_response.dict())
 		return response
 
 
-async def fetch_mrts():
+async def get_mrts() -> JSONResponse | ErrorResponse:
 	try:
-		data = get_mrts()
+		data = db_get_mrts()
 		response = JSONResponse(
 			status_code = status.HTTP_200_OK,
 			content={
@@ -110,10 +96,8 @@ async def fetch_mrts():
 		return response
 	
 	except Exception as e :
-		response = JSONResponse(
-		status_code = status.HTTP_500_INTERNAL_SERVER_ERROR,
-		content={
-			"error":True,
-			"message":str(e)
-		})
+		error_response = ErrorResponse(error=True, message=str(e))
+		response = JSONResponse (
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
+            content=error_response.dict())
 		return response

@@ -1,11 +1,14 @@
 import math
 import pymysql
+from typing import Any , List
 from .connection import get_db_connection_pool
 
-def get_attractions_for_pages(page , keyword = None):
+def db_get_attractions_for_pages(page : int , keyword = None) -> List [dict [str, Any]]:
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:
+        connection.begin()
+        
         if keyword:
             count_sql = """SELECT COUNT(*) as total from location 
                         where name LIKE %s OR MRT = %s 
@@ -52,14 +55,14 @@ def get_attractions_for_pages(page , keyword = None):
         for location in locations:
             location_ids.append(location['id'])
         
-        print(f"location_ids:{location_ids}")
+        # print(f"location_ids:{location_ids}")
         if not location_ids:
             return []
         
 
         # 將取出的景點id列表以,分開變成“字串”，代表12個數量的通位符的元素
         format_string = ','.join(["%s"] * len(location_ids))
-        
+        cursor.execute("SET SESSION group_concat_max_len = 10000;")
 
         images_sql = f"""select location_id , GROUP_CONCAT(images SEPARATOR ',') AS image
                         FROM URL_file
@@ -71,6 +74,7 @@ def get_attractions_for_pages(page , keyword = None):
         cursor.execute(images_sql , tuple(location_ids))
         images_results = cursor.fetchall()
         
+        connection.commit()
 
         # 創建字典來映射locaion_id到images
         images_dict ={}
@@ -80,6 +84,8 @@ def get_attractions_for_pages(page , keyword = None):
             else:
                 images_dict[image_result["location_id"]] = []
         # print(f"images_dict:{images_dict}")
+
+    
         # 把images分配給對應的locations
         for location in locations:
             if location["id"] in images_dict:
@@ -87,21 +93,25 @@ def get_attractions_for_pages(page , keyword = None):
             else:
                 location["image"] = []
         
+        # print("db location:" , locations)
         return locations
 
     
     except Exception as err:
         print(f'Error retrieving attractions : {err}')
+        connection.rollback()
         raise
     finally:
         cursor.close()
         connection.close()
 
 
-def get_attractions_for_id(id):
+def db_get_attractions_for_id(id : int) -> dict [str, Any] | None:
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:
+        connection.begin()
+
         if id is not None:
             sql = "select id , name , category , description , address , transport ,  mrt ,  CAST(lat AS DOUBLE) AS lat, CAST(lng AS DOUBLE) AS lng  from location where id = %s"
             cursor.execute(sql ,(id, ))
@@ -113,23 +123,26 @@ def get_attractions_for_id(id):
                 images = cursor.fetchall()
                 result["images"] = [img["images"] for img in images]
             
+            connection.commit()
             
             return result
         
         else:
-            raise ValueError("No valid ID provided")
+            return ValueError("No valid ID provided")
     
     except Exception as err:
         print(f'Error retrieving attractions : {err}')
+        connection.rollback()
         raise
     finally:
         cursor.close()
         connection.close()
 
-def get_mrts():
+def db_get_mrts() -> List[str] :
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:
+        connection.begin()
 
         sql = """select mrt
                     from location
@@ -139,12 +152,15 @@ def get_mrts():
             """
         cursor.execute(sql ,)
         results = cursor.fetchall()
+
+        connection.commit()
     
         mrt_list = [result["mrt"] for result in results]
         return mrt_list
         
     except Exception as err:
         print(f'Error retrieving mrts : {err}')
+        connection.rollback()
         raise
     finally:
         cursor.close()

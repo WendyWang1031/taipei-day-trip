@@ -875,6 +875,94 @@ section.card-area {
     }
   }
 }
+#phone-success {
+  font-weight: bold;
+  font-size: 16px;
+  padding: 5px;
+}
+
+$primary-color: #356672;
+$secondary-color: #666;
+$base-font-size: 16px;
+section.order-area {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  #order-details-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .order-card {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px;
+      background-color: #f9f9f9;
+      .trip-info {
+        margin: 10px;
+      }
+
+      .trip-area {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .attraction-image {
+          width: 70%;
+          height: auto;
+          border-radius: 8px;
+          margin-left: 20px;
+        }
+      }
+
+      h2 {
+        color: $primary-color;
+      }
+
+      p {
+        font-size: $base-font-size;
+        color: $secondary-color;
+      }
+    }
+  }
+}
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+
+  .loader {
+    border: 16px solid #f3f3f3;
+    border-top: 16px solid #356672;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    animation: spin 2s linear infinite;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.hidden {
+  display: none;
+}
 
 section.total-submit {
   display: flex;
@@ -923,7 +1011,9 @@ section.thankyou-area {
   align-items: center;
   justify-content: center;
 
-  margin: 50px;
+  margin-top: 50px;
+  margin-right: 50px;
+  margin-left: 50px;
   div {
     div {
       h1 {
@@ -970,6 +1060,93 @@ section.thankyou-area {
           color: #356672;
         }
       }
+    }
+  }
+}
+
+section.user-profile {
+  margin-top: 50px;
+}
+section.user-profile,
+section.update-profile {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 1200px;
+
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+    background: #fff;
+    border-radius: 5px;
+    padding: 20px;
+    h2 {
+      color: #356672;
+      font-size: 24px;
+      margin-bottom: 15px;
+    }
+    p {
+      color: #666666;
+    }
+    div {
+      width: 50%;
+
+      img {
+        width: 300px;
+        height: 300px;
+        object-fit: cover;
+      }
+    }
+    form {
+      display: grid;
+      grid-template-columns: 1fr;
+
+      label {
+        font-size: 16px;
+        color: #666666;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="file"] {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        &:focus {
+          border-color: #356672;
+          outline: none;
+        }
+      }
+
+      input[type="file"] {
+        border: none;
+      }
+    }
+    button {
+      background-color: #437f8f;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: #529bad;
+      }
+    }
+    #errorMessage {
+      padding: 10px;
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+      border-radius: 4px;
+      display: none;
     }
   }
 }

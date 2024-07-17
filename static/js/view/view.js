@@ -27,3 +27,10 @@ export function displayUserInterface(isLoggedIn) {
     logout.style.display = "none";
   }
 }
+
+export function signUpSignInDisplayNone() {
+  const signinMask = document.querySelector(".signin-mask");
+  const signupMask = document.querySelector(".signup-mask");
+  signinMask.style.display = "none";
+  signupMask.style.display = "none";
+}

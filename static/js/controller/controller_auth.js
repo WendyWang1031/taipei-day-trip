@@ -44,8 +44,9 @@ export function setupEventListeners() {
       console.log("Form submitted");
 
       const formData = new FormData(event.target);
+      const data = Object.fromEntries(formData.entries());
 
-      const result = await Model.fetchApi(userSignInUrl, "PUT", formData);
+      const result = await Model.fetchApi(userSignInUrl, "PUT", data);
       if (result.ok) {
         localStorage.setItem("userToken", result.data.token);
         View.updateMessage(".hint-signin-message", "登入成功", true);
@@ -62,13 +63,11 @@ export function setupEventListeners() {
     .querySelector(".signup")
     .addEventListener("submit", async (event) => {
       event.preventDefault();
+
       const formData = new FormData(event.target);
+      const data = Object.fromEntries(formData.entries());
 
-      //   for (let [key, value] of formData.entries()) {
-      //     console.log(`${key}: ${value}`);
-      //   }
-
-      const result = await Model.fetchApi(userRegisterUrl, "POST", formData);
+      const result = await Model.fetchApi(userRegisterUrl, "POST", data);
       if (result.ok) {
         View.updateMessage(
           ".hint-signup-message",
@@ -83,11 +82,14 @@ export function setupEventListeners() {
     });
 }
 
-export async function checkUserState() {
+export async function checkUserState(callback) {
   const token = localStorage.getItem("userToken");
 
   if (!token) {
     View.displayUserInterface(false);
+    if (typeof callback === "function") {
+      callback(null);
+    }
     return false;
   }
 
@@ -96,6 +98,9 @@ export async function checkUserState() {
   if (result.ok && result.data.data) {
     View.displayUserInterface(true);
     localStorage.setItem("userName", result.data.data.name);
+    if (typeof callback === "function") {
+      callback(result.data.data);
+    }
     return true;
   } else {
     console.error("驗證用戶狀態失敗：", result.data.data);

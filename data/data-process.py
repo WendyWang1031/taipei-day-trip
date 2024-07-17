@@ -1,12 +1,18 @@
 import json
 import pymysql
 import re
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+user = os.getenv("connection_db_user")
+password = os.getenv("connection_db_password")
 
 db =  pymysql.connect(
     host = "localhost",
     port = 3306,
-    user = "test",
-    password = "test",
+    user = user,
+    password = password,
     db = "taipei_day_trip"
 )
 

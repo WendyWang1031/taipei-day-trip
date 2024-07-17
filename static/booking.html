@@ -16,16 +16,22 @@
         <div class="header-button-area">
           <div class="header-2-buttons-area">
             <button class="reservation">預定行程</button>
+            <button class="member-setting" style="display: none">
+              會員設定
+            </button>
             <button class="login-signin">登入/註冊</button>
             <button class="logout" style="display: none">登出系統</button>
           </div>
         </div>
       </div>
     </header>
+    <div id="loading" class="loading-overlay hidden">
+      <div class="loader"></div>
+    </div>
 
     <section class="no-booking-area">
       <div class="no-booking-group">
-        <h3 class="no-booking-title">您好，Wendy，待預定的行程如下：</h3>
+        <h3 class="no-booking-title"></h3>
         <div class="result" style="display: none">目前沒有任何待預定的行程</div>
       </div>
     </section>
@@ -33,33 +39,29 @@
       <div class="location">
         <div class="pic-area">
           <div class="location-image-area">
-            <img
-              src="/static/images/image/892379fe-a6f7-494a-b205-c84ea5e6d07d.webp"
-              alt="景點圖片"
-              class="fade"
-            />
+            <img alt="景點圖片" class="fade" />
           </div>
         </div>
 
         <div class="booking-profile">
-          <h1 class="booking-attraction-name">台北一日遊：景點名稱</h1>
+          <h1 class="booking-attraction-name"></h1>
 
           <div class="booking">
             <div class="date">
               日期：
-              <div class="date-detail">2024-06-24</div>
+              <div class="date-detail"></div>
             </div>
             <div class="time">
               時間：
-              <div class="time-detail">早上九點到下午四點</div>
+              <div class="time-detail"></div>
             </div>
             <div class="price">
               費用：
-              <div class="price-detail">新台幣 2000 元</div>
+              <div class="price-detail"></div>
             </div>
             <div class="address">
               地點：
-              <div class="address-detail">地址....</div>
+              <div class="address-detail"></div>
             </div>
             <div class="trash-btn">
               <button class="trash">
@@ -103,6 +105,14 @@
               name="contact-phone"
               required
             />
+            <span
+              id="phone-error"
+              style="color: red; display: none; font-size: 12px; padding: 5px"
+              >錯誤手機號碼格式</span
+            >
+            <span id="phone-success" style="color: green; display: none"
+              >✔</span
+            >
           </div>
         </form>
 
@@ -273,6 +283,7 @@
   </body>
   <!-- <script type="module" src="/static/js/auth.js"></script> -->
   <script type="module" src="/static/js/booking.js"></script>
+  <script type="module" src="/static/js/member.js"></script>
   <script
     type="module"
     src="/static/js/controller/controller_booking.js"

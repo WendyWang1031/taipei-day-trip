@@ -206,9 +206,15 @@ export function tappayGetPrime() {
 }
 
 export async function fetchPostOrder(prime) {
+  document.getElementById("loading").classList.remove("hidden");
   try {
-    console.log("test1");
     const token = localStorage.getItem("userToken");
+
+    const contactPhone = document.querySelector("#contact-phone").value;
+    if (!contactPhone.trim()) {
+      alert("請填寫手機號碼");
+      return;
+    }
 
     const bookingData = await fetchGetBooking();
     console.log("fetchGet:", bookingData);
@@ -230,14 +236,16 @@ export async function fetchPostOrder(prime) {
     }
 
     const data = await response.json();
+    console.log("data:", data);
     if (data && data.data) {
-      await fetchDeleteBooking();
       window.location.href = `/thankyou?number=${data.data.number}`;
     } else {
       throw new Error("Payment data is missing.");
     }
   } catch (error) {
     console.error("Error fetching post booking:", error);
+  } finally {
+    document.getElementById("loading").classList.add("hidden");
   }
 }
 
