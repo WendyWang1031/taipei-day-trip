@@ -10,7 +10,7 @@ async def create_booking(booking: BookingRequest , current_user : dict = Depends
         if current_user :
             member_id = current_user["id"]
             result = db_save_or_update_booking(member_id , booking)
-            print(result)
+            # print(result)
             if result:
                 response = JSONResponse(
                 status_code = status.HTTP_200_OK,
@@ -44,7 +44,7 @@ async def get_booking_details( current_user : dict = Depends(security_get_curren
         if current_user :
             member_id = current_user["id"]
             booking_details = db_check_booking_detail(member_id)
-            print(booking_details)
+            # print(booking_details)
             if booking_details:
                 response = JSONResponse(
                 status_code = status.HTTP_200_OK,

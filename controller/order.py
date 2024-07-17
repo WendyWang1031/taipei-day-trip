@@ -34,17 +34,16 @@ async def create_order(
                 content=error_response.dict())
             return response
 
-        result = db_save_order(member_id , order_request)
-        if result is None:
+        order_number = db_save_order(member_id , order_request)
+        if  not order_number :
             error_response = ErrorResponse(error=True, message="Failed to create order")
             response = JSONResponse (
                 status_code=status.HTTP_400_BAD_REQUEST, 
                 content=error_response.dict())
             return response
     
-        order_details = db_get_order_detail(member_id)
-        print("order_details:" , order_details)
-        if order_details is None:
+        order_details = db_get_order_detail(order_number)
+        if not order_details :
             error_response = ErrorResponse(error=True, message="Failed to create order")
             response = JSONResponse (
                 status_code=status.HTTP_400_BAD_REQUEST, 
@@ -108,7 +107,7 @@ async def process_payment(payment_request: PaymentOrderRequest) ->  dict [str, A
         
         if response.status_code == 200:
             data = response.json()
-            print("process_payment_data:" , data)
+            # print("process_payment_data:" , data)
             if data.get("status") == 0 :
                 return data
             else:
