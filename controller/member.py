@@ -29,35 +29,58 @@ def upload_file_to_s3(file: UploadFile , user_id: str):
 
 async def update_member_data(
         member_data: MemberDataRequest ,
-        avatar: UploadFile = File(...), 
+        avatar: UploadFile = File(None), 
         current_user : dict = Depends(security_get_current_user)) -> JSONResponse :
     try:
-        
-        if current_user :
-            member_id = current_user["id"]
-            avatar_url = upload_file_to_s3(avatar , member_id)
-            result = db_save_or_update_member_data(member_id , member_data , avatar_url)
-            
-            if result is True:
+        print("member_data:" , member_data)
+        print("avatar:",avatar)
 
-                response = JSONResponse(
-                status_code = status.HTTP_200_OK,
-                content={
-                    "ok":True
-                })
-                return response
-            else:
-                error_response = ErrorResponse(error=True, message="Failed to create member data")
-                response = JSONResponse (
-                    status_code=status.HTTP_400_BAD_REQUEST, 
-                    content=error_response.dict())
-                return response
+        if not current_user:
+            error_response = ErrorResponse(error=True, message="User not authenticated")
+            response = JSONResponse (
+                status_code=status.HTTP_403_FORBIDDEN, 
+                content=error_response.dict())
+            return response
+        
+        member_id = current_user["id"]
+        fields_updated = False
+
+        # 檢查是否有效的欄位更新
+        if (member_data.name and member_data.name.strip()) or \
+           (member_data.email and member_data.email.strip()) or \
+           (member_data.phone and member_data.phone.strip()):
+            fields_updated = True
+        
+        # 檢查頭像文件是否已上傳
+        if avatar.filename :
+            avatar_url = upload_file_to_s3(avatar , member_id)
+            fields_updated = True
         else:
-                error_response = ErrorResponse(error=True, message="User not authenticated")
-                response = JSONResponse (
-                    status_code=status.HTTP_403_FORBIDDEN, 
-                    content=error_response.dict())
-                return response
+            avatar_url = None
+
+        if not fields_updated:
+            error_response = ErrorResponse(error=True, message="At least one field must be updated")
+            response = JSONResponse (
+                status_code=status.HTTP_400_BAD_REQUEST, 
+                content=error_response.dict())
+            return response 
+
+        
+        result = db_save_or_update_member_data(member_id , member_data , avatar_url)
+        if result is True:
+            response = JSONResponse(
+            status_code = status.HTTP_200_OK,
+            content={
+                "ok":True
+            })
+            return response
+        else:
+            error_response = ErrorResponse(error=True, message="Failed to create member data")
+            response = JSONResponse (
+                status_code=status.HTTP_400_BAD_REQUEST, 
+                content=error_response.dict())
+            return response
+
     
     except Exception as e :
         error_response = ErrorResponse(error=True, message=str(e))
@@ -72,11 +95,11 @@ async def get_member_data( current_user : dict = Depends(security_get_current_us
         if current_user :
             member_id = current_user["id"]
             member_data_details = db_get_member_data(member_id)
-            print("member_data_details:" , member_data_details)
+            # print("member_data_details:" , member_data_details)
             
             if member_data_details:
                 success_response = MemberGetResponse(ok=True, data=member_data_details)
-                print("success_response:" , success_response)
+                # print("success_response:" , success_response)
                 response = JSONResponse(
                 status_code = status.HTTP_200_OK,
                 content=success_response.dict()

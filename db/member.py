@@ -32,12 +32,29 @@ def db_save_or_update_member_data(member_id : str  , member_data : MemberDataReq
     
     try:
         connection.begin()
+
+        def validate(value):
+            if value is None:
+                return None
+            return value.strip() or None
+        
+        data_tuple = (
+            validate(member_data.name),
+            validate(member_data.email),
+            validate(member_data.phone),
+            validate(avatar_url),
+            member_id
+        )
         
         sql = """update member 
-            SET name = %s , email = %s , phone_number = %s , avatar = %s 
+            SET 
+                name = COALESCE(NULLIF(%s, name), name),
+                email = COALESCE(NULLIF(%s, email), email),
+                phone_number = COALESCE(NULLIF(%s, phone_number), phone_number),
+                avatar = COALESCE(NULLIF(%s, avatar), avatar)
             where id = %s
         """
-        cursor.execute(sql ,( member_data.name , member_data.email , member_data.phone , avatar_url , member_id))
+        cursor.execute(sql , ( data_tuple ))
     
         connection.commit()
         

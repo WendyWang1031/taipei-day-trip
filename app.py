@@ -294,10 +294,10 @@ async def fetch_get_order(orderNumber: str = Path(..., description = "訂單編�
          }
          )
 async def fetch_post_member( 
-    name: str = Form(...),
-    email: str = Form(...),
-    phone: str = Form(...),
-    avatar: UploadFile = File(...),
+    name: Optional[str] = Form(None),
+    email: Optional[str] = Form(None),
+    phone: Optional[str] = Form(None),
+    avatar: UploadFile = File(None),
     current_user : dict = Depends(security_get_current_user)) -> JSONResponse :
     member_data = MemberDataRequest(name=name, email=email, phone=phone)
     return await update_member_data(member_data , avatar, current_user)
