@@ -62,7 +62,7 @@ def db_get_attractions_for_pages(page : int , keyword = None) -> List [dict [str
 
         # 將取出的景點id列表以,分開變成“字串”，代表12個數量的通位符的元素
         format_string = ','.join(["%s"] * len(location_ids))
-        
+        cursor.execute("SET SESSION group_concat_max_len = 10000;")
 
         images_sql = f"""select location_id , GROUP_CONCAT(images SEPARATOR ',') AS image
                         FROM URL_file
@@ -93,6 +93,7 @@ def db_get_attractions_for_pages(page : int , keyword = None) -> List [dict [str
             else:
                 location["image"] = []
         
+        # print("db location:" , locations)
         return locations
 
     
