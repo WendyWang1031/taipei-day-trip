@@ -198,27 +198,30 @@ class ForbiddenError(ServiceError):
 
 # 會員頁面
 class MemberDataRequest(BaseModel):
-    name: str = Field(..., example="彭彭彭")
-    email: str = Field(..., example="ply@ply.com")
-    phone: str = Field(..., example="0912345678")
+    name: Optional[str] = Field(None, example="彭彭彭")
+    email: Optional[str] = Field(None, example="ply@ply.com")
+    phone: Optional[str] = Field(None, example="0912345678")
     
 
     @field_validator("*")
     def validate_member_data_space(cls , v):
-        if not v or v.isspace():
+        if v is not None and (not v or v.isspace()):
              raise ValueError("The Register Input Value can not be blank.")
         return v
     
     @field_validator("email")
     def validate_member_data_email(cls , v):
-        if "@" not in v :
+        if v is not None and "@" not in v:
              raise ValueError("Email must included '@'")
         return v
 
     @field_validator("phone")
     def validate_member_data_phone(cls , v):
-         if not v.startswith("09"):
-              raise ValueError("Phone number must start with 09")
+         if v is not None:
+            if not v.startswith("09"):
+                raise ValueError("Phone number must start with 09")
+            if len(v) != 10:
+                raise ValueError("Phone number must be 10 digits long")
          return v
 
 
