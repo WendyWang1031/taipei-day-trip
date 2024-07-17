@@ -34,19 +34,19 @@ def db_save_or_update_booking(member_id : str  , booking_data : BookingRequest) 
     try:
         connection.begin()
         
-        booking_existing = db_get_existing_booking(member_id)
-
-        if booking_existing : 
-            sql = """update booking 
-                SET date = %s , time = %s , price = %s , attraction_id = %s 
-                where member_id = %s
-            """
-            cursor.execute(sql ,(booking_data.date , booking_data.time , booking_data.price , booking_data.attraction_id , member_id))
-            
-        else:
-            sql = "insert into booking ( attraction_id , date , time , price , member_id) values ( %s , %s , %s , %s , %s)"
-            cursor.execute(sql ,( booking_data.attraction_id , booking_data.date , booking_data.time , booking_data.price , member_id))
         
+        
+        sql = """insert into booking  (attraction_id , date , time , price , member_id)
+            VALUES (%s ,%s ,%s ,%s ,%s)
+            ON DUPLICATE KEY UPDATE
+                date = values(date) ,
+                time = values(time) ,
+                price = values(price) ,
+                attraction_id = values(attraction_id) 
+        """
+        cursor.execute(sql ,(booking_data.attraction_id , booking_data.date , booking_data.time , booking_data.price , member_id))
+            
+
         connection.commit()
         
         return True

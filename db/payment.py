@@ -27,36 +27,48 @@ def db_generate_order_number(member_id : str):
 def db_save_order(member_id : str, order_request : PaymentOrderRequest) -> bool:
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
-    order_number = db_generate_order_number(member_id)
-    user_booking = db_get_existing_booking(member_id)
     
+    order_number = db_generate_order_number(member_id)
     contact_phone = order_request.order.contact.phone
     
     try:
         connection.begin()
 
-        if user_booking : 
-            sql = """insert into trip_order 
-            ( order_number , member_id , attraction_id , date , time ,  price , payment_time ,  status ) 
-            values ( %s , %s , %s , %s , %s , %s , NOW() , %s)
-            """
-            cursor.execute(sql ,
-                           (order_number , 
-                            member_id , 
-                            user_booking["attraction_id"] ,
-                            user_booking["date"] ,
-                            user_booking["time"] ,
-                            user_booking["price"] ,
-                            0))
+        # 查詢用戶預定行程
+        check_user_booking_sql = "select * from booking where member_id = %s"
+        cursor.execute(check_user_booking_sql , (member_id , ))
+        user_booking = cursor.fetchone()
 
-            sql_memeber_phone = """update member 
-            set  phone_number =  %s 
-            where id = %s 
-            """
-            cursor.execute(sql_memeber_phone , ( contact_phone , member_id ))
+        if not user_booking:
+            print("No booking found for user.")
+            connection.rollback()
+            return False
+        
+        # 創建訂單
+        add_user_order_sql = """ insert into trip_order 
+        ( order_number , member_id , attraction_id , date , time ,  price , payment_time ,  status ) 
+        values ( %s , %s , %s , %s , %s , %s , NOW() , %s)
+        """
+        cursor.execute(add_user_order_sql ,
+                        (order_number , 
+                        member_id , 
+                        user_booking["attraction_id"] ,
+                        user_booking["date"] ,
+                        user_booking["time"] ,
+                        user_booking["price"] ,
+                        0))
+
+        # 更新電話號碼
+        update_user_phone_sql = " update member set phone_number = %s where id = %s "
+        cursor.execute(update_user_phone_sql , ( contact_phone , member_id ))
+
+        # 刪除該用戶的預定行程
+        delete_user_booking_sql = " delete from booking where member_id = %s "
+        cursor.execute(delete_user_booking_sql , ( member_id , ))
             
         connection.commit()
-        return True
+        return order_number
+    
     except Exception as e:
         print(f"Error inserting new order: {e}") 
         connection.rollback()
@@ -65,7 +77,7 @@ def db_save_order(member_id : str, order_request : PaymentOrderRequest) -> bool:
         cursor.close()
         connection.close()
 
-def db_get_order_detail(member_id : str) -> dict [str, Any] | None:
+def db_get_order_detail(order_number : str) -> dict [str, Any] | None:
     connection = get_db_connection_pool()
     cursor = connection.cursor(pymysql.cursors.DictCursor)
     try:
@@ -91,12 +103,12 @@ def db_get_order_detail(member_id : str) -> dict [str, Any] | None:
         JOIN URL_file on location.id = URL_file.location_id
         JOIN member on trip_order.member_id = member.id
         
-        where trip_order.member_id = %s
+        where trip_order.order_number = %s
         Order By trip_order.payment_time DESC 
         limit 1 ;
 
         """
-        cursor.execute( sql , (member_id ,))
+        cursor.execute( sql , (order_number ,))
         order_details = cursor.fetchone()
 
         connection.commit()
