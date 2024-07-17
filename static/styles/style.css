@@ -1109,7 +1109,7 @@ section.update-profile div form input[type=file] {
 }
 section.user-profile div button,
 section.update-profile div button {
-  background-color: #437f8f;
+  background-color: #356672;
   color: white;
   padding: 10px 15px;
   border: none;
@@ -1137,7 +1137,7 @@ section.update-profile div #errorMessage {
 .custom-file-input {
   /* 改變文字和背景顏色 */
   background-color: #e9e9e9;
-  color: #5bacc2;
+  color: #356672;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
