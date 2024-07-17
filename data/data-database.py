@@ -49,6 +49,7 @@ create_booking_table_sql = """
         FOREIGN KEY (member_id) REFERENCES member(id)
 );
 """
+
 alter_booking_table_unique_sql = """
         ALTER TABLE booking
         ADD CONSTRAINT unique_member_id UNIQUE (member_id);
@@ -72,7 +73,11 @@ create_order_table_sql = """
         FOREIGN KEY (attraction_id) REFERENCES location(id)
 );
 """
+alter_order_table_unique_sql = """
+        ALTER TABLE order
+        ADD CONSTRAINT unique_order_number UNIQUE (order_number);
 
+"""
 
 
 try:
@@ -85,7 +90,9 @@ try:
 
     cursor.execute(create_booking_table_sql)
     cursor.execute(alter_booking_table_unique_sql)
+    
     cursor.execute(create_order_table_sql)
+    cursor.execute(alter_order_table_unique_sql)
 
     db.commit()
 except Exception as e :
