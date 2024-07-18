@@ -3,8 +3,9 @@ import * as View from "./view/view.js";
 document.addEventListener("DOMContentLoaded", async function () {
   const token = localStorage.getItem("userToken");
   const pathname = window.location.pathname;
+
   if (!token) {
-    if (pathname !== "/") {
+    if (pathname !== "/" && !pathname.startsWith("/attraction/")) {
       window.location.href = "/";
     }
   } else {

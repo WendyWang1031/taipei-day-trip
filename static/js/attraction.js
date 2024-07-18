@@ -54,20 +54,16 @@ async function checkBooking(event) {
 
 async function fetchGetAttractionID(attractionId) {
   try {
-    console.log("begin:");
     const response = await fetch(`${attractionIdURL}/${attractionId}`);
-    console.log("before response:");
+
     if (!response.ok) {
-      console.log("response:");
-      // window.location.href = "/";
+      window.location.href = "/";
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
-    console.log("before data:");
     const data = await response.json();
-    console.log("after data:");
+
     if (!data || !data.data || attractionId != data.data.id) {
-      console.log("in data:");
-      // window.location.href = "/";
+      window.location.href = "/";
       throw new Error("Invalid data format or mismatched attraction ID");
     }
     console.log(data.data);
