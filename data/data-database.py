@@ -74,7 +74,7 @@ create_order_table_sql = """
 );
 """
 alter_order_table_unique_sql = """
-        ALTER TABLE order
+        ALTER TABLE trip_order
         ADD CONSTRAINT unique_order_number UNIQUE (order_number);
 
 """
