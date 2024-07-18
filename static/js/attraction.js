@@ -56,11 +56,13 @@ async function fetchGetAttractionID(attractionId) {
   try {
     const response = await fetch(`${attractionIdURL}/${attractionId}`);
     if (!response.ok) {
+      console.log("response:");
       window.location.href = "/";
     }
 
     const data = await response.json();
     if (!data || !data.data || attractionId != data.data.id) {
+      console.log("data:");
       window.location.href = "/";
     }
     console.log(data.data);
