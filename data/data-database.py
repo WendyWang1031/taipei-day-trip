@@ -85,11 +85,11 @@ try:
 
     cursor.execute(create_member_table_sql)
     
-    cursor.execute(alter_member_table_sql)
-    cursor.execute(alter_member_table_add_avatar_sql)
+#     cursor.execute(alter_member_table_sql)
+#     cursor.execute(alter_member_table_add_avatar_sql)
 
     cursor.execute(create_booking_table_sql)
-    cursor.execute(alter_booking_table_unique_sql)
+#     cursor.execute(alter_booking_table_unique_sql)
     
     cursor.execute(create_order_table_sql)
     cursor.execute(alter_order_table_unique_sql)
