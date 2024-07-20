@@ -21,7 +21,7 @@ from .connection import get_db_connection_pool
 def db_generate_order_number(member_id : str):
     current_time = datetime.now()
     random_number = random.randint(100,999)
-    order_number = f"{current_time.strftime("%Y%m%d%H%M%S")}{random_number}{member_id}"
+    order_number = f"{current_time.strftime('%Y%m%d%H%M%S')}{random_number}{member_id}"
     return order_number
 
 def db_save_order(member_id : str, order_request : PaymentOrderRequest) -> bool:

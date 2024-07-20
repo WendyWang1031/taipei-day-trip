@@ -9,7 +9,7 @@ password = os.getenv("connection_db_password")
 
 
 db =  pymysql.connect(
-    host = "localhost",
+    host = "mysql",
     port = 3306,
     user = user,
     password = password,
@@ -73,11 +73,11 @@ create_order_table_sql = """
         FOREIGN KEY (attraction_id) REFERENCES location(id)
 );
 """
-alter_order_table_unique_sql = """
-        ALTER TABLE trip_order
-        ADD CONSTRAINT unique_order_number UNIQUE (order_number);
+# alter_order_table_unique_sql = """
+#         ALTER TABLE trip_order
+#         ADD CONSTRAINT unique_order_number UNIQUE (order_number);
 
-"""
+# """
 
 
 try:
@@ -85,14 +85,14 @@ try:
 
     cursor.execute(create_member_table_sql)
     
-#     cursor.execute(alter_member_table_sql)
-#     cursor.execute(alter_member_table_add_avatar_sql)
+#  cursor.execute(alter_member_table_sql)
+#   cursor.execute(alter_member_table_add_avatar_sql)
 
     cursor.execute(create_booking_table_sql)
-#     cursor.execute(alter_booking_table_unique_sql)
+#    cursor.execute(alter_booking_table_unique_sql)
     
     cursor.execute(create_order_table_sql)
-    cursor.execute(alter_order_table_unique_sql)
+#     cursor.execute(alter_order_table_unique_sql)
 
     db.commit()
 except Exception as e :

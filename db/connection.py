@@ -14,7 +14,7 @@ pool = PooledDB(
     database = "taipei_day_trip",
     user = user,
     password = password,
-    host = "localhost",
+    host = "mysql",
     port = 3306
 )
 
