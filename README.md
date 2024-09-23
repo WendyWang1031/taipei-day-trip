@@ -5,6 +5,8 @@ A platform that provides detailed information on Taipei attractions, allows user
 
 Website Link : https://daytriptaipei.site/
 
+<img src="https://github.com/WendyWang1031/taipei-day-trip/blob/develop/readme_image/home.png" alt="Home" width="800"/>
+
 
 ## Table of Contents
 
@@ -24,6 +26,8 @@ A platform that provides detailed information on Taipei attractions, allows user
 
 
 ## System Architecture
+<img src="https://github.com/WendyWang1031/taipei-day-trip/blob/develop/readme_image/arch.png" alt="Architecture" width="800"/>
+
 ## Features
 
 - Attraction Browsing: Allows users to view detailed descriptions of Taipei attractions
@@ -34,7 +38,6 @@ A platform that provides detailed information on Taipei attractions, allows user
 
 
 ## Tech Stack
-
 
 | **Category**   | **Technology**                                                                                                                                                       |
 | -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -48,17 +51,24 @@ A platform that provides detailed information on Taipei attractions, allows user
 ## Usage
 
 - Attraction Browsing
+<img src="https://github.com/WendyWang1031/taipei-day-trip/blob/develop/readme_image/attraction.png" alt="Attraction" width="800"/>
 
-- Itinerary Booking
-
-- Credit Card Payments
+- Itinerary Booking & Credit Card Payments
+<img src="https://github.com/WendyWang1031/taipei-day-trip/blob/develop/readme_image/booking.png" alt="Booking" width="600"/>
 
 - Order History
+<img src="https://github.com/WendyWang1031/taipei-day-trip/blob/develop/readme_image/history.png" alt="Order" width="600"/>
 
 - Profile Editing
+<img src="https://github.com/WendyWang1031/taipei-day-trip/blob/develop/readme_image/member.png" alt="Profile" width="600"/>
+
 ## Table Schema
+<img src="https://github.com/WendyWang1031/taipei-day-trip/blob/develop/readme_image/db.png" alt="Schema" width="800"/>
+
 ## API Documentation
 The APIs in this project are designed following RESTful standards.
+<img src="https://github.com/WendyWang1031/taipei-day-trip/blob/develop/readme_image/api.png" alt="API" width="800"/>
+
 ## Contact
 
 Email : w5569590@gmail.com
